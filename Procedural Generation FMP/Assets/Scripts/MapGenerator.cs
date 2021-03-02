@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class MapGenerator : MonoBehaviour
 {
+    //Type of texture to generate
     public enum DrawMode
     {
-        NoiseMap, 
+        None,
+        NoiseMap,
         ColourMap,
         FalloffMap,
         TemperatureMap,
@@ -16,105 +19,109 @@ public class MapGenerator : MonoBehaviour
 
     public DrawMode drawMode;
 
-    public int mapWidth;
-    public int mapHeight;
-
-    public NoiseData terrainData;
-    public NoiseData temperatureData;
-    public NoiseData moistureData;
-
+    //adds ocean around the island
     public bool useFalloff;
+    float[,] falloffMap;
 
     public bool autoUpdate;
 
-    float[,] falloffMap;
+    //Temporary representation of different map regions
+    public List<TerrainType> regions;
 
-    public TerrainType[] regions;
-
-    private void Awake()
+    //Generates the terrain - returns world data
+    public WorldData GenerateMap(int size, int seed, NoiseData terrainData, NoiseData temperatureData, NoiseData moistureData)
     {
-        falloffMap = FalloffGenerator.GenerateFalloffMap(mapWidth, mapHeight);
-    }
+        WorldData wd = new WorldData();
+        wd.tilePositions = new Vector3Int[size * size];
+        wd.tiles = new TileBase[size * size];
 
-    void OnValuesUpdated()
-    {
-        if (!Application.isPlaying)
+        falloffMap = FalloffGenerator.GenerateFalloffMap(size, size);
+
+        //Perlin noise arrays
+        var terrainMap = Noise.GenerateNoiseMap(size, seed, terrainData.noiseScale, terrainData.octaves, terrainData.persistance, terrainData.lacunarity, terrainData.offset);
+        var temperatureMap = Noise.GenerateNoiseMap(size, seed, temperatureData.noiseScale, temperatureData.octaves, temperatureData.persistance, temperatureData.lacunarity, temperatureData.offset);
+        var moistureMap = Noise.GenerateNoiseMap(size, seed, moistureData.noiseScale, moistureData.octaves, moistureData.persistance, moistureData.lacunarity, moistureData.offset);
+
+        //color array to convert to texture2D
+        Color[] colourMap = new Color[size * size];
+
+        for (int y = 0; y < size; y++)
         {
-            GenerateMap();
-        }
-    }
-
-    public void GenerateMap()
-    {
-        var terrainMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, terrainData.seed, terrainData.noiseScale, terrainData.octaves, terrainData.persistance, terrainData.lacunarity, terrainData.offset);
-        var temperatureMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, terrainData.seed, temperatureData.noiseScale, temperatureData.octaves, temperatureData.persistance, temperatureData.lacunarity, temperatureData.offset);
-        var moistureMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, terrainData.seed, moistureData.noiseScale, moistureData.octaves, moistureData.persistance, moistureData.lacunarity, moistureData.offset);
-
-        Color[] colourMap = new Color[mapWidth * mapHeight];
-
-        for (int y = 0; y < mapHeight; y++)
-        {
-            for (int x = 0; x < mapWidth; x++)
+            for (int x = 0; x < size; x++)
             {
                 if(useFalloff)
                 {
+                    //Subtracts falloff from height map
                     terrainMap[x, y] = Mathf.Clamp(terrainMap[x, y] - falloffMap[x, y], 0, 1);
                 }
 
+                //populates tile position array
+                wd.tilePositions[y * size + x] = new Vector3Int(size - x, size - y, 0);
+
+                //sets color and tile based on heightmap
                 float currentHeight = terrainMap[x, y];
-                for (int i = 0; i < regions.Length; i++)
+                for (int i = 0; i < regions.Count; i++)
                 {
                     if(currentHeight <= regions[i].height)
                     {
-                        colourMap[y * mapWidth + x] = regions[i].colour;
+                        colourMap[y * size + x] = regions[i].colour;
+                        wd.tiles[y * size + x] = regions[i].tile;
                         break;
                     }
                 }
             }
         }
 
-        MapDisplay display = FindObjectOfType<MapDisplay>();
+        //Handles generating and displaying a type of texture
+        switch(drawMode)
+        {
+            default:
+            case DrawMode.ColourMap:
+                DisplayMap(colourMap, size);
+                break;
+            case DrawMode.FalloffMap:
+                DisplayMap(size);
+                break;
+            case DrawMode.None:
+                break;
+            case DrawMode.NoiseMap:
+                DisplayMap(terrainMap);
+                break;
+            case DrawMode.TemperatureMap:
+                DisplayMap(temperatureMap);
+                break;
+            case DrawMode.MoistureMap:
+                DisplayMap(moistureMap);
+                break;
+        }
+        
+        //Sets the world map texture
+        wd.worldMap = TextureGenerator.TextureFromColourMap(colourMap, size, size);
 
-        if (drawMode == DrawMode.NoiseMap)
-            display.DrawTexture(TextureGenerator.TextureFromHeightMap(terrainMap));
-        else if (drawMode == DrawMode.ColourMap)
-            display.DrawTexture(TextureGenerator.TextureFromColourMap(colourMap, mapWidth, mapHeight));
-        else if (drawMode == DrawMode.FalloffMap)
-            display.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(mapWidth, mapHeight)));
-        else if (drawMode == DrawMode.TemperatureMap)
-            display.DrawTexture(TextureGenerator.TextureFromHeightMap(temperatureMap));
-        else if (drawMode == DrawMode.MoistureMap)
-            display.DrawTexture(TextureGenerator.TextureFromHeightMap(moistureMap));
-        //else if (drawMode == DrawMode.FalloffMap)
-        //Draw Tilemap
+        //sets the height map for later use
+        wd.heightMap = terrainMap;
 
+        return wd; //returns generated world data
     }
 
-    private void OnValidate()
+    //Overloaded methods for different types of textures
+    public void DisplayMap(float[,] map)
     {
-        if (terrainData != null)
-        {
-            terrainData.OnValuesUpdated -= OnValuesUpdated;
-            terrainData.OnValuesUpdated += OnValuesUpdated;
-        }
-        if (temperatureData != null)
-        {
-            temperatureData.OnValuesUpdated -= OnValuesUpdated;
-            temperatureData.OnValuesUpdated += OnValuesUpdated;
-        }
-        if (moistureData != null)
-        {
-            moistureData.OnValuesUpdated -= OnValuesUpdated;
-            moistureData.OnValuesUpdated += OnValuesUpdated;
-        }
+        MapDisplay display = FindObjectOfType<MapDisplay>();
+        
+        display.DrawTexture(TextureGenerator.TextureFromHeightMap(map));
+    }
+    public void DisplayMap(Color[] colourMap, int size)
+    {
+        MapDisplay display = FindObjectOfType<MapDisplay>();
 
-        if (mapWidth < 1)
-            mapWidth = 1;
+        display.DrawTexture(TextureGenerator.TextureFromColourMap(colourMap, size, size));
+    }
+    public void DisplayMap(int size)
+    {
+        MapDisplay display = FindObjectOfType<MapDisplay>();
 
-        if (mapHeight < 1)
-            mapHeight = 1;
-
-        falloffMap = FalloffGenerator.GenerateFalloffMap(mapWidth, mapHeight);
+        display.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(size, size)));
     }
 }
 
@@ -124,5 +131,6 @@ public struct TerrainType
     public string name;
     public float height;
     public Color colour;
+    public Tile tile;
 }
 

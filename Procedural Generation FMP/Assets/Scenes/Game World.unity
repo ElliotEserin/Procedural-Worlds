@@ -121,6 +121,55 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &294910742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 294910744}
+  - component: {fileID: 294910743}
+  m_Layer: 0
+  m_Name: World Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &294910743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294910742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d608d4e9671004ba28485a55113bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldSize: 200
+  seed: 100
+  terrainData: {fileID: 11400000, guid: 973c01bd4da37644c82afee0343452bb, type: 2}
+  temperatureData: {fileID: 11400000, guid: 423c927156eaf304299b3b29e7ca08aa, type: 2}
+  moistureData: {fileID: 11400000, guid: aaec569f1285a2a47853474cd9f926c9, type: 2}
+--- !u!4 &294910744
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294910742}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1814434567}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +251,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1450825020
 GameObject:
@@ -278,39 +327,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767887b1804a8fa439652692ee538863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawMode: 1
-  mapWidth: 200
-  mapHeight: 200
-  terrainData: {fileID: 11400000, guid: 973c01bd4da37644c82afee0343452bb, type: 2}
-  temperatureData: {fileID: 11400000, guid: 423c927156eaf304299b3b29e7ca08aa, type: 2}
-  moistureData: {fileID: 11400000, guid: aaec569f1285a2a47853474cd9f926c9, type: 2}
+  drawMode: 2
   useFalloff: 1
   autoUpdate: 1
   regions:
   - name: Water Deep
-    height: 0.2
+    height: 0.1
     colour: {r: 0.2891153, g: 0.5137223, b: 0.8396226, a: 0}
+    tile: {fileID: 11400000, guid: fa6b2c7ad1c8ef646bbf88d40f5b9005, type: 2}
   - name: Water Shallow
-    height: 0.35
+    height: 0.275
     colour: {r: 0.28862584, g: 0.6076112, b: 0.8867924, a: 1}
+    tile: {fileID: 11400000, guid: 7f559fd7584e36043bf87cf15e39db0b, type: 2}
   - name: Sand
-    height: 0.45
+    height: 0.35
     colour: {r: 0.9203943, g: 0.9528302, b: 0.48989856, a: 0}
+    tile: {fileID: 11400000, guid: a74afe7e5aec8884fb9cf513387eedec, type: 2}
   - name: Grass
-    height: 0.575
+    height: 0.52
     colour: {r: 0.2242791, g: 0.754717, b: 0.25763166, a: 0}
+    tile: {fileID: 11400000, guid: 3632522c50c07744cb407d570ab72652, type: 2}
   - name: Forest
-    height: 0.67
+    height: 0.6
     colour: {r: 0.16398183, g: 0.5188679, b: 0.18764088, a: 0}
+    tile: {fileID: 11400000, guid: 7b86a48e19df98b44b7824eb8752c70a, type: 2}
   - name: Rock
-    height: 0.77
+    height: 0.7
     colour: {r: 0.3679245, g: 0.323062, b: 0.28635633, a: 0}
+    tile: {fileID: 11400000, guid: c1fd4d4e451c57e4fb26921823e6afff, type: 2}
   - name: Rock 2
-    height: 0.9
+    height: 0.8
     colour: {r: 0.2264151, g: 0.19800642, b: 0.1740833, a: 0}
+    tile: {fileID: 11400000, guid: 9ad5d42f85def444d923d97eb7253a02, type: 2}
   - name: Snow
     height: 1
     colour: {r: 0.9103774, g: 1, b: 0.9949468, a: 0}
+    tile: {fileID: 11400000, guid: 8136a55f674e4f24fbf6629e87c8f412, type: 2}
 --- !u!4 &1814434567
 Transform:
   m_ObjectHideFlags: 0
@@ -318,12 +370,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1814434565}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_Father: {fileID: 294910744}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1814434568
 MonoBehaviour:
@@ -429,6 +481,7 @@ GameObject:
   - component: {fileID: 2071860625}
   - component: {fileID: 2071860627}
   - component: {fileID: 2071860626}
+  - component: {fileID: 2071860628}
   m_Layer: 0
   m_Name: TerrainMap
   m_TagString: Untagged
@@ -535,3 +588,16 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &2071860628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071860624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20245e48200803148920aac23ec2435d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainMap: {fileID: 2071860627}

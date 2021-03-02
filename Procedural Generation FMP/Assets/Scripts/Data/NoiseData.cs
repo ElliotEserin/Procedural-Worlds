@@ -9,12 +9,12 @@ public class NoiseData : UpdatableData
 
     public int octaves;
     [Range(0, 1)]
-    public float persistance;
-    public float lacunarity;
+    public float persistance; //Change in amplitude between octaves
+    public float lacunarity; //Change in ffrequency between octaves
 
-    public int seed;
-    public Vector2 offset;
+    public Vector2 offset;  //Custom offset
 
+    //Ensures the persistance and lacunarity are valid
     protected override void OnValidate()
     {
         if (lacunarity < 1)
