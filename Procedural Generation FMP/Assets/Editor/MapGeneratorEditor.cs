@@ -14,12 +14,12 @@ public class MapGeneratorEditor : Editor
         if (DrawDefaultInspector())
         {
             if (mapGen.autoUpdate)
-                mapGen.GenerateMap((int)worldGen.worldSize, worldGen.seed, worldGen.terrainData, worldGen.temperatureData, worldGen.moistureData);
+                mapGen.GenerateMap(worldGen.useCustomSize ? worldGen.customSize : (int)worldGen.worldSize, worldGen.seed, worldGen.terrainData, worldGen.temperatureData, worldGen.moistureData);
         }
 
         if (GUILayout.Button("Generate"))
         {
-            mapGen.GenerateMap((int)worldGen.worldSize, worldGen.seed, worldGen.terrainData, worldGen.temperatureData, worldGen.moistureData);
+            mapGen.GenerateMap(worldGen.useCustomSize ? worldGen.customSize : (int)worldGen.worldSize, worldGen.seed, worldGen.terrainData, worldGen.temperatureData, worldGen.moistureData);
         }
 
     }

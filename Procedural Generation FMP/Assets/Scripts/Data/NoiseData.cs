@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Data/NoiseData")]
+[CreateAssetMenu(menuName = "Data/NoiseData")]
 public class NoiseData : UpdatableData
 {
     public float noiseScale;

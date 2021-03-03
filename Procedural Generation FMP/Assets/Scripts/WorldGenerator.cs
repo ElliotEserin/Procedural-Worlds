@@ -7,12 +7,16 @@ public class WorldGenerator : MonoBehaviour
 {
     public enum WorldSize
     {
-        Small = 200,
-        Medium = 400,
-        Large = 600,
+        Island = 100,
+        Small = 500,
+        Medium = 750,
+        Large = 1000,
     }
 
     public WorldSize worldSize;
+
+    public bool useCustomSize;
+    public int customSize;
 
     //Seed for the world
     public int seed;
@@ -24,15 +28,53 @@ public class WorldGenerator : MonoBehaviour
 
     WorldData worldData;
 
+    public UnityEngine.UI.InputField iField;
+    public UnityEngine.UI.Dropdown dropdown;
+
     private void Start()
     {
         MapGenerator mapGen = FindObjectOfType<MapGenerator>();
 
         //Generates the world data
-        worldData = mapGen.GenerateMap((int)worldSize, seed, terrainData, temperatureData, moistureData); 
+        worldData = mapGen.GenerateMap(useCustomSize ? customSize:(int)worldSize, seed, terrainData, temperatureData, moistureData); 
 
         //Draws the tilemap
-        FindObjectOfType<TilemapGenerator>().DrawMap(worldData);
+        //FindObjectOfType<MapDisplay>().DrawMap(worldData);
+    }
+
+    public void GenerateWorld()
+    {
+        MapGenerator mapGen = FindObjectOfType<MapGenerator>();
+
+        //Generates the world data
+        worldData = mapGen.GenerateMap(useCustomSize ? customSize : (int)worldSize, seed, terrainData, temperatureData, moistureData);
+
+        //Draws the tilemap
+        //FindObjectOfType<MapDisplay>().DrawMap(worldData);
+    }
+
+    public void ChangeWorldSize()
+    {
+        switch (dropdown.value)
+        {
+            case 0:
+                worldSize = WorldSize.Island;
+                break;
+            case 1:
+                worldSize = WorldSize.Small;
+                break;
+            case 2:
+                worldSize = WorldSize.Medium;
+                break;
+            case 3:
+                worldSize = WorldSize.Large;
+                break;
+        }
+    }
+
+    public void ChangeSeed()
+    {
+        seed = iField.text.GetHashCode();
     }
 
     //Editing the generation in the editor

@@ -9,13 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66f34a9f8fc43d948bbdf42d5de6e932, type: 3}
-  m_Name: DefaultMoistureNoise
+  m_Script: {fileID: 11500000, guid: 16f88bee2b9db9548b59f6f0842808b7, type: 3}
+  m_Name: Boreal Forest
   m_EditorClassIdentifier: 
-  autoUpdate: 1
-  noiseScale: 50
-  octaves: 2
-  persistance: 0.5
-  lacunarity: 2
-  seed: 0
-  offset: {x: 1, y: 1}
+  name: Grass
+  colour: {r: 0.26432896, g: 0.5660378, b: 0.34281027, a: 0}
+  tile: {fileID: 0}

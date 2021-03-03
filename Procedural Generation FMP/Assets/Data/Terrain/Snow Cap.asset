@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66f34a9f8fc43d948bbdf42d5de6e932, type: 3}
-  m_Name: DefaultTemperatureNoise
+  m_Script: {fileID: 11500000, guid: 42d50ba17f3a87840894fc92a25680ae, type: 3}
+  m_Name: Snow Cap
   m_EditorClassIdentifier: 
-  autoUpdate: 1
-  noiseScale: 50
-  octaves: 3
-  persistance: 0.3
-  lacunarity: 2
-  seed: 0
-  offset: {x: 0, y: 0}
+  name: 
+  height: 1
+  colour: {r: 0.9386792, g: 1, b: 0.9943808, a: 0}
+  tile: {fileID: 11400000, guid: fa6b2c7ad1c8ef646bbf88d40f5b9005, type: 2}
+  allowBiomes: 0

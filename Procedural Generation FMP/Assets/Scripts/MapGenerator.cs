@@ -25,15 +25,18 @@ public class MapGenerator : MonoBehaviour
 
     public bool autoUpdate;
 
-    //Temporary representation of different map regions
+    //Representation of different map regions
     public List<TerrainType> regions;
+    public List<Biomes> temperature;
 
     //Generates the terrain - returns world data
     public WorldData GenerateMap(int size, int seed, NoiseData terrainData, NoiseData temperatureData, NoiseData moistureData)
     {
-        WorldData wd = new WorldData();
-        wd.tilePositions = new Vector3Int[size * size];
-        wd.tiles = new TileBase[size * size];
+        WorldData wd = new WorldData
+        {
+            tilePositions = new Vector3Int[size * size],
+            tiles = new TileBase[size * size]
+        };
 
         falloffMap = FalloffGenerator.GenerateFalloffMap(size, size);
 
@@ -58,14 +61,27 @@ public class MapGenerator : MonoBehaviour
                 //populates tile position array
                 wd.tilePositions[y * size + x] = new Vector3Int(size - x, size - y, 0);
 
-                //sets color and tile based on heightmap
+                //Get values of a tile
                 float currentHeight = terrainMap[x, y];
+                float currentTemp = temperatureMap[x, y];
+                float currentMoisture = moistureMap[x, y];
+
+                //Assign color and tile based on values
                 for (int i = 0; i < regions.Count; i++)
                 {
                     if(currentHeight <= regions[i].height)
                     {
-                        colourMap[y * size + x] = regions[i].colour;
-                        wd.tiles[y * size + x] = regions[i].tile;
+                        if(regions[i].allowBiomes)
+                        {
+                            colourMap[y * size + x] = temperature[(int)Mathf.Round(currentTemp * (temperature.Count-1))].moisture[(int)Mathf.Round(currentMoisture * (temperature.Count - 1))].colour;
+                            wd.tiles[y * size + x] = regions[i].tile;
+                        }
+                        else
+                        {
+                            colourMap[y * size + x] = regions[i].colour;
+                            wd.tiles[y * size + x] = regions[i].tile;
+                        }
+
                         break;
                     }
                 }
@@ -126,11 +142,9 @@ public class MapGenerator : MonoBehaviour
 }
 
 [System.Serializable]
-public struct TerrainType
+public class Biomes
 {
-    public string name;
-    public float height;
-    public Color colour;
-    public Tile tile;
+    public string type;
+    public BiomeType[] moisture;
 }
 
