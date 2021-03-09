@@ -2109,7 +2109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767887b1804a8fa439652692ee538863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawMode: 2
+  drawMode: 3
   useFalloff: 1
   autoUpdate: 0
   regions:
@@ -2184,6 +2184,7 @@ MonoBehaviour:
   textureRenderer: {fileID: 2065771169}
   scale: 0.1
   terrainMap: {fileID: 2071860627}
+  villageMap: {fileID: 0}
 --- !u!1 &2065771168
 GameObject:
   m_ObjectHideFlags: 0
