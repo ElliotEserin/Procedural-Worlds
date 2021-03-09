@@ -20,6 +20,7 @@ public class WorldGenerator : MonoBehaviour
 
     //Seed for the world
     public int seed;
+    public bool randomSeed;
 
     //Data for the different noise maps
     public NoiseData terrainData;
@@ -34,6 +35,9 @@ public class WorldGenerator : MonoBehaviour
     private void Start()
     {
         MapGenerator mapGen = FindObjectOfType<MapGenerator>();
+
+        if (randomSeed)
+            seed = RandomString(8).GetHashCode();
 
         //Generates the world data
         worldData = mapGen.GenerateMap(useCustomSize ? customSize:(int)worldSize, seed, terrainData, temperatureData, moistureData); 
@@ -58,16 +62,16 @@ public class WorldGenerator : MonoBehaviour
         switch (dropdown.value)
         {
             case 0:
-                worldSize = WorldSize.Island;
+                worldSize = WorldSize.Large;
                 break;
             case 1:
-                worldSize = WorldSize.Small;
-                break;
-            case 2:
                 worldSize = WorldSize.Medium;
                 break;
+            case 2:
+                worldSize = WorldSize.Small;
+                break;
             case 3:
-                worldSize = WorldSize.Large;
+                worldSize = WorldSize.Island;
                 break;
         }
     }
@@ -86,8 +90,22 @@ public class WorldGenerator : MonoBehaviour
         }
     }
 
-    //Subscribing to the OnValuesUpdated event
-    private void OnValidate()
+    public string RandomString(int length)
+    {
+        var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        var stringChars = new char[8];
+        var random = new System.Random();
+
+        for (int i = 0; i < stringChars.Length; i++)
+        {
+            stringChars[i] = chars[random.Next(chars.Length)];
+        }
+
+        return new string(stringChars);
+    }
+
+//Subscribing to the OnValuesUpdated event
+private void OnValidate()
     {
         if (terrainData != null)
         {

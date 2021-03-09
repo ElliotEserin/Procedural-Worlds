@@ -19,9 +19,16 @@ public class MapDisplay : MonoBehaviour
     public Tilemap terrainMap;
 
     //Draws the tiles to a tilemap
-    public void DrawMap(WorldData worldData)
+    public void DrawWorldMap(WorldData worldData)
     {
         terrainMap.SetTiles(worldData.tilePositions, worldData.tiles);
-        Debug.Log($"Setting {worldData.tiles.Length} tiles");
+    }
+
+    public Tilemap villageMap;
+
+    //Draws the tiles to a tilemap
+    public void DrawVillage(Vector3Int[] tilePositions, TileBase[] tiles)
+    {
+        villageMap.SetTiles(tilePositions, tiles);
     }
 }
