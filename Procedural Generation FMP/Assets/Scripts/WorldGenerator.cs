@@ -22,10 +22,22 @@ public class WorldGenerator : MonoBehaviour
     public int seed;
     public bool randomSeed;
 
+    public bool useTilemap;
+    public bool displayVillages;
+
     //Data for the different noise maps
     public NoiseData terrainData;
     public NoiseData temperatureData;
     public NoiseData moistureData;
+
+    public GameObject villagePrefab;
+    public float minVillageHeight;
+    public float maxVillageHeight;
+
+    List<VillageGenerator> villages;
+
+    public int minimumVillageDistance;
+    public int maxNumberOfVillages;
 
     WorldData worldData;
 
@@ -35,15 +47,40 @@ public class WorldGenerator : MonoBehaviour
     private void Start()
     {
         MapGenerator mapGen = FindObjectOfType<MapGenerator>();
+        MapDisplay mapDisplay = FindObjectOfType<MapDisplay>();
 
         if (randomSeed)
             seed = RandomString(8).GetHashCode();
 
+        StartCoroutine(Generation(mapGen, mapDisplay));
+    }
+
+    IEnumerator Generation(MapGenerator mapGen, MapDisplay mapDisplay)
+    {
         //Generates the world data
-        worldData = mapGen.GenerateMap(useCustomSize ? customSize:(int)worldSize, seed, terrainData, temperatureData, moistureData); 
+        worldData = mapGen.GenerateMap(useCustomSize ? customSize : (int)worldSize, seed, terrainData, temperatureData, moistureData);
+
+        yield return null;
 
         //Draws the tilemap
-        //FindObjectOfType<MapDisplay>().DrawMap(worldData);
+        if (useTilemap)
+        {
+            mapDisplay.DrawWorldMap(worldData);
+
+            yield return null;
+        }
+
+        if (displayVillages && useTilemap)
+        {
+            GenerateVillages();
+
+            yield return null;
+
+            foreach (var village in villages)
+            {
+                mapDisplay.DrawVillage(village.villageData);
+            }
+        }
     }
 
     public void GenerateWorld()
@@ -55,6 +92,57 @@ public class WorldGenerator : MonoBehaviour
 
         //Draws the tilemap
         //FindObjectOfType<MapDisplay>().DrawMap(worldData);
+    }
+
+    public void GenerateVillages()
+    {
+
+        Debug.Log("Generating villages...");
+        System.Random rand = new System.Random(seed);
+
+        villages = new List<VillageGenerator>();
+
+        int n = 0;
+
+        for(int i = 0; i < maxNumberOfVillages && n < 100;)
+        {
+            bool canBuild = true;
+
+            Vector2Int position = new Vector2Int(rand.Next(0, (int)worldSize), rand.Next(0, (int)worldSize));
+
+            if(worldData.heightMap[(int)worldSize - position.x, (int)worldSize - position.y] < minVillageHeight || worldData.heightMap[(int)worldSize - position.x, (int)worldSize - position.y] > maxVillageHeight)
+            {
+                canBuild = false;
+            }   
+
+            if(villages.Count > 0)
+                foreach (VillageGenerator village in villages)
+                {
+                    Vector2Int otherPos = new Vector2Int((int)village.transform.position.x, (int)village.transform.position.y);
+                    if (Vector2Int.Distance(position, otherPos) < minimumVillageDistance)
+                    {
+                        canBuild = false;
+                    }
+
+                    if (!canBuild)
+                        break;
+                }
+
+            if (!canBuild)
+            {
+                n++;
+            }
+            else
+            {
+                var go = Instantiate(villagePrefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
+
+                var v = go.GetComponent<VillageGenerator>();
+                v.Initialise(seed);
+                villages.Add(v);
+                i++;
+                n = 0;
+            }
+        }
     }
 
     public void ChangeWorldSize()

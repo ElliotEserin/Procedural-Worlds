@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6787769521269870516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6787769521269870519}
+  - component: {fileID: 6787769521269870513}
+  m_Layer: 0
+  m_Name: Village Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6787769521269870519
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6787769521269870516}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6787769521269870513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6787769521269870516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 577886163353e3743a4b8f65421005b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  majorRoadTile: {fileID: 11400000, guid: 5e0bc38b236433b44aaa09a7baf44de8, type: 2}
+  minorRoadTile: {fileID: 11400000, guid: 8bf02116a40fab049b60c09eb47051a4, type: 2}
+  useFalloff: 0
+  falloffMap: {fileID: 0}
+  seed: 61
+  villageSize: 75
+  villageType: 0
+  minCellSize: 10
+  useMajorRoads: 1
+  majorRoadDensity: 0.7
+  majorRoadFrequency: 2
+  thickRoads: 1
+  minorRoadDensity: 0.7
+  linkRoads: 1
+  wall: {fileID: 11400000, guid: c0906161a2744f7469d4ed87c6b07e34, type: 2}
+  floor: {fileID: 11400000, guid: 0b1e68828c67f4546afa8bf69060ae31, type: 2}
+  buildingDensity: 0.75
+  chanceOfJoining: 0
+  largeBuildingDensity: 0.5
+  buildHouses: 1

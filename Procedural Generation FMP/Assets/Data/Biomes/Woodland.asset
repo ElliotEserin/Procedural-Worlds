@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Grass
   colour: {r: 0.20486718, g: 0.3584906, b: 0.19784622, a: 0}
-  tile: {fileID: 0}
+  tile: {fileID: 11400000, guid: 7b86a48e19df98b44b7824eb8752c70a, type: 2}

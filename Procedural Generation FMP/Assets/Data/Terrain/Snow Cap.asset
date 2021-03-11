@@ -15,5 +15,5 @@ MonoBehaviour:
   name: 
   height: 1
   colour: {r: 0.9386792, g: 1, b: 0.9943808, a: 0}
-  tile: {fileID: 11400000, guid: fa6b2c7ad1c8ef646bbf88d40f5b9005, type: 2}
+  tile: {fileID: 11400000, guid: 8136a55f674e4f24fbf6629e87c8f412, type: 2}
   allowBiomes: 0

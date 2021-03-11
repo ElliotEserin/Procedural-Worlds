@@ -73,8 +73,10 @@ public class MapGenerator : MonoBehaviour
                     {
                         if(regions[i].allowBiomes)
                         {
-                            colourMap[y * size + x] = temperature[(int)Mathf.Round(currentTemp * (temperature.Count-1))].moisture[(int)Mathf.Round(currentMoisture * (temperature.Count - 1))].colour;
-                            wd.tiles[y * size + x] = regions[i].tile;
+                            var biome = temperature[(int)Mathf.Round(currentTemp * (temperature.Count - 1))].moisture[(int)Mathf.Round(currentMoisture * (temperature.Count - 1))];
+
+                            colourMap[y * size + x] = biome.colour;
+                            wd.tiles[y * size + x] = biome.tile;
                         }
                         else
                         {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -7,9 +8,9 @@ public class VillageGenerator : MonoBehaviour
 {
     public enum VillageSize //Dimensions of the village
     {
-        Small = 25,
+        Small = 30,
         Medium = 50,
-        Large = 75
+        Large = 80
     }
 
     public enum VillageType //Type of generation
@@ -58,12 +59,21 @@ public class VillageGenerator : MonoBehaviour
 
     List<Vector2Int> potentialLargeBuildingLocations;
 
-    private void Start()
+    public VillageData villageData;
+    public bool drawVillage;
+
+    public void Initialise(int seed)
     {
+        this.seed = seed;
+
+        Array values = Enum.GetValues(typeof(VillageSize));
+        System.Random random = new System.Random(seed + (int)transform.position.x + (int)transform.position.y);
+        villageSize = (VillageSize)values.GetValue(random.Next(values.Length));
+
         GenerateVillage(seed);
     }
 
-    public VillageData GenerateVillage(int seed)
+    public void GenerateVillage(int seed)
     {
         //Generate the maps
         var roadMap = GenerateRoadPoints(seed + (int)transform.position.x + (int)transform.position.y);
@@ -94,9 +104,10 @@ public class VillageGenerator : MonoBehaviour
             }
         }
 
-        FindObjectOfType<MapDisplay>().DrawVillage(village.tilePositions, village.tiles);
+        villageData = village;
 
-        return village;
+        if(drawVillage)
+            FindObjectOfType<MapDisplay>().DrawVillage(villageData); 
     }
    
     int[,] GenerateRoadPoints(int seed)
@@ -265,12 +276,19 @@ public class VillageGenerator : MonoBehaviour
 
         bool CheckForRoads(int x, int y)
         {
-            if (roadMap[x + minCellSize / 2, y] > 0 ||
-                roadMap[x - minCellSize / 2, y] > 0 ||
-                roadMap[x, y + minCellSize / 2] > 0 ||
-                roadMap[x, y - minCellSize / 2] > 0) return true;
+            bool roadPresent = false;
 
-            return false;        
+            if      (inBounds(x + minCellSize / 2, y, roadMap)) if (roadMap[x + minCellSize / 2, y] > 0) roadPresent = true;
+            else if (inBounds(x - minCellSize / 2, y, roadMap)) if (roadMap[x - minCellSize / 2, y] > 0) roadPresent = true;
+            else if (inBounds(x, y + minCellSize / 2, roadMap)) if (roadMap[x, y + minCellSize / 2] > 0) roadPresent = true;
+            else if (inBounds(x, y - minCellSize / 2, roadMap)) if (roadMap[x, y - minCellSize / 2] > 0) roadPresent = true;
+
+            return roadPresent;        
+        }
+
+        bool inBounds<T>(int x, int y, T[,] array)
+        {
+            return (x >= 0 && y >= 0) && (x < array.GetLength(0) && y < array.GetLength(1));
         }
 
         if (buildHouses)
