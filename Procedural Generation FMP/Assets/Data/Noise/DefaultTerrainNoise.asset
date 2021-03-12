@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f34a9f8fc43d948bbdf42d5de6e932, type: 3}
   m_Name: DefaultTerrainNoise
   m_EditorClassIdentifier: 
-  autoUpdate: 1
-  noiseScale: 100
+  autoUpdate: 0
+  noiseScale: 500
   octaves: 4
   persistance: 0.5
   lacunarity: 2

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ground
   m_EditorClassIdentifier: 
   name: 
-  height: 0.675
+  height: 0.75
   colour: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 0}
   tile: {fileID: 11400000, guid: 3632522c50c07744cb407d570ab72652, type: 2}
   allowBiomes: 1

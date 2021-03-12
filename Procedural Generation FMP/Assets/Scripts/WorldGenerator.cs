@@ -7,10 +7,10 @@ public class WorldGenerator : MonoBehaviour
 {
     public enum WorldSize
     {
-        Island = 100,
-        Small = 500,
-        Medium = 750,
-        Large = 1000,
+        Island = 500,
+        Small = 1000,
+        Medium = 1500,
+        Large = 2500,
     }
 
     public WorldSize worldSize;
@@ -59,13 +59,14 @@ public class WorldGenerator : MonoBehaviour
     {
         //Generates the world data
         worldData = mapGen.GenerateMap(useCustomSize ? customSize : (int)worldSize, seed, terrainData, temperatureData, moistureData);
-
+        Debug.Log("Made world");
         yield return null;
 
         //Draws the tilemap
         if (useTilemap)
         {
             mapDisplay.DrawWorldMap(worldData);
+            Debug.Log("Loaded tilemap");
 
             yield return null;
         }
@@ -73,11 +74,12 @@ public class WorldGenerator : MonoBehaviour
         if (displayVillages && useTilemap)
         {
             GenerateVillages();
-
+            Debug.Log("Made villages");
             yield return null;
 
             foreach (var village in villages)
             {
+                Debug.Log("Drawing villages");
                 mapDisplay.DrawVillage(village.villageData);
             }
         }
@@ -86,7 +88,6 @@ public class WorldGenerator : MonoBehaviour
     public void GenerateWorld()
     {
         MapGenerator mapGen = FindObjectOfType<MapGenerator>();
-
         //Generates the world data
         worldData = mapGen.GenerateMap(useCustomSize ? customSize : (int)worldSize, seed, terrainData, temperatureData, moistureData);
 
@@ -134,6 +135,8 @@ public class WorldGenerator : MonoBehaviour
             }
             else
             {
+                Debug.Log("Placing village!");
+
                 var go = Instantiate(villagePrefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
 
                 var v = go.GetComponent<VillageGenerator>();
@@ -192,25 +195,25 @@ public class WorldGenerator : MonoBehaviour
         return new string(stringChars);
     }
 
-//Subscribing to the OnValuesUpdated event
-private void OnValidate()
-    {
-        if (terrainData != null)
+    //Subscribing to the OnValuesUpdated event
+    private void OnValidate()
         {
-            terrainData.OnValuesUpdated -= OnValuesUpdated;
-            terrainData.OnValuesUpdated += OnValuesUpdated;
+            if (terrainData != null)
+            {
+                terrainData.OnValuesUpdated -= OnValuesUpdated;
+                terrainData.OnValuesUpdated += OnValuesUpdated;
+            }
+            if (temperatureData != null)
+            {
+                temperatureData.OnValuesUpdated -= OnValuesUpdated;
+                temperatureData.OnValuesUpdated += OnValuesUpdated;
+            }
+            if (moistureData != null)
+            {
+                moistureData.OnValuesUpdated -= OnValuesUpdated;
+                moistureData.OnValuesUpdated += OnValuesUpdated;
+            }
         }
-        if (temperatureData != null)
-        {
-            temperatureData.OnValuesUpdated -= OnValuesUpdated;
-            temperatureData.OnValuesUpdated += OnValuesUpdated;
-        }
-        if (moistureData != null)
-        {
-            moistureData.OnValuesUpdated -= OnValuesUpdated;
-            moistureData.OnValuesUpdated += OnValuesUpdated;
-        }
-    }
 }
 
 //Stores the world data

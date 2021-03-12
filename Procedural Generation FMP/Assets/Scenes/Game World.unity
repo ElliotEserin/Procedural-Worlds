@@ -379,10 +379,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2d608d4e9671004ba28485a55113bca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldSize: 750
+  worldSize: 1500
   useCustomSize: 0
   customSize: 350
-  seed: 70
+  seed: 22
   randomSeed: 0
   useTilemap: 1
   displayVillages: 1
@@ -394,7 +394,7 @@ MonoBehaviour:
   minVillageHeight: 0.4
   maxVillageHeight: 0.6
   minimumVillageDistance: 100
-  maxNumberOfVillages: 10
+  maxNumberOfVillages: 1
   iField: {fileID: 1624213000}
   dropdown: {fileID: 1210368237}
 --- !u!4 &294910744
@@ -557,7 +557,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 450
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2423,7 +2423,7 @@ Transform:
   m_GameObject: {fileID: 2065771168}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 75, y: 1, z: 75}
+  m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2

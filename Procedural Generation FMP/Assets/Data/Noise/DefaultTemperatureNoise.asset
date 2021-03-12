@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DefaultTemperatureNoise
   m_EditorClassIdentifier: 
   autoUpdate: 0
-  noiseScale: 200
+  noiseScale: 400
   octaves: 3
   persistance: 0.4
   lacunarity: 4

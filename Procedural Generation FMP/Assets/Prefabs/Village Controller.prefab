@@ -48,13 +48,13 @@ MonoBehaviour:
   useFalloff: 0
   falloffMap: {fileID: 0}
   seed: 61
-  villageSize: 75
+  villageSize: 50
   villageType: 0
   minCellSize: 10
   useMajorRoads: 1
   majorRoadDensity: 0.7
   majorRoadFrequency: 2
-  thickRoads: 1
+  thickRoads: 0
   minorRoadDensity: 0.7
   linkRoads: 1
   wall: {fileID: 11400000, guid: c0906161a2744f7469d4ed87c6b07e34, type: 2}
@@ -63,3 +63,4 @@ MonoBehaviour:
   chanceOfJoining: 0
   largeBuildingDensity: 0.5
   buildHouses: 1
+  drawVillage: 0

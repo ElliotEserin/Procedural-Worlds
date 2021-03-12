@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DefaultMoistureNoise
   m_EditorClassIdentifier: 
   autoUpdate: 0
-  noiseScale: 200
+  noiseScale: 400
   octaves: 2
   persistance: 0.5
   lacunarity: 3
