@@ -5,5 +5,5 @@ public class BiomeType : ScriptableObject
 {
     new public string name;
     public Color colour;
-    public UnityEngine.Tilemaps.Tile tile;
+    public UnityEngine.Tilemaps.TileBase tile;
 }

@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: sand
+  m_Script: {fileID: 11500000, guid: 535f8e525ff367c4ba67961e201a05ed, type: 3}
+  m_Name: Sand
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: ca6e81fea89d57544bd47f7a72999460, type: 3}
-  m_Color: {r: 0.9215687, g: 0.95294124, b: 0.4901961, a: 1}
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
     e01: 0
@@ -34,3 +34,13 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
+  m_Sprites:
+  - {fileID: 21300000, guid: 830420429e095b14fb93af3f2a774c4f, type: 3}
+  - {fileID: 21300000, guid: f22a4dd86eb514844805eac6063a9a14, type: 3}
+  - {fileID: 21300000, guid: 812bf5b365ef12642ba534bc1d8d8f51, type: 3}
+  - {fileID: 21300000, guid: 67aa640b07726d84aa8fd33c105960a6, type: 3}
+  - {fileID: 21300000, guid: 7cf4fcb9470b6f24792af06aeac2c63c, type: 3}
+  - {fileID: 21300000, guid: b11d09435eaa42a489c00784dcdc1113, type: 3}
+  - {fileID: 21300000, guid: 9a210ca656c037d4aaf3cd7f96af44e2, type: 3}
+  - {fileID: 21300000, guid: d068f192e07dffa4e8470e9ef7686d7a, type: 3}
+  - {fileID: 21300000, guid: 91ec07f99b3396342b87c660842efbf1, type: 3}

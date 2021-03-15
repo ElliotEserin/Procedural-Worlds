@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using GenerationHelpers;
 
 public class VillageGenerator : MonoBehaviour
 {
@@ -20,8 +20,8 @@ public class VillageGenerator : MonoBehaviour
 
     [Header("Village Roads")]
     //Tiles
-    public Tile majorRoadTile;
-    public Tile minorRoadTile;
+    public TileBase majorRoadTile;
+    public TileBase minorRoadTile;
 
     //Falloff
     public bool useFalloff;
@@ -59,7 +59,7 @@ public class VillageGenerator : MonoBehaviour
 
     List<Vector2Int> potentialLargeBuildingLocations;
 
-    public VillageData villageData;
+    public TilemapData villageData;
     public bool drawVillage;
 
     public void Initialise(int seed)
@@ -80,7 +80,7 @@ public class VillageGenerator : MonoBehaviour
         var buildingMap = GenerateBuildingPoints(seed + (int)transform.position.x + (int)transform.position.y, roadMap);
 
         //Initiate the tilemap data
-        VillageData village = new VillageData()
+        TilemapData village = new TilemapData()
         {
             tilePositions = new Vector3Int[(int)villageSize * (int)villageSize],
             tiles = new TileBase[(int)villageSize * (int)villageSize]
@@ -297,99 +297,4 @@ public class VillageGenerator : MonoBehaviour
     {
         return (x >= 0 && y >= 0) && (x < array.GetLength(0) && y < array.GetLength(1));
     }
-}
-
-public static class BuildingGenerator
-{
-    public static void GenerateBuilding(ref int[,] map, int maxBuildSize, Vector2Int doorPos, Vector2Int originPoint)
-    {
-        for (int xx = 0; xx < maxBuildSize; xx++)
-        {
-            for (int yy = 0; yy < maxBuildSize; yy++)
-            {
-                try
-                {
-                    if ((xx == 0 || xx == maxBuildSize - 1 || yy == 0 || yy == maxBuildSize - 1) && new Vector2Int(xx, yy) != doorPos)
-                    {
-                        map[originPoint.x + xx - maxBuildSize / 2, originPoint.y + yy - maxBuildSize / 2] = 1;
-                    }
-                    else
-                    {
-                        map[originPoint.x + xx - maxBuildSize / 2, originPoint.y + yy - maxBuildSize / 2] = 2;
-                    }
-                }
-                catch { }
-            }
-        }
-    }
-
-    static Vector2Int[] GenerateDoorPositions(int maxBuildSize)
-    {
-        return new Vector2Int[]
-        {
-            new Vector2Int(maxBuildSize/2, 0),
-            new Vector2Int(maxBuildSize/2, maxBuildSize-1),
-            new Vector2Int(0, maxBuildSize/2),
-            new Vector2Int(maxBuildSize-1, maxBuildSize/2)
-        };
-    }
-
-    public static Vector2Int GenerateDoorPosition(int maxBuildSize, System.Random rand)
-    {
-        var doorPositions = GenerateDoorPositions(maxBuildSize);
-
-        return doorPositions[rand.Next(0, doorPositions.Length)];
-    }
-}
-
-public static class RoadGenerator
-{
-    public static void GenerateRoad(ref int[,] map, int x, int y, int minCellSize, int multiplier, int roadType, bool thickRoads, bool vertical)
-    {
-        if (vertical)
-        {
-            for (int i = y; i >= y - minCellSize * multiplier; i--)
-            {
-                if (map[x, i] != 1)
-                    map[x, i] = roadType;
-
-                if (roadType == 1 && thickRoads)
-                {
-                    PlaceAdjacentRoads(x, i, 1, ref map);
-                }
-            }
-        }
-
-        else
-        {
-            for (int i = x; i >= x - minCellSize * multiplier; i--)
-            {
-                if (map[i, y] != 1)
-                    map[i, y] = roadType;
-
-                if (roadType == 1 && thickRoads)
-                {
-                    PlaceAdjacentRoads(i, y, 1, ref map);
-                }
-            }
-        }
-
-        void PlaceAdjacentRoads(int _x, int _y, int _roadType, ref int[,] _map)
-        {
-            _map[_x + 1, _y + 1] = _roadType;
-            _map[_x - 1, _y + 1] = _roadType;
-            _map[_x + 1, _y - 1] = _roadType;
-            _map[_x - 1, _y - 1] = _roadType;
-            _map[_x + 1, _y] = _roadType;
-            _map[_x, _y + 1] = _roadType;
-            _map[_x - 1, _y] = _roadType;
-            _map[_x, _y - 1] = _roadType;
-        }
-    }
-}
-
-public struct VillageData
-{
-    public Vector3Int[] tilePositions;
-    public TileBase[] tiles;
 }

@@ -217,10 +217,8 @@ public class WorldGenerator : MonoBehaviour
 }
 
 //Stores the world data
-public struct WorldData
+public class WorldData : TilemapData
 {
     public Texture2D worldMap;
     public float[,] heightMap;
-    public Vector3Int[] tilePositions;
-    public TileBase[] tiles;
 }

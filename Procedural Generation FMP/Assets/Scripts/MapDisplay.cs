@@ -43,9 +43,9 @@ public class MapDisplay : MonoBehaviour
     {
         terrainMap.SetTiles(worldData.tilePositions, worldData.tiles);
     }   
-
+    
     //Draws the tiles to a tilemap
-    public void DrawVillage(VillageData villageData)
+    public void DrawVillage(TilemapData villageData)
     {
         villageMap.SetTiles(villageData.tilePositions, villageData.tiles);
     }

@@ -6,6 +6,6 @@ public class TerrainType : ScriptableObject
     new public string name;
     public float height;
     public Color colour;
-    public UnityEngine.Tilemaps.Tile tile;
+    public UnityEngine.Tilemaps.TileBase tile;
     public bool allowBiomes;
 }
