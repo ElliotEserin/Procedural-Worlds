@@ -29,14 +29,32 @@ namespace GenerationHelpers
             }
         }
 
+        public static void GenerateOutline(ref int[,] map, int diameter, Vector2Int doorPos, Vector2Int originPoint)
+        {
+            for (int xx = 0; xx < diameter; xx++)
+            {
+                for (int yy = 0; yy < diameter; yy++)
+                {
+                    try
+                    {
+                        if ((xx == 0 || xx == diameter - 1 || yy == 0 || yy == diameter - 1) && new Vector2Int(xx, yy) != doorPos)
+                        {
+                            map[originPoint.x + xx - diameter / 2, originPoint.y + yy - diameter / 2] = 1;
+                        }
+                    }
+                    catch { }
+                }
+            }
+        }
+
         static Vector2Int[] GenerateDoorPositions(int maxBuildSize)
         {
             return new Vector2Int[]
             {
-            new Vector2Int(maxBuildSize/2, 0),
-            new Vector2Int(maxBuildSize/2, maxBuildSize-1),
-            new Vector2Int(0, maxBuildSize/2),
-            new Vector2Int(maxBuildSize-1, maxBuildSize/2)
+                new Vector2Int(maxBuildSize/2, maxBuildSize-1), // Up
+                new Vector2Int(maxBuildSize/2, 0), // Down
+                new Vector2Int(0, maxBuildSize/2), // Left
+                new Vector2Int(maxBuildSize-1, maxBuildSize/2) // Right
             };
         }
 
@@ -46,6 +64,13 @@ namespace GenerationHelpers
 
             return doorPositions[rand.Next(0, doorPositions.Length)];
         }
+
+        public static Vector2Int GenerateDoorPosition(int maxBuildSize, Direction direction)
+        {
+            var doorPositions = GenerateDoorPositions(maxBuildSize);
+
+            return doorPositions[(int)direction];
+        }
     }
 
     /// <summary>
@@ -53,9 +78,41 @@ namespace GenerationHelpers
     /// </summary>
     public static class RoadGenerator
     {
-        public static void GenerateRoad(ref int[,] map, int x, int y, int minCellSize, int multiplier, int roadType, bool thickRoads, bool vertical)
+        public static void GenerateRoad(ref int[,] map, Vector2Int startPos, Vector2Int endPos, int roadType, bool thickRoads, Axis direction)
         {
-            if (vertical)
+            Vector2Int start = Vector2Int.Min(startPos, endPos);
+            Vector2Int end = Vector2Int.Max(startPos, endPos);
+
+            if (direction == Axis.Vertical)
+            {
+                for (int i = start.y; i <= end.y; i++)
+                {
+                    map[start.x, i] = roadType;
+
+                    if (thickRoads)
+                    {
+                        PlaceAdjacentRoads(start.x, i, 1, ref map);
+                    }
+                }
+            }
+
+            else if (direction == Axis.Horizontal)
+            {
+                for (int i = start.x; i <= end.x; i++)
+                {
+                    map[i, start.y] = roadType;
+
+                    if (thickRoads)
+                    {
+                        PlaceAdjacentRoads(i, start.y, 1, ref map);
+                    }
+                }
+            }
+        }
+
+        public static void GenerateRoad(ref int[,] map, int x, int y, int minCellSize, int multiplier, int roadType, bool thickRoads, Axis direction)
+        {
+            if (direction == Axis.Vertical)
             {
                 for (int i = y; i >= y - minCellSize * multiplier; i--)
                 {
@@ -69,7 +126,7 @@ namespace GenerationHelpers
                 }
             }
 
-            else
+            else if(direction == Axis.Horizontal)
             {
                 for (int i = x; i >= x - minCellSize * multiplier; i--)
                 {
@@ -82,18 +139,18 @@ namespace GenerationHelpers
                     }
                 }
             }
+        }
 
-            void PlaceAdjacentRoads(int _x, int _y, int _roadType, ref int[,] _map)
-            {
-                _map[_x + 1, _y + 1] = _roadType;
-                _map[_x - 1, _y + 1] = _roadType;
-                _map[_x + 1, _y - 1] = _roadType;
-                _map[_x - 1, _y - 1] = _roadType;
-                _map[_x + 1, _y] = _roadType;
-                _map[_x, _y + 1] = _roadType;
-                _map[_x - 1, _y] = _roadType;
-                _map[_x, _y - 1] = _roadType;
-            }
+        static void PlaceAdjacentRoads(int _x, int _y, int _roadType, ref int[,] _map)
+        {
+            _map[_x + 1, _y + 1] = _roadType;
+            _map[_x - 1, _y + 1] = _roadType;
+            _map[_x + 1, _y - 1] = _roadType;
+            _map[_x - 1, _y - 1] = _roadType;
+            _map[_x + 1, _y] = _roadType;
+            _map[_x, _y + 1] = _roadType;
+            _map[_x - 1, _y] = _roadType;
+            _map[_x, _y - 1] = _roadType;
         }
     }
 
@@ -166,10 +223,45 @@ namespace GenerationHelpers
             return noiseMap;
         }
     }
+
+    /// <summary>
+    /// Basic helper functions for common generation features.
+    /// </summary>
+    public static class GenericHelper
+    {
+        public static Vector3Int[] Vector2IntMap(int length, Vector2Int origin)
+        {
+            Vector3Int[] positions = new Vector3Int[length * length];
+
+            for (int x = 0; x < length; x++)
+            {
+                for (int y = 0; y < length; y++)
+                {
+                    positions[y * length + x] = new Vector3Int(origin.x + x - length / 2, origin.y + y - length / 2, 0);
+                }
+            }
+
+            return positions;
+        }
+    }
 }
 
 public class TilemapData
 {
     public Vector3Int[] tilePositions;
     public UnityEngine.Tilemaps.TileBase[] tiles;
+}
+
+public enum Axis
+{
+    Vertical,
+    Horizontal,
+}
+
+public enum Direction
+{
+    Up,
+    Down,
+    Left,
+    Right
 }

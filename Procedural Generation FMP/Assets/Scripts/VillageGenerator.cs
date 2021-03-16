@@ -86,12 +86,14 @@ public class VillageGenerator : MonoBehaviour
             tiles = new TileBase[(int)villageSize * (int)villageSize]
         };
 
+        village.tilePositions = GenericHelper.Vector2IntMap((int)villageSize, new Vector2Int((int)transform.position.x, (int)transform.position.y));
+
         //Implement the tilemap data
         for (int y = 0; y < (int)villageSize; y++)
         {
             for (int x = 0; x < (int)villageSize; x++)
             {
-                village.tilePositions[y * (int)villageSize + x] = new Vector3Int((int)transform.position.x + x - (int)villageSize / 2, (int)transform.position.y + y - (int)villageSize / 2, 0);
+                //village.tilePositions[y * (int)villageSize + x] = new Vector3Int((int)transform.position.x + x - (int)villageSize / 2, (int)transform.position.y + y - (int)villageSize / 2, 0);
                 if (roadMap[x, y] == 1)
                     village.tiles[y * (int)villageSize + x] = majorRoadTile;
                 else if(roadMap[x,y] == 2)
@@ -176,7 +178,7 @@ public class VillageGenerator : MonoBehaviour
                         var other = pointMap[x, y - minCellSize * multiplier];
                         if (other <= roadType && other > 0) //Vertical
                         {
-                            RoadGenerator.GenerateRoad(ref roadMap, x, y, minCellSize, multiplier, roadType, thickRoads, true);
+                            RoadGenerator.GenerateRoad(ref roadMap, x, y, minCellSize, multiplier, roadType, thickRoads, Axis.Vertical);
                         }
                     }
 
@@ -186,7 +188,7 @@ public class VillageGenerator : MonoBehaviour
 
                         if (other <= roadType && other > 0) //Horizontal
                         {
-                            RoadGenerator.GenerateRoad(ref roadMap, x, y, minCellSize, multiplier, roadType, thickRoads, false);
+                            RoadGenerator.GenerateRoad(ref roadMap, x, y, minCellSize, multiplier, roadType, thickRoads, Axis.Horizontal);
                         }
                     }
                 }
