@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using GenerationHelpers;
 
-public class VillageGenerator : MonoBehaviour
+public class VillageGenerator : Generator
 {
     public enum VillageSize //Dimensions of the village
     {
-        Small = 30,
-        Medium = 50,
+        Small = 40,
+        Medium = 60,
         Large = 80
     }
 
@@ -26,8 +26,6 @@ public class VillageGenerator : MonoBehaviour
     //Falloff
     public bool useFalloff;
     public Texture2D falloffMap;
-
-    public int seed;
 
     public VillageSize villageSize;
     public VillageType villageType;
@@ -62,7 +60,7 @@ public class VillageGenerator : MonoBehaviour
     public TilemapData villageData;
     public bool drawVillage;
 
-    public void Initialise(int seed)
+    public override void Initialise(int seed)
     {
         this.seed = seed;
 
@@ -70,10 +68,10 @@ public class VillageGenerator : MonoBehaviour
         System.Random random = new System.Random(seed + (int)transform.position.x + (int)transform.position.y);
         villageSize = (VillageSize)values.GetValue(random.Next(values.Length));
 
-        GenerateVillage(seed);
+        Generate();
     }
 
-    public void GenerateVillage(int seed)
+    public override void Generate()
     {
         //Generate the maps
         var roadMap = GenerateRoads(seed + (int)transform.position.x + (int)transform.position.y);
@@ -173,7 +171,7 @@ public class VillageGenerator : MonoBehaviour
 
                     int multiplier = (roadType == 1) ? majorRoadFrequency : 1;
 
-                    if (InBounds(x, y - minCellSize * multiplier, pointMap))
+                    if (GenericHelper.InBounds(x, y - minCellSize * multiplier, pointMap))
                     {
                         var other = pointMap[x, y - minCellSize * multiplier];
                         if (other <= roadType && other > 0) //Vertical
@@ -182,7 +180,7 @@ public class VillageGenerator : MonoBehaviour
                         }
                     }
 
-                    if(InBounds(x - minCellSize * multiplier, y, pointMap))
+                    if(GenericHelper.InBounds(x - minCellSize * multiplier, y, pointMap))
                     {
                         var other = pointMap[x - minCellSize * multiplier, y];
 
@@ -221,10 +219,10 @@ public class VillageGenerator : MonoBehaviour
 
                 var blockOffset = minCellSize / 2;
 
-                if(InBounds(position.x + blockOffset, position.y + blockOffset, originPoints)) originPoints[position.x + blockOffset, position.y + blockOffset] = 3;
-                if(InBounds(position.x - blockOffset, position.y + blockOffset, originPoints)) originPoints[position.x - blockOffset, position.y + blockOffset] = 3;
-                if(InBounds(position.x + blockOffset, position.y - blockOffset, originPoints)) originPoints[position.x + blockOffset, position.y - blockOffset] = 3;
-                if(InBounds(position.x - blockOffset, position.y - blockOffset, originPoints)) originPoints[position.x - blockOffset, position.y - blockOffset] = 3;
+                if(GenericHelper.InBounds(position.x + blockOffset, position.y + blockOffset, originPoints)) originPoints[position.x + blockOffset, position.y + blockOffset] = 3;
+                if(GenericHelper.InBounds(position.x - blockOffset, position.y + blockOffset, originPoints)) originPoints[position.x - blockOffset, position.y + blockOffset] = 3;
+                if(GenericHelper.InBounds(position.x + blockOffset, position.y - blockOffset, originPoints)) originPoints[position.x + blockOffset, position.y - blockOffset] = 3;
+                if(GenericHelper.InBounds(position.x - blockOffset, position.y - blockOffset, originPoints)) originPoints[position.x - blockOffset, position.y - blockOffset] = 3;
             }
         }
 
@@ -256,10 +254,10 @@ public class VillageGenerator : MonoBehaviour
         {
             bool roadPresent = false;
 
-            if (InBounds(x + minCellSize / 2, y, roadMap)) if (roadMap[x + minCellSize / 2, y] > 0) roadPresent = true;
-                else if (InBounds(x - minCellSize / 2, y, roadMap)) if (roadMap[x - minCellSize / 2, y] > 0) roadPresent = true;
-                    else if (InBounds(x, y + minCellSize / 2, roadMap)) if (roadMap[x, y + minCellSize / 2] > 0) roadPresent = true;
-                        else if (InBounds(x, y - minCellSize / 2, roadMap)) if (roadMap[x, y - minCellSize / 2] > 0) roadPresent = true;
+            if (GenericHelper.InBounds(x + minCellSize / 2, y, roadMap)) if (roadMap[x + minCellSize / 2, y] > 0) roadPresent = true;
+                else if (GenericHelper.InBounds(x - minCellSize / 2, y, roadMap)) if (roadMap[x - minCellSize / 2, y] > 0) roadPresent = true;
+                    else if (GenericHelper.InBounds(x, y + minCellSize / 2, roadMap)) if (roadMap[x, y + minCellSize / 2] > 0) roadPresent = true;
+                        else if (GenericHelper.InBounds(x, y - minCellSize / 2, roadMap)) if (roadMap[x, y - minCellSize / 2] > 0) roadPresent = true;
 
             return roadPresent;
         }
@@ -293,10 +291,5 @@ public class VillageGenerator : MonoBehaviour
                 }
             }
         }
-    }
-
-    public static bool InBounds<T>(int x, int y, T[,] array)
-    {
-        return (x >= 0 && y >= 0) && (x < array.GetLength(0) && y < array.GetLength(1));
     }
 }

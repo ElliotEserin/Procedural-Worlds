@@ -26,10 +26,11 @@ public class WorldGenerator : MonoBehaviour
     public bool displayVillages;
 
     //Data for the different noise maps
+    [Header("Noise")]
     public NoiseData terrainData;
     public NoiseData temperatureData;
     public NoiseData moistureData;
-
+    [Header("Villages")]
     public GameObject villagePrefab;
     public float minVillageHeight;
     public float maxVillageHeight;
@@ -39,10 +40,22 @@ public class WorldGenerator : MonoBehaviour
     public int minimumVillageDistance;
     public int maxNumberOfVillages;
 
-    WorldData worldData;
+    [Header("Buildings")]
+    public GameObject buildingPrefab;
+    public float minBuildingHeight;
+    public float maxBuildingHeight;
 
+    List<IndividualBuildingGenerator> buildings;
+
+    public int minimumBuildingDistance;
+    public int maxNumberOfBuildings;
+
+    WorldData worldData;
+    [Header("UI")]
     public UnityEngine.UI.InputField iField;
     public UnityEngine.UI.Dropdown dropdown;
+
+    public TilemapPrefab[] tilemapPrefabs;
 
     private void Start()
     {
@@ -79,8 +92,18 @@ public class WorldGenerator : MonoBehaviour
 
             foreach (var village in villages)
             {
-                Debug.Log("Drawing villages");
                 mapDisplay.DrawVillage(village.villageData);
+            }
+
+            yield return null;
+
+            GenerateBuildings();
+            Debug.Log("Made buildings");
+            yield return null;
+
+            foreach (var building in buildings)
+            {
+                building.Initialise(seed);
             }
         }
     }
@@ -111,10 +134,14 @@ public class WorldGenerator : MonoBehaviour
 
             Vector2Int position = new Vector2Int(rand.Next(0, (int)worldSize), rand.Next(0, (int)worldSize));
 
-            if(worldData.heightMap[(int)worldSize - position.x, (int)worldSize - position.y] < minVillageHeight || worldData.heightMap[(int)worldSize - position.x, (int)worldSize - position.y] > maxVillageHeight)
+            try
             {
-                canBuild = false;
-            }   
+                if (worldData.heightMap[(int)worldSize - position.x, (int)worldSize - position.y] < minVillageHeight || worldData.heightMap[(int)worldSize - position.x, (int)worldSize - position.y] > maxVillageHeight)
+                {
+                    canBuild = false;
+                }
+            }
+            catch { continue; }
 
             if(villages.Count > 0)
                 foreach (VillageGenerator village in villages)
@@ -142,6 +169,71 @@ public class WorldGenerator : MonoBehaviour
                 var v = go.GetComponent<VillageGenerator>();
                 v.Initialise(seed);
                 villages.Add(v);
+                i++;
+                n = 0;
+            }
+        }
+    }
+
+    public void GenerateBuildings()
+    {
+
+        Debug.Log("Generating buildings...");
+        System.Random rand = new System.Random(seed);
+
+        buildings = new List<IndividualBuildingGenerator>();
+
+        int n = 0;
+
+        for (int i = 0; i < maxNumberOfBuildings && n < 100;)
+        {
+            bool canBuild = true;
+
+            Vector2Int position = new Vector2Int(rand.Next(0, (int)worldSize), rand.Next(0, (int)worldSize));
+
+            if (worldData.heightMap[(int)worldSize - position.x, (int)worldSize - position.y] < minBuildingHeight || worldData.heightMap[(int)worldSize - position.x, (int)worldSize - position.y] > maxBuildingHeight)
+            {
+                canBuild = false;
+            }
+
+            if (buildings.Count > 0)
+                foreach (IndividualBuildingGenerator building in buildings)
+                {
+                    Vector2Int otherPos = new Vector2Int((int)building.transform.position.x, (int)building.transform.position.y);
+                    if (Vector2Int.Distance(position, otherPos) < minimumBuildingDistance)
+                    {
+                        canBuild = false;
+                    }
+
+                    if (!canBuild)
+                        break;
+                }
+
+            if (villages.Count > 0)
+                foreach (VillageGenerator village in villages)
+                {
+                    Vector2Int otherPos = new Vector2Int((int)village.transform.position.x, (int)village.transform.position.y);
+                    if (Vector2Int.Distance(position, otherPos) < minimumBuildingDistance)
+                    {
+                        canBuild = false;
+                    }
+
+                    if (!canBuild)
+                        break;
+                }
+
+            if (!canBuild)
+            {
+                n++;
+            }
+            else
+            {
+                Debug.Log("Placing building!");
+
+                var go = Instantiate(buildingPrefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
+
+                var v = go.GetComponent<IndividualBuildingGenerator>();
+                buildings.Add(v);
                 i++;
                 n = 0;
             }

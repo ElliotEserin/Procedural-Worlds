@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class MapDisplay : MonoBehaviour
@@ -46,6 +44,11 @@ public class MapDisplay : MonoBehaviour
     
     //Draws the tiles to a tilemap
     public void DrawVillage(TilemapData villageData)
+    {
+        villageMap.SetTiles(villageData.tilePositions, villageData.tiles);
+    }
+
+    public void DrawVillage(TilemapPrefab villageData)
     {
         villageMap.SetTiles(villageData.tilePositions, villageData.tiles);
     }

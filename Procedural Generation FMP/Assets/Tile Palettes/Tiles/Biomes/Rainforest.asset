@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
+  m_Script: {fileID: 11500000, guid: 535f8e525ff367c4ba67961e201a05ed, type: 3}
   m_Name: Rainforest
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: ca6e81fea89d57544bd47f7a72999460, type: 3}
-  m_Color: {r: 0.043137256, g: 0.4627451, b: 0.03529412, a: 1}
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 0.22899605, g: 0.5849056, b: 0.4093318, a: 1}
   m_Transform:
     e00: 1
     e01: 0
@@ -34,3 +34,10 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
+  m_Sprites:
+  - {fileID: 21300000, guid: b5393f816548f0d4dbd8a3dbb38e8adc, type: 3}
+  - {fileID: 21300000, guid: 4e166eca76ae4394284f51b9510669cf, type: 3}
+  - {fileID: 21300000, guid: 546b152a52046484a82fefc24f1e2218, type: 3}
+  - {fileID: 21300000, guid: a474a848aec609f419e7c7f5563304f4, type: 3}
+  - {fileID: 21300000, guid: f381430ac4d35b0458db3c8376ad3bb4, type: 3}
+  - {fileID: 21300000, guid: 365971fb2a0bcc947995526e37ab35ee, type: 3}

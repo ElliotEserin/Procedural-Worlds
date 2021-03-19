@@ -3,7 +3,7 @@
 namespace GenerationHelpers
 {
     /// <summary>
-    /// COntains functions to generate buildings - rectangles with an outline.
+    /// Contains functions to generate buildings - rectangles with an outline.
     /// </summary>
     public static class BuildingGenerator
     {
@@ -242,6 +242,26 @@ namespace GenerationHelpers
             }
 
             return positions;
+        }
+
+        public static Vector3Int[] Vector2IntMap(Vector3Int dimensions, Vector2Int origin)
+        {
+            Vector3Int[] positions = new Vector3Int[dimensions.x * dimensions.y];
+
+            for (int x = 0; x < dimensions.x; x++)
+            {
+                for (int y = 0; y < dimensions.y; y++)
+                {
+                    positions[y * dimensions.y + x] = new Vector3Int(origin.x + x - dimensions.x / 2, origin.y + y - dimensions.y / 2, 0);
+                }
+            }
+
+            return positions;
+        }
+
+        public static bool InBounds<T>(int x, int y, T[,] array)
+        {
+            return (x >= 0 && y >= 0) && (x < array.GetLength(0) && y < array.GetLength(1));
         }
     }
 }

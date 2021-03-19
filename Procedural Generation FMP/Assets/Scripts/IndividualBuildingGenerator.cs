@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using GenerationHelpers;
 using System;
 
-public class IndividualBuildingGenerator : MonoBehaviour
+public class IndividualBuildingGenerator : Generator
 {
     public enum BuildingType
     {
@@ -16,40 +14,52 @@ public class IndividualBuildingGenerator : MonoBehaviour
     public enum BuildingSize
     {
         Small = 10,
-        Medium = 15,
+        Medium = 16,
         Large = 20
     }
 
     public BuildingType buildingType;
     public BuildingSize buildingSize;
-    public int seed;
 
-    UnityEngine.Tilemaps.TileBase wall;
-    UnityEngine.Tilemaps.TileBase floor;
+    public UnityEngine.Tilemaps.TileBase wall;
+    public UnityEngine.Tilemaps.TileBase floor;
 
-    private void Start()
+    public bool usePrefabBuilding;
+    public TilemapPrefab prefab;
+    public bool useRandomPrefabBuilding;
+
+    public override void Initialise(int seed)
     {
-        Initialise(seed);
+        this.seed = seed + (int)transform.position.x + (int)transform.position.y;
+
+        if (usePrefabBuilding)
+        {
+            if (useRandomPrefabBuilding)
+            {
+                var worldGen = FindObjectOfType<WorldGenerator>();
+                System.Random rand = new System.Random(this.seed);
+                prefab = worldGen.tilemapPrefabs[rand.Next(0, worldGen.tilemapPrefabs.Length)];
+            }
+
+            Generate(prefab);
+        }
+        else
+        {
+            this.seed = seed;
+
+            Array type = Enum.GetValues(typeof(BuildingType));
+            Array size = Enum.GetValues(typeof(BuildingSize));
+            System.Random random = new System.Random(this.seed);
+
+            buildingType = (BuildingType)type.GetValue(random.Next(type.Length));
+            buildingSize = (BuildingSize)type.GetValue(random.Next(size.Length));
+
+            Generate();
+        }
     }
 
-    public void Initialise(int seed)
+    public override void Generate()
     {
-        this.seed = seed;
-
-        Array type = Enum.GetValues(typeof(BuildingType));
-        Array size = Enum.GetValues(typeof(BuildingSize));
-        System.Random random = new System.Random(seed + (int)transform.position.x + (int)transform.position.y);
-
-        //buildingType = (BuildingType)type.GetValue(random.Next(type.Length));
-        //buildingSize = (BuildingSize)type.GetValue(random.Next(size.Length));
-
-        GenerateStructure(seed);
-    }
-
-    public void GenerateStructure(int seed)
-    {
-        System.Random rand = new System.Random(seed);
-
         switch (buildingType)
         {
             case BuildingType.Dungeon:
@@ -60,6 +70,29 @@ public class IndividualBuildingGenerator : MonoBehaviour
             case BuildingType.Ruin:
                 break;
         }
+    }
+
+    public void Generate(TilemapPrefab prefab)
+    {
+        if (prefab.isSet && prefab != null)
+        {
+            TilemapData data = new TilemapData()
+            {
+                tilePositions = new Vector3Int[prefab.tilePositions.Length],
+                tiles = prefab.tiles
+            };
+
+            for (int x = 0; x < prefab.tilePositions.Length; x++)
+            {
+                //Debug.Log(x + "\n" + prefab.tiles[x]);
+                int midPoint = (int)Mathf.Sqrt(data.tilePositions.Length) / 2;
+                data.tilePositions[x] = prefab.tilePositions[x] + new Vector3Int((int)transform.position.x - midPoint, (int)transform.position.y - midPoint, 0);
+            }
+
+            FindObjectOfType<MapDisplay>().DrawVillage(data);
+        }
+
+        else Debug.Log("prefab is not suitable");
     }
 
     TilemapData GenerateDungeon()
@@ -73,18 +106,21 @@ public class IndividualBuildingGenerator : MonoBehaviour
 
         int[,] map = new int[(int)buildingSize, (int)buildingSize];
 
-        BuildingGenerator.GenerateOutline(ref map, (int)buildingSize, BuildingGenerator.GenerateDoorPosition((int)buildingSize, Direction.Down), new Vector2Int((int)transform.position.x, (int)transform.position.y));
-        BuildingGenerator.GenerateBuilding(ref map, (int)buildingSize - 4, BuildingGenerator.GenerateDoorPosition((int)buildingSize, Direction.Down), new Vector2Int((int)transform.position.x, (int)transform.position.y));
+        BuildingGenerator.GenerateOutline(ref map, (int)buildingSize, BuildingGenerator.GenerateDoorPosition((int)buildingSize, Direction.Down), new Vector2Int((int)buildingSize/2, (int)buildingSize/2));
+        BuildingGenerator.GenerateBuilding(ref map, (int)buildingSize - 4, BuildingGenerator.GenerateDoorPosition((int)buildingSize - 4, Direction.Down), new Vector2Int((int)buildingSize / 2, (int)buildingSize / 2));
 
         for (int x = 0; x < (int)buildingSize; x++)
         {
             for (int y = 0; y < (int)buildingSize; y++)
             {
+                Debug.Log(map[x,y]);
                 if (map[x, y] == 1) data.tiles[y * (int)buildingSize + x] = wall;
                 else if (map[x, y] == 2) data.tiles[y * (int)buildingSize + x] = floor;
             }
         }
-        Debug.Log("Done");
+
+        FindObjectOfType<MapDisplay>().DrawVillage(data);
+
         return data;
     }
 }
