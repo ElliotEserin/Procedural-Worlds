@@ -383,7 +383,7 @@ MonoBehaviour:
   useCustomSize: 0
   customSize: 350
   seed: 22
-  randomSeed: 1
+  randomSeed: 0
   useTilemap: 1
   displayVillages: 1
   terrainData: {fileID: 11400000, guid: 973c01bd4da37644c82afee0343452bb, type: 2}

@@ -43,8 +43,8 @@ public class VillageGenerator : Generator
     public bool linkRoads = true;
 
     [Header("Buildings")]
-    public Tile wall;
-    public Tile floor;
+    public TileBase wall;
+    public TileBase floor;
     [Range(0,1)]
     public float buildingDensity;
 
@@ -60,6 +60,12 @@ public class VillageGenerator : Generator
     public TilemapData villageData;
     public bool drawVillage;
 
+    public bool useBuildingPrefabs;
+    public IndividualBuildingGenerator controller;
+    public TilemapPrefab[] largeBuildings;
+
+    List<IndividualBuildingGenerator> largeBuildingsToGenerate;
+
     public override void Initialise(int seed)
     {
         this.seed = seed;
@@ -73,41 +79,55 @@ public class VillageGenerator : Generator
 
     public override void Generate()
     {
+        largeBuildingsToGenerate = new List<IndividualBuildingGenerator>();
+
         //Generate the maps
         var roadMap = GenerateRoads(seed + (int)transform.position.x + (int)transform.position.y);
         var buildingMap = GenerateBuildingPoints(seed + (int)transform.position.x + (int)transform.position.y, roadMap);
 
         //Initiate the tilemap data
-        TilemapData village = new TilemapData()
-        {
-            tilePositions = new Vector3Int[(int)villageSize * (int)villageSize],
-            tiles = new TileBase[(int)villageSize * (int)villageSize]
-        };
+        TilemapData village = new TilemapData();
 
-        village.tilePositions = GenericHelper.Vector2IntMap((int)villageSize, new Vector2Int((int)transform.position.x, (int)transform.position.y));
+        List<Vector3Int> positions = new List<Vector3Int>();
+        List<TileBase> tiles = new List<TileBase>();
 
         //Implement the tilemap data
         for (int y = 0; y < (int)villageSize; y++)
         {
             for (int x = 0; x < (int)villageSize; x++)
             {
-                //village.tilePositions[y * (int)villageSize + x] = new Vector3Int((int)transform.position.x + x - (int)villageSize / 2, (int)transform.position.y + y - (int)villageSize / 2, 0);
-                if (roadMap[x, y] == 1)
-                    village.tiles[y * (int)villageSize + x] = majorRoadTile;
-                else if(roadMap[x,y] == 2)
-                    village.tiles[y * (int)villageSize + x] = minorRoadTile;
+                if (roadMap[x, y] > 0 || buildingMap[x, y] > 0)
+                {
+                    positions.Add(new Vector3Int((int)transform.position.x + x - (int)villageSize / 2, (int)transform.position.y + y - (int)villageSize / 2, 0));
+                    
+                    if (roadMap[x, y] == 1)
+                        tiles.Add(majorRoadTile);
+                    else if (roadMap[x, y] == 2)
+                        tiles.Add(minorRoadTile);
 
-                else if(buildingMap[x,y] == 1 || buildingMap[x, y] == 4)
-                    village.tiles[y * (int)villageSize + x] = wall;
-                else if (buildingMap[x, y] == 2 || buildingMap[x, y] == 5)
-                    village.tiles[y * (int)villageSize + x] = floor;
+                    else if (buildingMap[x, y] == 1 || buildingMap[x, y] == 4)
+                        tiles.Add(wall);
+                    else if (buildingMap[x, y] == 2 || buildingMap[x, y] == 5)
+                        tiles.Add(floor);
+                }
             }
         }
 
+        village.tiles = tiles.ToArray();
+        village.tilePositions = positions.ToArray();
+
         villageData = village;
 
-        if(drawVillage)
-            FindObjectOfType<MapDisplay>().DrawVillage(villageData); 
+        if (drawVillage)
+        {
+            FindObjectOfType<MapDisplay>().DrawVillage(villageData);
+
+            foreach(var building in largeBuildingsToGenerate)
+            {
+                building.Initialise(seed);
+                DestroyImmediate(building.gameObject);
+            }
+        }
     }
    
     int[,] GenerateRoads(int seed)
@@ -272,7 +292,7 @@ public class VillageGenerator : Generator
                     int maxBuildSize;
                     Vector2Int doorPosition;
 
-                    if(originPoints[x,y] == 4) //Standard buildings
+                    if (originPoints[x, y] == 4) //Standard buildings
                     {
                         maxBuildSize = minCellSize - 3;
 
@@ -280,13 +300,23 @@ public class VillageGenerator : Generator
                         BuildingGenerator.GenerateBuilding(ref buildingMap, maxBuildSize, doorPosition, new Vector2Int(x, y));
                     }
 
-                    else if(originPoints[x,y] == 5) //Large buildings
+                    else if (originPoints[x, y] == 5) //Large buildings
                     {
-                        int sizeVar = 5 + (rand.Next(0, 3) * 2);
-                        maxBuildSize = minCellSize * 2 - sizeVar;
+                        if (useBuildingPrefabs)
+                        {
+                            var build = Instantiate(controller, transform.position + new Vector3(x - villageDimension/2, y-villageDimension/2), Quaternion.identity);
+                            build.prefab = largeBuildings[rand.Next(0, largeBuildings.Length)];
+                            largeBuildingsToGenerate.Add(build);
+                        }
+                        else
+                        {
+                            int sizeVar = 5 + (rand.Next(0, 3) * 2);
+                            maxBuildSize = minCellSize * 2 - sizeVar;
 
-                        doorPosition = BuildingGenerator.GenerateDoorPosition(maxBuildSize, rand);
-                        BuildingGenerator.GenerateBuilding(ref buildingMap, maxBuildSize, doorPosition, new Vector2Int(x, y));
+                            doorPosition = BuildingGenerator.GenerateDoorPosition(maxBuildSize, rand);
+                            BuildingGenerator.GenerateBuilding(ref buildingMap, maxBuildSize, doorPosition, new Vector2Int(x, y));
+
+                        }
                     }
                 }
             }

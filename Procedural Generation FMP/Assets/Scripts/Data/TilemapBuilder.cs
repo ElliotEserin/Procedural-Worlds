@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class TilemapBuilder : MonoBehaviour
 {
@@ -7,10 +8,16 @@ public class TilemapBuilder : MonoBehaviour
 
     public void Generate()
     {
+        if (tileData.locked)
+        {
+            Debug.Log("This data is locked! Unlock to override it...");
+            return;
+        }
+
         int size = Mathf.Max(tilemap.size.x, tilemap.size.y);
 
-        tileData.tilePositions = new Vector3Int[size * size];
-        tileData.tiles = new UnityEngine.Tilemaps.TileBase[size * size];
+        List<Vector3Int> positions = new List<Vector3Int>();
+        List<UnityEngine.Tilemaps.TileBase> tiles = new List<UnityEngine.Tilemaps.TileBase>();
 
         tileData.isSet = true;
 
@@ -18,10 +25,17 @@ public class TilemapBuilder : MonoBehaviour
         {
             for (int x = 0; x < size; x++)
             {
-                tileData.tilePositions[y * size + x] = new Vector3Int(x, y, 0);
-                tileData.tiles[y * size + x] = tilemap.GetTile(new Vector3Int(x, y, 0));
+                var tile = tilemap.GetTile(new Vector3Int(x, y, 0));
+                if(tile != null)
+                {
+                    tiles.Add(tilemap.GetTile(new Vector3Int(x, y, 0)));
+                    positions.Add(new Vector3Int(x, y, 0));
+                }
             }
         }
+
+        tileData.tiles = tiles.ToArray();
+        tileData.tilePositions = positions.ToArray();
 
         Debug.Log($"Generated {tileData.name}: {size * size} tiles.");
     }

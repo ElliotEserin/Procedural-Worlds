@@ -6,4 +6,5 @@ public class TilemapPrefab : ScriptableObject
     public Vector3Int[] tilePositions;
     public UnityEngine.Tilemaps.TileBase[] tiles;
     public bool isSet = false;
+    public bool locked;
 }
