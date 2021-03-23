@@ -9,6 +9,7 @@ public class MapDisplay : MonoBehaviour
 
     public Tilemap terrainMap;
     public Tilemap villageMap;
+    public Tilemap detailMap;
 
     private void Awake()
     {
@@ -51,5 +52,10 @@ public class MapDisplay : MonoBehaviour
     public void DrawVillage(TilemapPrefab villageData)
     {
         villageMap.SetTiles(villageData.tilePositions, villageData.tiles);
+    }
+
+    public void DrawDetail(TilemapData detailData)
+    {
+        detailMap.SetTiles(detailData.tilePositions, detailData.tiles);
     }
 }

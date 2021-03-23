@@ -382,10 +382,12 @@ MonoBehaviour:
   worldSize: 1500
   useCustomSize: 0
   customSize: 350
-  seed: 22
+  seed: -528451660
   randomSeed: 0
   useTilemap: 1
-  displayVillages: 1
+  displayVillages: 0
+  displayBuildings: 1
+  useDetail: 1
   terrainData: {fileID: 11400000, guid: 973c01bd4da37644c82afee0343452bb, type: 2}
   temperatureData: {fileID: 11400000, guid: 423c927156eaf304299b3b29e7ca08aa, type: 2}
   moistureData: {fileID: 11400000, guid: aaec569f1285a2a47853474cd9f926c9, type: 2}
@@ -404,9 +406,11 @@ MonoBehaviour:
   iField: {fileID: 1624213000}
   dropdown: {fileID: 1210368237}
   tilemapPrefabs:
-  - {fileID: 11400000, guid: 1723fcee8d9dd7f43932c66596049bc6, type: 2}
-  - {fileID: 11400000, guid: a1552328da7a44545aae4fa4aef56fe3, type: 2}
-  - {fileID: 11400000, guid: e9f0ae67fb1d4e447a18f6c2f576a427, type: 2}
+  - {fileID: 11400000, guid: 628df1bf206809b479908d533bfc002e, type: 2}
+  - {fileID: 11400000, guid: fb6fe292b631f9047ab013682b72ebf1, type: 2}
+  - {fileID: 11400000, guid: bdcdec6fc14e6f24ea5f12212b532965, type: 2}
+  - {fileID: 11400000, guid: 3a979a678f4cc914083a9eec0c878798, type: 2}
+  - {fileID: 11400000, guid: f3a72feb2bf0f5042bea9145ddbe66f7, type: 2}
 --- !u!4 &294910744
 Transform:
   m_ObjectHideFlags: 0
@@ -419,6 +423,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1814434567}
+  - {fileID: 404683251}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -500,6 +505,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 388493499}
   m_CullTransparentMesh: 0
+--- !u!1 &404683250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 404683251}
+  - component: {fileID: 404683252}
+  m_Layer: 0
+  m_Name: Detail Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &404683251
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404683250}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 294910744}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &404683252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404683250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 370190cf05d53984ca69d7b57aaceac9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxNumberOfDecorations: 500
+  terrainMap: {fileID: 2071860627}
+  buildingMap: {fileID: 79121592}
+  allowedTiles:
+  - {fileID: 11400000, guid: 7f76718fb5e5bb9468c7e88714041225, type: 2}
+  - {fileID: 11400000, guid: f8ae3e67c9820c14ba013d37e8bef0b7, type: 2}
+  - {fileID: 11400000, guid: 3632522c50c07744cb407d570ab72652, type: 2}
+  - {fileID: 11400000, guid: d28f3f64d1cb26f4e99742c4fd7d109a, type: 2}
+  - {fileID: 11400000, guid: 1206198f45552f24381aa6dfb001806c, type: 2}
+  - {fileID: 11400000, guid: a9692a1b9e94fca468dc0f31d87fa695, type: 2}
+  tree: {fileID: 11400000, guid: 8bf02116a40fab049b60c09eb47051a4, type: 2}
+  generationMethod: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2359,6 +2419,7 @@ MonoBehaviour:
   scale: 0.1
   terrainMap: {fileID: 2071860627}
   villageMap: {fileID: 79121592}
+  detailMap: {fileID: 79121592}
 --- !u!1 &2065771168
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,6 +24,9 @@ public class WorldGenerator : MonoBehaviour
 
     public bool useTilemap;
     public bool displayVillages;
+    public bool displayBuildings;
+
+    public bool useDetail;
 
     //Data for the different noise maps
     [Header("Noise")]
@@ -60,15 +63,16 @@ public class WorldGenerator : MonoBehaviour
     private void Start()
     {
         MapGenerator mapGen = FindObjectOfType<MapGenerator>();
+        DetailGenerator detailGen = FindObjectOfType<DetailGenerator>();
         MapDisplay mapDisplay = FindObjectOfType<MapDisplay>();
 
         if (randomSeed)
             seed = RandomString(8).GetHashCode();
 
-        StartCoroutine(Generation(mapGen, mapDisplay));
+        StartCoroutine(Generation(mapGen, detailGen, mapDisplay));
     }
 
-    IEnumerator Generation(MapGenerator mapGen, MapDisplay mapDisplay)
+    IEnumerator Generation(MapGenerator mapGen, DetailGenerator detailGen, MapDisplay mapDisplay)
     {
         //Generates the world data
         worldData = mapGen.GenerateMap(useCustomSize ? customSize : (int)worldSize, seed, terrainData, temperatureData, moistureData);
@@ -84,19 +88,22 @@ public class WorldGenerator : MonoBehaviour
             yield return null;
         }
 
+        GenerateVillages();
+        Debug.Log("Made villages");
+        yield return null;
+
         if (displayVillages && useTilemap)
         {
-            GenerateVillages();
-            Debug.Log("Made villages");
-            yield return null;
-
             foreach (var village in villages)
             {
                 mapDisplay.DrawVillage(village.villageData);
             }
 
             yield return null;
+        }
 
+        if (displayBuildings)
+        {
             GenerateBuildings();
             Debug.Log("Made buildings");
             yield return null;
@@ -105,6 +112,14 @@ public class WorldGenerator : MonoBehaviour
             {
                 building.Initialise(seed);
             }
+        }
+
+        yield return null;
+
+        if (useDetail)
+        {
+            var data = detailGen.Generate(seed, (int)worldSize);
+            mapDisplay.DrawDetail(data);
         }
     }
 
@@ -189,9 +204,11 @@ public class WorldGenerator : MonoBehaviour
         {
             bool canBuild = true;
 
-            Vector2Int position = new Vector2Int(rand.Next(0, (int)worldSize), rand.Next(0, (int)worldSize));
+            Vector2Int position = new Vector2Int(rand.Next(1, (int)worldSize), rand.Next(1, (int)worldSize));
 
-            if (worldData.heightMap[(int)worldSize - position.x, (int)worldSize - position.y] < minBuildingHeight || worldData.heightMap[(int)worldSize - position.x, (int)worldSize - position.y] > maxBuildingHeight)
+            var height = worldData.heightMap[(int)worldSize - position.x, (int)worldSize - position.y];
+
+            if (height < minBuildingHeight || height > maxBuildingHeight)
             {
                 canBuild = false;
             }

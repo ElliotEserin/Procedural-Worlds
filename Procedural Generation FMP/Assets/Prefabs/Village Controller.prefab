@@ -49,7 +49,7 @@ MonoBehaviour:
   falloffMap: {fileID: 0}
   villageSize: 50
   villageType: 0
-  minCellSize: 10
+  minCellSize: 14
   useMajorRoads: 1
   majorRoadDensity: 0.7
   majorRoadFrequency: 2
@@ -62,7 +62,7 @@ MonoBehaviour:
   chanceOfJoining: 0
   largeBuildingDensity: 0.5
   buildHouses: 1
-  drawVillage: 0
+  drawVillage: 1
   useBuildingPrefabs: 1
   controller: {fileID: 6538551206622744170, guid: acfc848b891b3eb498e8191072a4fc08,
     type: 3}
