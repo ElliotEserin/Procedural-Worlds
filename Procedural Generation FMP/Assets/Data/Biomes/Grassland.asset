@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Grass
   colour: {r: 0.32662484, g: 0.6226415, b: 0.26139194, a: 0}
-  tile: {fileID: 11400000, guid: 3632522c50c07744cb407d570ab72652, type: 2}
+  tile: {fileID: 11400000, guid: 0b3e721ba8167054dbe7893d47a31a0e, type: 2}
+  biomeDecorations: []

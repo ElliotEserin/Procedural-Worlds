@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Mountain
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 0}
-  m_Color: {r: 0.254717, g: 0.17898494, b: 0.104530096, a: 1}
+  m_Color: {r: 0.21698111, g: 0.17041205, b: 0.12384299, a: 1}
   m_Transform:
     e00: 1
     e01: 0

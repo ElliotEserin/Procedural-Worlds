@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Floor Tile
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 0}
-  m_Color: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 1}
+  m_Color: {r: 0.28034887, g: 0.32347962, b: 0.33962262, a: 1}
   m_Transform:
     e00: 1
     e01: 0

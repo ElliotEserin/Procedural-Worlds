@@ -11,6 +11,8 @@ public class MapDisplay : MonoBehaviour
     public Tilemap villageMap;
     public Tilemap detailMap;
 
+    public Color maxTintVariation;
+
     private void Awake()
     {
         ResetTilemaps();
@@ -41,6 +43,13 @@ public class MapDisplay : MonoBehaviour
     public void DrawWorldMap(WorldData worldData)
     {
         terrainMap.SetTiles(worldData.tilePositions, worldData.tiles);
+
+        //var rand = new System.Random();
+
+        //for (int x = 0; x < worldData.tilePositions.Length; x++)
+        //{
+        //    terrainMap.SetColor(worldData.tilePositions[x], Color.Lerp(Color.white, maxTintVariation, rand.Next(0, 100)));
+        //}
     }   
     
     //Draws the tiles to a tilemap
