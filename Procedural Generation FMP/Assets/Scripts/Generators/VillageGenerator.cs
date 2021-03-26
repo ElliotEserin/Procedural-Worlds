@@ -8,7 +8,7 @@ public class VillageGenerator : Generator
 {
     public enum VillageSize //Dimensions of the village
     {
-        Small = 40,
+        Small = 50,
         Medium = 60,
         Large = 80
     }
@@ -23,7 +23,7 @@ public class VillageGenerator : Generator
     public TileBase majorRoadTile;
     public TileBase minorRoadTile;
 
-    //Falloff
+    //TODO Falloff
     public bool useFalloff;
     public Texture2D falloffMap;
 
@@ -135,6 +135,8 @@ public class VillageGenerator : Generator
         // 1 = major road point, 2 = minor road point
 
         System.Random rand = new System.Random(seed);
+
+        Color[] map = falloffMap.GetPixels();
 
         int villageDimension = (int)villageSize;
 

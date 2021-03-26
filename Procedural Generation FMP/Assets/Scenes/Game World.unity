@@ -451,7 +451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2d608d4e9671004ba28485a55113bca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldSize: 1500
+  worldSize: 1000
   useCustomSize: 0
   customSize: 350
   seed: -528451660
@@ -465,8 +465,8 @@ MonoBehaviour:
   moistureData: {fileID: 11400000, guid: aaec569f1285a2a47853474cd9f926c9, type: 2}
   villagePrefab: {fileID: 6787769521269870516, guid: 1ab16413ef891344b8ff2ee1c0478b8b,
     type: 3}
-  minVillageHeight: 0.4
-  maxVillageHeight: 0.6
+  minVillageHeight: 0.5
+  maxVillageHeight: 0.7
   minimumVillageDistance: 500
   maxNumberOfVillages: 6
   buildingPrefab: {fileID: 6538551206622744171, guid: b3d9016a452d443438a525575e3c5d08,
@@ -667,7 +667,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34c16fd783f40f9468291f4fa28a00fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 100
+  moveSpeed: 10
+  zoomSpeed: 50
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -720,7 +721,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1006, y: 604, z: -10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1.0000002}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -2594,7 +2595,7 @@ Transform:
   m_GameObject: {fileID: 2065771168}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 150, y: 1, z: 150}
+  m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
