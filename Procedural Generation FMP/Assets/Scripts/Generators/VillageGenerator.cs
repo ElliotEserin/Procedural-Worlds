@@ -83,7 +83,7 @@ public class VillageGenerator : Generator
 
         //Generate the maps
         var roadMap = GenerateRoads(seed + (int)transform.position.x + (int)transform.position.y);
-        var buildingMap = GenerateBuildingPoints(seed + (int)transform.position.x + (int)transform.position.y, roadMap);
+        var buildingMap = GenerateBuildings(seed + (int)transform.position.x + (int)transform.position.y, roadMap);
 
         //Initiate the tilemap data
         TilemapData village = new TilemapData();
@@ -136,8 +136,6 @@ public class VillageGenerator : Generator
 
         System.Random rand = new System.Random(seed);
 
-        Color[] map = falloffMap.GetPixels();
-
         int villageDimension = (int)villageSize;
 
         int[,] pointMap = new int[villageDimension, villageDimension];
@@ -150,7 +148,9 @@ public class VillageGenerator : Generator
             {
                 for (int x = 0; x < villageDimension; x += minCellSize * majorRoadFrequency)
                 {
-                    if (rand.Next(0, 100) / 100f <= majorRoadDensity)
+                    var chance = rand.Next(0, 100) / 100f;
+
+                    if (chance <= majorRoadDensity)
                     {
                         pointMap[x, y] = 1;
                     }
@@ -163,7 +163,9 @@ public class VillageGenerator : Generator
         {
             for (int x = 0; x < villageDimension; x += minCellSize)
             {
-                if (rand.Next(0, 100) / 100f <= minorRoadDensity)
+                var chance = rand.Next(0, 100) / 100f;
+
+                if (chance <= minorRoadDensity)
                 {
                     if(pointMap[x,y] != 1)
                         pointMap[x, y] = 2;
@@ -216,7 +218,7 @@ public class VillageGenerator : Generator
         }
     }
 
-    int[,] GenerateBuildingPoints(int seed, int[,] roadMap)
+    int[,] GenerateBuildings(int seed, int[,] roadMap)
     {
         //1 = wall, 2 = floor, 3 = block (No building), 4 = building, 5 = large building
 
@@ -323,5 +325,22 @@ public class VillageGenerator : Generator
                 }
             }
         }
+    }
+
+    void DebugMap(int[,] map)
+    {
+        string output = string.Empty;
+
+        for (int y = 0; y < map.GetLength(1); y++)
+        {
+            for (int x = 0; x < map.GetLength(0); x++)
+            {
+                output += map[x, y] + " ";
+            }
+
+            output += "\n";
+        }
+
+        Debug.Log(output);
     }
 }

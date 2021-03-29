@@ -45,16 +45,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   majorRoadTile: {fileID: 11400000, guid: 3dfe8cd26e2660847b697369522c5b70, type: 2}
   minorRoadTile: {fileID: 11400000, guid: 3dfe8cd26e2660847b697369522c5b70, type: 2}
-  useFalloff: 0
-  falloffMap: {fileID: 0}
+  useFalloff: 1
+  falloffMap: {fileID: 2800000, guid: 3fb497ff5ede6784284c8f20298bacba, type: 3}
   villageSize: 50
   villageType: 0
   minCellSize: 14
   useMajorRoads: 1
-  majorRoadDensity: 0.7
+  majorRoadDensity: 0.6
   majorRoadFrequency: 2
   thickRoads: 0
-  minorRoadDensity: 0.7
+  minorRoadDensity: 0.5
   linkRoads: 1
   wall: {fileID: 11400000, guid: 82e274a3a85f1244a8cf93d6b724810d, type: 2}
   floor: {fileID: 11400000, guid: b8be83626bbb981429dd8e6544bfbbbc, type: 2}

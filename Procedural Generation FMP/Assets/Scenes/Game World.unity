@@ -454,8 +454,8 @@ MonoBehaviour:
   worldSize: 1000
   useCustomSize: 0
   customSize: 350
-  seed: -528451660
-  randomSeed: 1
+  seed: -1405506112
+  randomSeed: 0
   useTilemap: 1
   displayVillages: 0
   displayBuildings: 1
@@ -625,6 +625,7 @@ MonoBehaviour:
   buildingMap: {fileID: 79121592}
   allowedBiomes:
   - {fileID: 11400000, guid: e6595be35f66b754bb5740ecc2d4b1c3, type: 2}
+  - {fileID: 11400000, guid: 93aebc7425840574f869cde3ac5ef2f1, type: 2}
   generationMethod: 1
   minDetailDistanceInGrid: 5
 --- !u!1 &519420028
