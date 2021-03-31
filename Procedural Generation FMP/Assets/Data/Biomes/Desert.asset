@@ -15,3 +15,6 @@ MonoBehaviour:
   name: Desert
   colour: {r: 0.8867924, g: 0.8390122, b: 0.3722855, a: 0}
   tile: {fileID: 11400000, guid: a74afe7e5aec8884fb9cf513387eedec, type: 2}
+  pathfindingWeight: 2
+  biomeDecorations: []
+  chanceOfNoDecorativeTile: 0

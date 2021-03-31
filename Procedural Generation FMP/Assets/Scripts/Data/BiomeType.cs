@@ -1,12 +1,8 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(menuName ="Data/Biome Type")]
-public class BiomeType : ScriptableObject
+public class BiomeType : TileType
 {
-    new public string name;
-    public Color colour;
-    public UnityEngine.Tilemaps.TileBase tile;
-
     public BiomeDecoration[] biomeDecorations;
     [Range(0,1)]
     public float chanceOfNoDecorativeTile;

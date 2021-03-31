@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -18,23 +17,14 @@ public class Pathfinding : MonoBehaviour
         Node startNode = grid.NodeFromWorldPoint(startPos);
         Node targetNode = grid.NodeFromWorldPoint(targetPos);
 
-        List<Node> openSet = new List<Node>();
+        Heap<Node> openSet = new Heap<Node>(grid.MaxSize);
         HashSet<Node> closedSet = new HashSet<Node>();
 
         openSet.Add(startNode);
 
         while(openSet.Count > 0)
         {
-            Node currentNode = openSet[0];
-            for (int i = 1; i < openSet.Count; i++)
-            {
-                if(openSet[i].fCost < currentNode.fCost || openSet[i].fCost == currentNode.fCost && openSet[i].hCost < currentNode.hCost)
-                {
-                    currentNode = openSet[i];
-                }
-            }
-
-            openSet.Remove(currentNode);
+            Node currentNode = openSet.RemoveFirst();           
             closedSet.Add(currentNode);
 
             if (currentNode == targetNode)
@@ -47,7 +37,7 @@ public class Pathfinding : MonoBehaviour
                 if (!neighbour.walkable || closedSet.Contains(neighbour))
                     continue;
 
-                int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour);
+                int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour) + neighbour.movementPenalty;
                 if(newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
                 {
                     neighbour.gCost = newMovementCostToNeighbour;
@@ -57,10 +47,12 @@ public class Pathfinding : MonoBehaviour
 
                     if (!openSet.Contains(neighbour))
                         openSet.Add(neighbour);
+                    else
+                        openSet.UpdateItem(neighbour);
                 }
             }
         }
-
+        Debug.Log("No path");
         return null;
     }
 
@@ -72,7 +64,6 @@ public class Pathfinding : MonoBehaviour
 
         while(currentNode != startNode)
         {
-            Debug.Log(currentNode.worldPosition);
             path.Add(currentNode);
             currentNode = currentNode.parent;
         }
@@ -87,10 +78,13 @@ public class Pathfinding : MonoBehaviour
         List<Vector3Int> positions = new List<Vector3Int>();
         List<TileBase> tiles = new List<TileBase>();
 
-        foreach(Node node in path)
+        if (path != null)
         {
-            positions.Add(new Vector3Int((int)node.worldPosition.x, 0, (int)node.worldPosition.y));
-            tiles.Add(roadTile);
+            foreach (Node node in path)
+            {
+                positions.Add(new Vector3Int((int)node.worldPosition.x, (int)node.worldPosition.y, 0));
+                tiles.Add(roadTile);
+            }
         }
 
         return new TilemapData()
@@ -103,7 +97,7 @@ public class Pathfinding : MonoBehaviour
     int GetDistance(Node a, Node b)
     {
         int distX = Mathf.Abs(a.gridX - b.gridX);
-        int distY = Mathf.Abs(a.gridY = b.gridY);
+        int distY = Mathf.Abs(a.gridY - b.gridY);
 
         if (distX > distY)
             return 14 * distY + 10 * (distX - distY);

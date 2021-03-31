@@ -15,3 +15,6 @@ MonoBehaviour:
   name: Grass
   colour: {r: 0.9292453, g: 1, b: 0.99435323, a: 0}
   tile: {fileID: 11400000, guid: 8136a55f674e4f24fbf6629e87c8f412, type: 2}
+  pathfindingWeight: 8
+  biomeDecorations: []
+  chanceOfNoDecorativeTile: 0

@@ -2,22 +2,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Grid : MonoBehaviour
 {
-    public LayerMask unwalkableMask;
+    public Tilemap unwalkableTilemap;
+    public Tilemap walkableTilemap;
+
     int gridWorldSize;
 
     Node[,] grid;
 
     int gridSizeX, gridSizeY;
 
-    private void Start()
+    WorldGenerator wd;
+
+    public void Initialise()
     {
-        gridWorldSize = (int)FindObjectOfType<WorldGenerator>().worldSize;
+        wd = FindObjectOfType<WorldGenerator>();
+        gridWorldSize = (int)wd.worldSize;
         gridSizeX = Mathf.RoundToInt(gridWorldSize);
         gridSizeY = Mathf.RoundToInt(gridWorldSize);
         CreateGrid();
+    }
+
+    public int MaxSize
+    {
+        get
+        {
+            return gridSizeX * gridSizeY;
+        }
     }
 
     private void CreateGrid()
@@ -29,10 +43,12 @@ public class Grid : MonoBehaviour
             for (int y = 0; y < gridSizeY; y++)
             {
                 Vector3Int worldPoint = new Vector3Int(x, y, 0);
-                bool walkable = !Physics2D.OverlapCircle(new Vector2(x, y), 1, unwalkableMask);
 
-                grid[x, y] = new Node(walkable, worldPoint, x, y);
-                
+                bool walkable = !unwalkableTilemap.GetTile(worldPoint);
+
+                int movementPenalty = wd.worldData.tileTypeMap[y * gridWorldSize + x].pathfindingWeight;
+
+                grid[x, y] = new Node(walkable, worldPoint, x, y, movementPenalty);    
             }
         }
     }
@@ -59,6 +75,11 @@ public class Grid : MonoBehaviour
             for (int y = -1; y <= 1; y++)
             {
                 if(x == 0 && y == 0)
+                {
+                    continue;
+                }
+
+                if(x != 0 && y != 0)
                 {
                     continue;
                 }

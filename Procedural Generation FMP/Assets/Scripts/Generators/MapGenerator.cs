@@ -35,7 +35,8 @@ public class MapGenerator : MonoBehaviour
         WorldData wd = new WorldData
         {
             tilePositions = new Vector3Int[size * size],
-            tiles = new TileBase[size * size]
+            tiles = new TileBase[size * size],
+            tileTypeMap = new TileType[size * size]
         };
 
         falloffMap = FalloffGenerator.GenerateFalloffMap(size, size);
@@ -77,11 +78,13 @@ public class MapGenerator : MonoBehaviour
 
                             colourMap[y * size + x] = biome.colour;
                             wd.tiles[y * size + x] = biome.tile;
+                            wd.tileTypeMap[y * size + x] = biome;
                         }
                         else
                         {
                             colourMap[y * size + x] = regions[i].colour;
                             wd.tiles[y * size + x] = regions[i].tile;
+                            wd.tileTypeMap[y * size + x] = regions[i];
                         }
 
                         break;

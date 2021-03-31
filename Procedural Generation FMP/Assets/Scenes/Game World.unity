@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -543,11 +543,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69f25695ab411e944af9e3dd5de6650a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unwalkableMask:
-    serializedVersion: 2
-    m_Bits: 256
-  gridWorldSize: {x: 1000, y: 1000}
-  nodeRadius: 1
+  unwalkableTilemap: {fileID: 79121592}
+  walkableTilemap: {fileID: 0}
 --- !u!1 &294910742
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,8 +780,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0da87e9445aa92d4b9c49d8b25d1aa6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {x: 1000, y: 730, z: 0}
-  endPoint: {x: 300, y: 400, z: 0}
+  startPoint: {x: 300, y: 300, z: 0}
+  endPoint: {x: 600, y: 400, z: 0}
 --- !u!4 &461336457
 Transform:
   m_ObjectHideFlags: 0

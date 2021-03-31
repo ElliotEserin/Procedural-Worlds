@@ -53,7 +53,7 @@ public class WorldGenerator : MonoBehaviour
     public int minimumBuildingDistance;
     public int maxNumberOfBuildings;
 
-    WorldData worldData;
+    public WorldData worldData;
     [Header("UI")]
     public UnityEngine.UI.InputField iField;
     public UnityEngine.UI.Dropdown dropdown;
@@ -69,44 +69,38 @@ public class WorldGenerator : MonoBehaviour
         if (randomSeed)
             seed = RandomString(8).GetHashCode();
 
-        StartCoroutine(Generation(mapGen, detailGen, mapDisplay));
+        Generation(mapGen, detailGen, mapDisplay);
     }
 
-    IEnumerator Generation(MapGenerator mapGen, DetailGenerator detailGen, MapDisplay mapDisplay)
+    void Generation(MapGenerator mapGen, DetailGenerator detailGen, MapDisplay mapDisplay)
     {
         //Generates the world data
         worldData = mapGen.GenerateMap(useCustomSize ? customSize : (int)worldSize, seed, terrainData, temperatureData, moistureData);
         Debug.Log("Made world");
-        yield return null;
 
         //Draws the tilemap
         if (useTilemap)
         {
             mapDisplay.DrawWorldMap(worldData);
             Debug.Log("Loaded tilemap");
-
-            yield return null;
         }
 
         GenerateVillages();
         Debug.Log("Made villages");
-        yield return null;
 
+        //Villages
         if (displayVillages && useTilemap)
         {
             foreach (var village in villages)
             {
                 mapDisplay.DrawVillage(village.villageData);
             }
-
-            yield return null;
         }
-
+        //Buildings
         if (displayBuildings)
         {
             GenerateBuildings();
             Debug.Log("Made buildings");
-            yield return null;
 
             foreach (var building in buildings)
             {
@@ -114,12 +108,20 @@ public class WorldGenerator : MonoBehaviour
             }
         }
 
-        yield return null;
-
+        //Detail
         if (useDetail)
         {
             var data = detailGen.Generate(seed, (int)worldSize);
             mapDisplay.DrawDetail(data);
+        }
+
+        //Pathfinding
+        FindObjectOfType<Grid>().Initialise();
+        var paths = FindObjectsOfType<PathGenerator>();
+
+        foreach(var path in paths)
+        {
+            path.GeneratePath();
         }
     }
 
@@ -330,4 +332,6 @@ public class WorldData : TilemapData
 {
     public Texture2D worldMap;
     public float[,] heightMap;
+
+    public TileType[] tileTypeMap;
 }

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Deep Ocean
   m_EditorClassIdentifier: 
   name: 
-  height: 0.25
   colour: {r: 0.2901961, g: 0.5137255, b: 0.83921576, a: 0}
   tile: {fileID: 11400000, guid: fa6b2c7ad1c8ef646bbf88d40f5b9005, type: 2}
+  pathfindingWeight: 100
+  height: 0.25
   allowBiomes: 0
