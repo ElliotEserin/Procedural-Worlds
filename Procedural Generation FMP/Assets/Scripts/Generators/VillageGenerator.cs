@@ -31,6 +31,15 @@ public class VillageGenerator : Generator
     public VillageType villageType;
 
     public int minCellSize = 10;
+    int border = 10;
+    int VillageDimension 
+    {
+        get { return (int)villageSize; }
+    }
+    int BorderDimension
+    {
+        get { return VillageDimension + border * 2; }
+    }
 
     public bool useMajorRoads = true;
     [Range(0, 1)]
@@ -66,24 +75,29 @@ public class VillageGenerator : Generator
 
     List<IndividualBuildingGenerator> largeBuildingsToGenerate;
 
+    System.Random rand;
+
     public override void Initialise(int seed)
     {
         this.seed = seed;
 
         Array values = Enum.GetValues(typeof(VillageSize));
-        System.Random random = new System.Random(seed + (int)transform.position.x + (int)transform.position.y);
-        villageSize = (VillageSize)values.GetValue(random.Next(values.Length));
+        rand = new System.Random(seed + (int)transform.position.x + (int)transform.position.y);
+        villageSize = (VillageSize)values.GetValue(rand.Next(values.Length));
 
         Generate();
     }
 
-    public override void Generate()
+    protected override void Generate()
     {
         largeBuildingsToGenerate = new List<IndividualBuildingGenerator>();
 
+        if(rand == null)
+            rand = new System.Random(seed + (int)transform.position.x + (int)transform.position.y);
+
         //Generate the maps
-        var roadMap = GenerateRoads(seed + (int)transform.position.x + (int)transform.position.y);
-        var buildingMap = GenerateBuildings(seed + (int)transform.position.x + (int)transform.position.y, roadMap);
+        var roadMap = GenerateRoads();
+        var buildingMap = GenerateBuildings(roadMap);
 
         //Initiate the tilemap data
         TilemapData village = new TilemapData();
@@ -92,9 +106,9 @@ public class VillageGenerator : Generator
         List<TileBase> tiles = new List<TileBase>();
 
         //Implement the tilemap data
-        for (int y = 0; y < (int)villageSize; y++)
+        for (int y = 0; y < BorderDimension; y++)
         {
-            for (int x = 0; x < (int)villageSize; x++)
+            for (int x = 0; x < BorderDimension; x++)
             {
                 if (roadMap[x, y] > 0 || buildingMap[x, y] > 0)
                 {
@@ -130,45 +144,41 @@ public class VillageGenerator : Generator
         }
     }
    
-    int[,] GenerateRoads(int seed)
+    int[,] GenerateRoads()
     {
         // 1 = major road point, 2 = minor road point
 
-        System.Random rand = new System.Random(seed);
-
-        int villageDimension = (int)villageSize;
-
-        int[,] pointMap = new int[villageDimension, villageDimension];
-        int[,] roadMap = new int[villageDimension, villageDimension];
+        int[,] pointMap = new int[BorderDimension, BorderDimension];
+        int[,] roadMap = new int[BorderDimension, BorderDimension];
 
         //Major roads
         if (useMajorRoads)
         {
-            for (int y = 0; y < villageDimension; y += minCellSize * majorRoadFrequency)
+            for (int y = 0; y < VillageDimension; y += minCellSize * majorRoadFrequency)
             {
-                for (int x = 0; x < villageDimension; x += minCellSize * majorRoadFrequency)
+                for (int x = 0; x < VillageDimension; x += minCellSize * majorRoadFrequency)
                 {
                     var chance = rand.Next(0, 100) / 100f;
 
                     if (chance <= majorRoadDensity)
                     {
-                        pointMap[x, y] = 1;
+                        pointMap[Position(x), Position(y)] = 1;
                     }
                 }
             }
         }
 
         //Minor roads
-        for (int y = 0; y < villageDimension; y += minCellSize)
+        for (int y = 0; y < VillageDimension; y += minCellSize)
         {
-            for (int x = 0; x < villageDimension; x += minCellSize)
+            for (int x = 0; x < VillageDimension; x += minCellSize)
             {
                 var chance = rand.Next(0, 100) / 100f;
 
                 if (chance <= minorRoadDensity)
                 {
-                    if(pointMap[x,y] != 1)
-                        pointMap[x, y] = 2;
+                    if(pointMap[Position(x), Position(y)] != 1)
+                        pointMap[Position(x), Position(y)] = 2;
                 }
             }
         }
@@ -182,35 +192,40 @@ public class VillageGenerator : Generator
         {
             potentialLargeBuildingLocations = new List<Vector2Int>();
 
-            for (int y = 0; y < villageDimension; y += minCellSize)
+            for (int y = 0; y < VillageDimension; y += minCellSize)
             {
-                for (int x = 0; x < villageDimension; x += minCellSize)
+                for (int x = 0; x < VillageDimension; x += minCellSize)
                 {
-                    int roadType = pointMap[x, y];
+                    var posX = Position(x);
+                    var posY = Position(y);
+
+                    //Placing large buildings in valid spots
+                    int roadType = pointMap[posX, posY];
                     if (roadType < 1)
                     {
-                        potentialLargeBuildingLocations.Add(new Vector2Int(x, y));
+                        potentialLargeBuildingLocations.Add(new Vector2Int(posX, posY));
                         continue;
                     }
 
+                    //Placing roads
                     int multiplier = (roadType == 1) ? majorRoadFrequency : 1;
 
-                    if (GenericHelper.InBounds(x, y - minCellSize * multiplier, pointMap))
+                    if (GenericHelper.InBounds(posX, posY - minCellSize * multiplier, pointMap))
                     {
-                        var other = pointMap[x, y - minCellSize * multiplier];
+                        var other = pointMap[posX, posY - minCellSize * multiplier];
                         if (other <= roadType && other > 0) //Vertical
                         {
-                            RoadGenerator.GenerateRoad(ref roadMap, x, y, minCellSize, multiplier, roadType, thickRoads, Axis.Vertical);
+                            RoadGenerator.GenerateRoad(ref roadMap, posX, posY, minCellSize, multiplier, roadType, thickRoads, Axis.Vertical);
                         }
                     }
 
-                    if(GenericHelper.InBounds(x - minCellSize * multiplier, y, pointMap))
+                    if(GenericHelper.InBounds(posX - minCellSize * multiplier, posY, pointMap))
                     {
-                        var other = pointMap[x - minCellSize * multiplier, y];
+                        var other = pointMap[posX - minCellSize * multiplier, posY];
 
                         if (other <= roadType && other > 0) //Horizontal
                         {
-                            RoadGenerator.GenerateRoad(ref roadMap, x, y, minCellSize, multiplier, roadType, thickRoads, Axis.Horizontal);
+                            RoadGenerator.GenerateRoad(ref roadMap, posX, posY, minCellSize, multiplier, roadType, thickRoads, Axis.Horizontal);
                         }
                     }
                 }
@@ -218,50 +233,66 @@ public class VillageGenerator : Generator
         }
     }
 
-    int[,] GenerateBuildings(int seed, int[,] roadMap)
+    int[,] GenerateBuildings(int[,] roadMap)
     {
         //1 = wall, 2 = floor, 3 = block (No building), 4 = building, 5 = large building
 
-        System.Random rand = new System.Random(seed);
-
-        int villageDimension = (int)villageSize;
-
-        int[,] originPoints = new int[villageDimension, villageDimension];
-        int[,] buildingMap = new int[villageDimension, villageDimension];
+        int[,] originPoints = new int[BorderDimension, BorderDimension];
+        int[,] buildingMap = new int[BorderDimension, BorderDimension];
 
         //Placing large building locations
         foreach(Vector2Int position in potentialLargeBuildingLocations)
         {
-            if (position.x == 0 || position.x == villageDimension - 5 ||
-                position.y == 0 || position.y == villageDimension - 5 ||
-                roadMap[position.x, position.y] > 0)
+            int posX = position.x;
+            int posY = position.y;
+
+            //position.x == 0 || position.x == VillageDimension - 5 ||
+            //position.y == 0 || position.y == VillageDimension - 5 ||
+
+            if (roadMap[posX, posY] > 0)
                 continue;
 
+            //int posX = Position(position.x);
+            //int posY = Position(position.y);
+
+            //Mark large building location
             if (rand.Next(0, 100) / 100f <= largeBuildingDensity)
             {
-                originPoints[position.x, position.y] = 5;
+                originPoints[posX, posY] = 5;
 
                 var blockOffset = minCellSize / 2;
 
-                if(GenericHelper.InBounds(position.x + blockOffset, position.y + blockOffset, originPoints)) originPoints[position.x + blockOffset, position.y + blockOffset] = 3;
-                if(GenericHelper.InBounds(position.x - blockOffset, position.y + blockOffset, originPoints)) originPoints[position.x - blockOffset, position.y + blockOffset] = 3;
-                if(GenericHelper.InBounds(position.x + blockOffset, position.y - blockOffset, originPoints)) originPoints[position.x + blockOffset, position.y - blockOffset] = 3;
-                if(GenericHelper.InBounds(position.x - blockOffset, position.y - blockOffset, originPoints)) originPoints[position.x - blockOffset, position.y - blockOffset] = 3;
+                //Positive and negative block offset positions
+                var pX = posX + blockOffset;
+                var nX = posX - blockOffset;
+
+                var pY = posY + blockOffset;
+                var nY = posY - blockOffset;
+
+                //Stop other buildings spawning too close
+                if(GenericHelper.InBounds(pX, pY, originPoints)) 
+                    originPoints[pX, pY] = 3;
+                if(GenericHelper.InBounds(nX, pY, originPoints))
+                    originPoints[nX, pY] = 3;
+                if(GenericHelper.InBounds(pX, nY, originPoints)) 
+                    originPoints[pX, nY] = 3;
+                if(GenericHelper.InBounds(nX, nY, originPoints)) 
+                    originPoints[nX, nY] = 3;
             }
         }
 
         //Place buildings
-        for (int y = minCellSize/2; y < villageDimension; y += minCellSize) 
+        for (int y = minCellSize/2; y < VillageDimension; y += minCellSize) 
         {
-            for (int x = minCellSize/2; x < villageDimension; x += minCellSize)
+            for (int x = minCellSize/2; x < VillageDimension; x += minCellSize)
             {
-                if (CheckForRoads(x,y))
+                if (CheckForRoads(Position(x), Position(y)))
                 {
                     if (rand.Next(0, 100) / 100f <= buildingDensity)
                     {
-                        if (originPoints[x, y] == 3)
+                        if (originPoints[Position(x), Position(y)] == 3)
                             continue;
-                        originPoints[x, y] = 4;
+                        originPoints[Position(x), Position(y)] = 4;
                     }
                 }
             }
@@ -289,28 +320,29 @@ public class VillageGenerator : Generator
         //Generating building shapes
         void ConstructBuildings()
         {
-            for (int y = minCellSize / 2; y < villageDimension; y += minCellSize / 2)
+            for (int y = minCellSize / 2; y < VillageDimension; y += minCellSize / 2)
             {
-                for (int x = minCellSize / 2; x < villageDimension; x += minCellSize / 2)
+                for (int x = minCellSize / 2; x < VillageDimension; x += minCellSize / 2)
                 {
                     int maxBuildSize;
                     Vector2Int doorPosition;
 
-                    if (originPoints[x, y] == 4) //Standard buildings
+                    if (originPoints[Position(x), Position(y)] == 4) //Standard buildings
                     {
                         maxBuildSize = minCellSize - 3;
 
                         doorPosition = BuildingGenerator.GenerateDoorPosition(maxBuildSize, rand);
-                        BuildingGenerator.GenerateBuilding(ref buildingMap, maxBuildSize, doorPosition, new Vector2Int(x, y));
+                        BuildingGenerator.GenerateBuilding(ref buildingMap, maxBuildSize, doorPosition, new Vector2Int(Position(x), Position(y)));
                     }
 
-                    else if (originPoints[x, y] == 5) //Large buildings
+                    else if (originPoints[Position(x), Position(y)] == 5) //Large buildings
                     {
                         if (useBuildingPrefabs)
                         {
-                            var build = Instantiate(controller, transform.position + new Vector3(x - villageDimension/2, y-villageDimension/2), Quaternion.identity);
+                            var build = Instantiate(controller, transform.position + new Vector3(Position(x) - VillageDimension/2, Position(y)-VillageDimension/2), Quaternion.identity);
                             build.prefab = largeBuildings[rand.Next(0, largeBuildings.Length)];
                             largeBuildingsToGenerate.Add(build);
+                            
                         }
                         else
                         {
@@ -318,7 +350,7 @@ public class VillageGenerator : Generator
                             maxBuildSize = minCellSize * 2 - sizeVar;
 
                             doorPosition = BuildingGenerator.GenerateDoorPosition(maxBuildSize, rand);
-                            BuildingGenerator.GenerateBuilding(ref buildingMap, maxBuildSize, doorPosition, new Vector2Int(x, y));
+                            BuildingGenerator.GenerateBuilding(ref buildingMap, maxBuildSize, doorPosition, new Vector2Int(Position(x), Position(y)));
 
                         }
                     }
@@ -327,20 +359,5 @@ public class VillageGenerator : Generator
         }
     }
 
-    void DebugMap(int[,] map)
-    {
-        string output = string.Empty;
-
-        for (int y = 0; y < map.GetLength(1); y++)
-        {
-            for (int x = 0; x < map.GetLength(0); x++)
-            {
-                output += map[x, y] + " ";
-            }
-
-            output += "\n";
-        }
-
-        Debug.Log(output);
-    }
+    int Position(int coord) => coord + border;
 }

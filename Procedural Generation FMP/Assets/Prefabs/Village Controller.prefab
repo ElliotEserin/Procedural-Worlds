@@ -53,7 +53,7 @@ MonoBehaviour:
   useMajorRoads: 1
   majorRoadDensity: 0.6
   majorRoadFrequency: 2
-  thickRoads: 0
+  thickRoads: 1
   minorRoadDensity: 0.5
   linkRoads: 1
   wall: {fileID: 11400000, guid: 82e274a3a85f1244a8cf93d6b724810d, type: 2}

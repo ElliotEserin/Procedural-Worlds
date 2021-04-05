@@ -480,7 +480,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 279953720}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 428.48297, y: 1203.9235, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -544,7 +544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unwalkableTilemap: {fileID: 79121592}
-  walkableTilemap: {fileID: 0}
+  road: {fileID: 11400000, guid: 3dfe8cd26e2660847b697369522c5b70, type: 2}
 --- !u!1 &294910742
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,6 +555,7 @@ GameObject:
   m_Component:
   - component: {fileID: 294910744}
   - component: {fileID: 294910743}
+  - component: {fileID: 294910745}
   m_Layer: 0
   m_Name: World Manager
   m_TagString: Untagged
@@ -590,7 +591,7 @@ MonoBehaviour:
     type: 3}
   minVillageHeight: 0.5
   maxVillageHeight: 0.7
-  minimumVillageDistance: 500
+  minimumVillageDistance: 250
   maxNumberOfVillages: 6
   buildingPrefab: {fileID: 6538551206622744171, guid: b3d9016a452d443438a525575e3c5d08,
     type: 3}
@@ -622,6 +623,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &294910745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294910742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ba3e236ba01a6c4e8e74c664fd6b18e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainMap: {fileID: 2071860627}
+  villageMap: {fileID: 79121592}
+  detailMap: {fileID: 79121592}
 --- !u!1 &388493499
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,8 +760,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxNumberOfDecorations: 500
-  terrainMap: {fileID: 2071860627}
-  buildingMap: {fileID: 79121592}
   allowedBiomes:
   - {fileID: 11400000, guid: e6595be35f66b754bb5740ecc2d4b1c3, type: 2}
   - {fileID: 11400000, guid: 93aebc7425840574f869cde3ac5ef2f1, type: 2}
@@ -2687,9 +2701,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textureRenderer: {fileID: 2065771169}
   scale: 0.1
-  terrainMap: {fileID: 2071860627}
-  villageMap: {fileID: 79121592}
-  detailMap: {fileID: 79121592}
   maxTintVariation: {r: 1, g: 0, b: 0, a: 0}
 --- !u!114 &1814434569
 MonoBehaviour:

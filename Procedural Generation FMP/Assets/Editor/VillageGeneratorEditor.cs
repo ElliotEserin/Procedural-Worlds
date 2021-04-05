@@ -14,7 +14,7 @@ public class VillageGeneratorEditor : Editor
 
         if (GUILayout.Button("Generate"))
         {
-            village.Generate();
+            village.Initialise(1);
         }
 
     }

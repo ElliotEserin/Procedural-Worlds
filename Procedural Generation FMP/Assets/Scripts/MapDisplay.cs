@@ -7,10 +7,6 @@ public class MapDisplay : MonoBehaviour
     [Range(0.0001f, 1f)]
     public float scale;
 
-    public Tilemap terrainMap;
-    public Tilemap villageMap;
-    public Tilemap detailMap;
-
     public Color maxTintVariation;
 
     private void Awake()
@@ -20,15 +16,15 @@ public class MapDisplay : MonoBehaviour
 
     public void ResetTilemaps()
     {
-        if(terrainMap != null)
+        if(ObjectStore.instance.terrainMap != null)
         {
-            terrainMap.ClearAllTiles();
-            terrainMap.ClearAllEditorPreviewTiles();
+            ObjectStore.instance.terrainMap.ClearAllTiles();
+            ObjectStore.instance.terrainMap.ClearAllEditorPreviewTiles();
         }
-        if(villageMap != null)
+        if(ObjectStore.instance.villageMap != null)
         {
-            villageMap.ClearAllTiles();
-            villageMap.ClearAllEditorPreviewTiles();
+            ObjectStore.instance.villageMap.ClearAllTiles();
+            ObjectStore.instance.villageMap.ClearAllEditorPreviewTiles();
         }
     }
 
@@ -42,7 +38,7 @@ public class MapDisplay : MonoBehaviour
     //Draws the tiles to a tilemap
     public void DrawWorldMap(WorldData worldData)
     {
-        terrainMap.SetTiles(worldData.tilePositions, worldData.tiles);
+        ObjectStore.instance.terrainMap.SetTiles(worldData.tilePositions, worldData.tiles);
 
         //var rand = new System.Random();
 
@@ -55,16 +51,16 @@ public class MapDisplay : MonoBehaviour
     //Draws the tiles to a tilemap
     public void DrawVillage(TilemapData villageData)
     {
-        villageMap.SetTiles(villageData.tilePositions, villageData.tiles);
+        ObjectStore.instance.villageMap.SetTiles(villageData.tilePositions, villageData.tiles);
     }
 
     public void DrawVillage(TilemapPrefab villageData)
     {
-        villageMap.SetTiles(villageData.tilePositions, villageData.tiles);
+        ObjectStore.instance.villageMap.SetTiles(villageData.tilePositions, villageData.tiles);
     }
 
     public void DrawDetail(TilemapData detailData)
     {
-        detailMap.SetTiles(detailData.tilePositions, detailData.tiles);
+        ObjectStore.instance.detailMap.SetTiles(detailData.tilePositions, detailData.tiles);
     }
 }

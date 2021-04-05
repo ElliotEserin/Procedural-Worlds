@@ -58,7 +58,7 @@ public class IndividualBuildingGenerator : Generator
         }
     }
 
-    public override void Generate()
+    protected override void Generate()
     {
         switch (buildingType)
         {

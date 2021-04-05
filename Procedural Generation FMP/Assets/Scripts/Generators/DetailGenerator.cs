@@ -7,9 +7,6 @@ public class DetailGenerator : MonoBehaviour
 {
     public int maxNumberOfDecorations;
 
-    public Tilemap terrainMap;
-    public Tilemap buildingMap;
-
     public BiomeType[] allowedBiomes;
 
     public GenerationMethod generationMethod;
@@ -54,7 +51,7 @@ public class DetailGenerator : MonoBehaviour
 
                 Vector3Int potentialPosition = new Vector3Int(rand.Next(0, worldDimension - 1), rand.Next(0, worldDimension - 1), 0);
 
-                if (buildingMap.GetTile(potentialPosition) != null)
+                if (ObjectStore.instance.villageMap.GetTile(potentialPosition) != null)
                 {
                     continue;
                 }
@@ -63,7 +60,7 @@ public class DetailGenerator : MonoBehaviour
 
                 foreach (var biome in allowedBiomes)
                 {
-                    if (terrainMap.GetTile(potentialPosition) == biome.tile)
+                    if (ObjectStore.instance.terrainMap.GetTile(potentialPosition) == biome.tile)
                     {
                         currentBiome = biome;
 
@@ -109,7 +106,7 @@ public class DetailGenerator : MonoBehaviour
 
                     Vector3Int potentialPosition = new Vector3Int(x, y, 0) + randomOffset;
 
-                    if (buildingMap.GetTile(potentialPosition) != null)
+                    if (ObjectStore.instance.villageMap.GetTile(potentialPosition) != null)
                     {
                         continue;
                     }
@@ -118,7 +115,7 @@ public class DetailGenerator : MonoBehaviour
 
                     foreach (var biome in allowedBiomes)
                     {
-                        if (terrainMap.GetTile(potentialPosition) == biome.tile)
+                        if (ObjectStore.instance.terrainMap.GetTile(potentialPosition) == biome.tile)
                         {
                             currentBiome = biome;
 

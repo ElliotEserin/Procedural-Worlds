@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class Grid : MonoBehaviour
 {
     public Tilemap unwalkableTilemap;
-    public Tilemap walkableTilemap;
-
+    public TileBase road;
     int gridWorldSize;
 
     Node[,] grid;
@@ -44,9 +41,19 @@ public class Grid : MonoBehaviour
             {
                 Vector3Int worldPoint = new Vector3Int(x, y, 0);
 
-                bool walkable = !unwalkableTilemap.GetTile(worldPoint);
+                var tile = unwalkableTilemap.GetTile(worldPoint);
 
-                int movementPenalty = wd.worldData.tileTypeMap[y * gridWorldSize + x].pathfindingWeight;
+                bool walkable = true;
+
+                if (tile != road && tile != null)
+                    walkable = false;
+
+                int movementPenalty;
+
+                if (tile == road)
+                    movementPenalty = 0;
+                else
+                    movementPenalty = wd.worldData.tileTypeMap[y * gridWorldSize + x].pathfindingWeight;
 
                 grid[x, y] = new Node(walkable, worldPoint, x, y, movementPenalty);    
             }

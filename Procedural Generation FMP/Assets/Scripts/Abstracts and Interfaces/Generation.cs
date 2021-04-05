@@ -6,5 +6,5 @@ public abstract class Generator : MonoBehaviour
 
     public abstract void Initialise(int seed);
 
-    public abstract void Generate();
+    protected abstract void Generate();
 }
