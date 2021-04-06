@@ -112,7 +112,8 @@ public class VillageGenerator : Generator
             {
                 if (roadMap[x, y] > 0 || buildingMap[x, y] > 0)
                 {
-                    positions.Add(new Vector3Int((int)transform.position.x + x - (int)villageSize / 2, (int)transform.position.y + y - (int)villageSize / 2, 0));
+                    var offset = BorderDimension / 2;
+                    positions.Add(new Vector3Int((int)transform.position.x + x - offset, (int)transform.position.y + y - offset, 0));
                     
                     if (roadMap[x, y] == 1)
                         tiles.Add(majorRoadTile);
@@ -151,6 +152,8 @@ public class VillageGenerator : Generator
         int[,] pointMap = new int[BorderDimension, BorderDimension];
         int[,] roadMap = new int[BorderDimension, BorderDimension];
 
+        int edge = Mathf.FloorToInt((int)villageSize / minCellSize) * minCellSize;
+
         //Major roads
         if (useMajorRoads)
         {
@@ -163,6 +166,25 @@ public class VillageGenerator : Generator
                     if (chance <= majorRoadDensity)
                     {
                         pointMap[Position(x), Position(y)] = 1;
+
+                        //Place a path point
+                        if(y == 0 || x == 0 || y == edge || x == edge)
+                        {
+                            var offset = (int)villageSize / 2;
+                            var pos = new Vector3Int((int)transform.position.x + x - offset, (int)transform.position.y + y - offset, 0);
+                            var GO = Instantiate(ObjectStore.instance.pathGoal, pos, Quaternion.identity);
+                            var goal = GO.GetComponent<PathGoal>();
+
+                            if(x == 0)
+                                    goal.facingDirection = PathGoal.Direction.North;
+                            else if(x == edge)
+                                    goal.facingDirection = PathGoal.Direction.South;
+
+                            else if(y == 0)
+                                    goal.facingDirection = PathGoal.Direction.East;
+                            else if(y == edge)
+                                    goal.facingDirection = PathGoal.Direction.West;
+                        }
                     }
                 }
             }

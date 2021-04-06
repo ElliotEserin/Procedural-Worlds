@@ -117,12 +117,8 @@ public class WorldGenerator : MonoBehaviour
 
         //Pathfinding
         FindObjectOfType<Grid>().Initialise();
-        var paths = FindObjectsOfType<PathGenerator>();
 
-        foreach(var path in paths)
-        {
-            path.GeneratePath();
-        }
+        FindObjectOfType<PathGenerator>().Initialise(seed);
     }
 
     public void GenerateWorld()

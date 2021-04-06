@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -575,15 +575,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2d608d4e9671004ba28485a55113bca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldSize: 1500
+  worldSize: 1000
   useCustomSize: 0
   customSize: 350
   seed: 57896
-  randomSeed: 0
+  randomSeed: 1
   useTilemap: 1
   displayVillages: 0
   displayBuildings: 1
-  useDetail: 1
+  useDetail: 0
   terrainData: {fileID: 11400000, guid: 973c01bd4da37644c82afee0343452bb, type: 2}
   temperatureData: {fileID: 11400000, guid: 423c927156eaf304299b3b29e7ca08aa, type: 2}
   moistureData: {fileID: 11400000, guid: aaec569f1285a2a47853474cd9f926c9, type: 2}
@@ -592,7 +592,7 @@ MonoBehaviour:
   minVillageHeight: 0.5
   maxVillageHeight: 0.7
   minimumVillageDistance: 250
-  maxNumberOfVillages: 6
+  maxNumberOfVillages: 3
   buildingPrefab: {fileID: 6538551206622744171, guid: b3d9016a452d443438a525575e3c5d08,
     type: 3}
   minBuildingHeight: 0.4
@@ -620,6 +620,7 @@ Transform:
   m_Children:
   - {fileID: 1814434567}
   - {fileID: 404683251}
+  - {fileID: 573931095}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -638,6 +639,8 @@ MonoBehaviour:
   terrainMap: {fileID: 2071860627}
   villageMap: {fileID: 79121592}
   detailMap: {fileID: 79121592}
+  pathGoal: {fileID: 5741669146930538227, guid: 5ef2d74bec2be4d4bbbd02746b06ed46,
+    type: 3}
 --- !u!1 &388493499
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,51 +768,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 93aebc7425840574f869cde3ac5ef2f1, type: 2}
   generationMethod: 1
   minDetailDistanceInGrid: 5
---- !u!1 &461336455
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 461336457}
-  - component: {fileID: 461336456}
-  m_Layer: 0
-  m_Name: Path
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &461336456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461336455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0da87e9445aa92d4b9c49d8b25d1aa6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startPoint: {x: 300, y: 300, z: 0}
-  endPoint: {x: 600, y: 400, z: 0}
---- !u!4 &461336457
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461336455}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1199,6 +1157,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 558027306}
   m_CullTransparentMesh: 0
+--- !u!1 &573931094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 573931095}
+  - component: {fileID: 573931096}
+  m_Layer: 0
+  m_Name: Path Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &573931095
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573931094}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 294910744}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &573931096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573931094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0da87e9445aa92d4b9c49d8b25d1aa6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxPathsPerGoal: 2
+  minPathLength: 100
+  maxPathLength: 1000
 --- !u!1 &806236772
 GameObject:
   m_ObjectHideFlags: 0
@@ -2714,8 +2718,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0da87e9445aa92d4b9c49d8b25d1aa6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {x: 0, y: 0, z: 0}
-  endPoint: {x: 0, y: 0, z: 0}
+  maxPathsPerGoal: 2
+  minPathLength: 100
+  maxPathLength: 200
 --- !u!1 &2065771168
 GameObject:
   m_ObjectHideFlags: 0

@@ -263,6 +263,16 @@ namespace GenerationHelpers
         {
             return (x >= 0 && y >= 0) && (x < array.GetLength(0) && y < array.GetLength(1));
         }
+
+        public static Vector3Int ToVector3Int(Transform transform)
+        {
+            return Vector3Int.RoundToInt(transform.position);
+        }
+
+        public static Vector3Int ToVector3Int(Vector3 position)
+        {
+            return Vector3Int.RoundToInt(position);
+        }
     }
 }
 
