@@ -26,6 +26,7 @@ public class ObjectStore : MonoBehaviour
     public Tilemap terrainMap;
     public Tilemap villageMap;
     public Tilemap detailMap;
+    public Tilemap detailMap2;
 
     public GameObject pathGoal;
 }

@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Tilemaps;
 
 public class TilemapBuilder : MonoBehaviour
 {
     public TilemapPrefab tileData;
-    public UnityEngine.Tilemaps.Tilemap tilemap;
+    public Tilemap tilemap;
+
+    public OverrideTile[] overrides;
 
     public void Generate()
     {
@@ -38,5 +41,29 @@ public class TilemapBuilder : MonoBehaviour
         tileData.tilePositions = positions.ToArray();
 
         Debug.Log($"Generated {tileData.name}: {size * size} tiles.");
+    }
+
+    public void Override()
+    {
+        foreach (var _override in overrides)
+        {
+            for(int i = 0; i < tileData.tiles.Length; i++)
+            {
+                if(tileData.tiles[i] == _override.oldTile)
+                {
+                    if (_override.newTile != null && _override.oldTile != null)
+                    {
+                        tileData.tiles[i] = _override.newTile;
+                    }
+                }
+            }
+        }
+    }
+
+    [System.Serializable]
+    public struct OverrideTile
+    {
+        public TileBase newTile;
+        public TileBase oldTile;
     }
 }

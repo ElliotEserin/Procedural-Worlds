@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 535f8e525ff367c4ba67961e201a05ed, type: 3}
-  m_Name: Tundra
+  m_Name: Rainforest
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 0}
-  m_Color: {r: 0.735849, g: 0.44076526, b: 0.32974365, a: 1}
+  m_Color: {r: 0.22899605, g: 0.5849056, b: 0.4093318, a: 1}
   m_Transform:
     e00: 1
     e01: 0
@@ -33,7 +33,7 @@ MonoBehaviour:
     e33: 1
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
-  m_ColliderType: 1
+  m_ColliderType: 0
   m_Sprites:
   - {fileID: 21300000, guid: b5393f816548f0d4dbd8a3dbb38e8adc, type: 3}
   - {fileID: 21300000, guid: 4e166eca76ae4394284f51b9510669cf, type: 3}

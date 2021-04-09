@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 public class Grid : MonoBehaviour
 {
-    public Tilemap unwalkableTilemap;
+    public Tilemap[] unwalkableTilemaps;
     public TileBase road;
     int gridWorldSize;
 
@@ -41,16 +41,17 @@ public class Grid : MonoBehaviour
             {
                 Vector3Int worldPoint = new Vector3Int(x, y, 0);
 
-                var tile = unwalkableTilemap.GetTile(worldPoint);
+                var tile1 = unwalkableTilemaps[0].GetTile(worldPoint);
+                var tile2 = unwalkableTilemaps[1].GetTile(worldPoint);
 
                 bool walkable = true;
 
-                if (tile != road && tile != null)
+                if ((tile1 != road && tile1 != null) || (tile2 != road && tile2 != null))
                     walkable = false;
 
                 int movementPenalty;
 
-                if (tile == road)
+                if (tile1 == road)
                     movementPenalty = 0;
                 else
                     movementPenalty = wd.worldData.tileTypeMap[x, y].pathfindingWeight;

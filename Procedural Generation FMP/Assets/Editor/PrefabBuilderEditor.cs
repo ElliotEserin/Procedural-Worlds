@@ -16,6 +16,9 @@ public class PrefabBuilderEditor : Editor
         {
             tilePrefab.Generate();
         }
-
+        if (GUILayout.Button("Override"))
+        {
+            tilePrefab.Override();
+        }
     }
 }

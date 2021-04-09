@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rigidBody.MovePosition(rigidBody.position + move.normalized * moveSpeed * Time.fixedDeltaTime);
+        if(move.x != 0 || move.y != 0)
+            rigidBody.MovePosition(rigidBody.position + move.normalized * moveSpeed * Time.fixedDeltaTime);
     }
 }

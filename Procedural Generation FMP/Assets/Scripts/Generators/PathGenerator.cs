@@ -48,7 +48,7 @@ public class PathGenerator : Generator
 
         foreach(var path in paths)
         {
-            display.DrawDetail(path);
+            display.DrawNonCollidableDetail(path);
         }
     }
 }

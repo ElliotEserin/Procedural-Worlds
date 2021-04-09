@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 535f8e525ff367c4ba67961e201a05ed, type: 3}
-  m_Name: Forest
+  m_Name: sand
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 0}
-  m_Color: {r: 0.22551277, g: 0.7075472, b: 0.21026166, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
     e01: 0
@@ -33,11 +33,13 @@ MonoBehaviour:
     e33: 1
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
-  m_ColliderType: 1
+  m_ColliderType: 0
   m_Sprites:
-  - {fileID: 21300000, guid: b5393f816548f0d4dbd8a3dbb38e8adc, type: 3}
-  - {fileID: 21300000, guid: 4e166eca76ae4394284f51b9510669cf, type: 3}
-  - {fileID: 21300000, guid: 546b152a52046484a82fefc24f1e2218, type: 3}
-  - {fileID: 21300000, guid: a474a848aec609f419e7c7f5563304f4, type: 3}
-  - {fileID: 21300000, guid: f381430ac4d35b0458db3c8376ad3bb4, type: 3}
-  - {fileID: 21300000, guid: 365971fb2a0bcc947995526e37ab35ee, type: 3}
+  - {fileID: 21300000, guid: 830420429e095b14fb93af3f2a774c4f, type: 3}
+  - {fileID: 21300000, guid: f22a4dd86eb514844805eac6063a9a14, type: 3}
+  - {fileID: 21300000, guid: 812bf5b365ef12642ba534bc1d8d8f51, type: 3}
+  - {fileID: 21300000, guid: 67aa640b07726d84aa8fd33c105960a6, type: 3}
+  - {fileID: 21300000, guid: 7cf4fcb9470b6f24792af06aeac2c63c, type: 3}
+  - {fileID: 21300000, guid: d068f192e07dffa4e8470e9ef7686d7a, type: 3}
+  - {fileID: 21300000, guid: 9a210ca656c037d4aaf3cd7f96af44e2, type: 3}
+  - {fileID: 21300000, guid: d068f192e07dffa4e8470e9ef7686d7a, type: 3}

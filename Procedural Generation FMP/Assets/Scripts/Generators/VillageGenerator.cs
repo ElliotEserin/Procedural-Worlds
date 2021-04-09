@@ -268,14 +268,8 @@ public class VillageGenerator : Generator
             int posX = position.x;
             int posY = position.y;
 
-            //position.x == 0 || position.x == VillageDimension - 5 ||
-            //position.y == 0 || position.y == VillageDimension - 5 ||
-
             if (roadMap[posX, posY] > 0)
                 continue;
-
-            //int posX = Position(position.x);
-            //int posY = Position(position.y);
 
             //Mark large building location
             if (rand.Next(0, 100) / 100f <= largeBuildingDensity)
@@ -361,7 +355,7 @@ public class VillageGenerator : Generator
                     {
                         if (useBuildingPrefabs)
                         {
-                            var build = Instantiate(controller, transform.position + new Vector3(Position(x) - VillageDimension/2, Position(y)-VillageDimension/2), Quaternion.identity);
+                            var build = Instantiate(controller, transform.position + new Vector3(x - BorderDimension/2, y-BorderDimension/2), Quaternion.identity);
                             build.prefab = largeBuildings[rand.Next(0, largeBuildings.Length)];
                             largeBuildingsToGenerate.Add(build);
                             
@@ -382,4 +376,17 @@ public class VillageGenerator : Generator
     }
 
     int Position(int coord) => coord + border;
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        foreach(var building in potentialLargeBuildingLocations)
+        {
+            if (building != null)
+            {
+                Vector3 position = transform.position + new Vector3(building.x - BorderDimension / 2, building.y - BorderDimension / 2);
+                Gizmos.DrawCube(position, Vector3.one * 5);
+            }
+        }
+    }
 }

@@ -59,8 +59,13 @@ public class MapDisplay : MonoBehaviour
         ObjectStore.instance.villageMap.SetTiles(villageData.tilePositions, villageData.tiles);
     }
 
-    public void DrawDetail(TilemapData detailData)
+    public void DrawNonCollidableDetail(TilemapData detailData)
     {
         ObjectStore.instance.detailMap.SetTiles(detailData.tilePositions, detailData.tiles);
+    }
+
+    public void DrawCollidableDetail(TilemapData data)
+    {
+        ObjectStore.instance.detailMap2.SetTiles(data.tilePositions, data.tiles);
     }
 }

@@ -114,13 +114,16 @@ public class WorldGenerator : MonoBehaviour
         if (useDetail)
         {
             var data = detailGen.Generate(seed, (int)worldSize);
-            mapDisplay.DrawDetail(data);
+            mapDisplay.DrawCollidableDetail(data);
         }
 
         //Pathfinding
         FindObjectOfType<Grid>().Initialise();
 
         FindObjectOfType<PathGenerator>().Initialise(seed);
+        var middle = (int)worldSize / 2;
+        var target = Instantiate(playerPrefab, new Vector3(middle, middle, 0), Quaternion.identity);
+        cameraController.target = target.transform;
     }
 
     public void GenerateWorld()
