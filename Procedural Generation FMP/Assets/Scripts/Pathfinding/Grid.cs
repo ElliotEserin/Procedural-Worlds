@@ -35,9 +35,9 @@ public class Grid : MonoBehaviour
     {
         grid = new Node[gridSizeX, gridSizeY];
 
-        for (int x = 0; x < gridSizeX; x++)
+        for (int y = 0; y < gridSizeY; y++)
         {
-            for (int y = 0; y < gridSizeY; y++)
+            for (int x = 0; x < gridSizeX; x++)
             {
                 Vector3Int worldPoint = new Vector3Int(x, y, 0);
 
@@ -53,7 +53,7 @@ public class Grid : MonoBehaviour
                 if (tile == road)
                     movementPenalty = 0;
                 else
-                    movementPenalty = wd.worldData.tileTypeMap[y * gridWorldSize + x].pathfindingWeight;
+                    movementPenalty = wd.worldData.tileTypeMap[x, y].pathfindingWeight;
 
                 grid[x, y] = new Node(walkable, worldPoint, x, y, movementPenalty);    
             }
@@ -102,5 +102,25 @@ public class Grid : MonoBehaviour
         }
 
         return neighbours;
+    }
+
+    //private void OnDrawGizmos()
+    //{
+    //    for (int x = 0; x < gridSizeX; x++)
+    //    {
+    //        for (int y = 0; y < gridSizeY; y++)
+    //        {
+    //            Gizmos.color = Color.red;
+    //            if (grid[x, y].movementPenalty < 50)
+    //                Gizmos.color = Color.green;
+
+    //            Gizmos.DrawCube(new Vector3(x,y,0), Vector3.one/2);
+    //        }
+    //    }
+    //}
+
+    public void ChangeGridValue(int x, int y, Node node)
+    {
+        grid[x, y] = node;
     }
 }

@@ -36,7 +36,7 @@ public class MapGenerator : MonoBehaviour
         {
             tilePositions = new Vector3Int[size * size],
             tiles = new TileBase[size * size],
-            tileTypeMap = new TileType[size * size]
+            tileTypeMap = new TileType[size, size]
         };
 
         falloffMap = FalloffGenerator.GenerateFalloffMap(size, size);
@@ -60,7 +60,7 @@ public class MapGenerator : MonoBehaviour
                 }
 
                 //populates tile position array
-                wd.tilePositions[y * size + x] = new Vector3Int(size - x, size - y, 0);
+                wd.tilePositions[y * size + x] = new Vector3Int(x, y, 0);
 
                 //Get values of a tile
                 float currentHeight = terrainMap[x, y];
@@ -78,13 +78,13 @@ public class MapGenerator : MonoBehaviour
 
                             colourMap[y * size + x] = biome.colour;
                             wd.tiles[y * size + x] = biome.tile;
-                            wd.tileTypeMap[y * size + x] = biome;
+                            wd.tileTypeMap[x, y] = biome;
                         }
                         else
                         {
                             colourMap[y * size + x] = regions[i].colour;
                             wd.tiles[y * size + x] = regions[i].tile;
-                            wd.tileTypeMap[y * size + x] = regions[i];
+                            wd.tileTypeMap[x, y] = regions[i];
                         }
 
                         break;

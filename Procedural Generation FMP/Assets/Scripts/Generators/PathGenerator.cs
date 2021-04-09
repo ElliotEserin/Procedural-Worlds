@@ -9,7 +9,7 @@ public class PathGenerator : Generator
     public float minPathLength = 100;
     public float maxPathLength = 700;
 
-    List<Path> paths;
+    List<TilemapData> paths;
 
     public override void Initialise(int seed)
     {
@@ -19,7 +19,10 @@ public class PathGenerator : Generator
 
     protected override void Generate()
     {
-        paths = new List<Path>();
+        paths = new List<TilemapData>();
+
+        MapDisplay display = FindObjectOfType<MapDisplay>();
+        Pathfinding pathfinder = FindObjectOfType<Pathfinding>();
 
         PathGoal currentGoal;
         for (int i = 0; i < goals.Length; i++)
@@ -37,35 +40,15 @@ public class PathGenerator : Generator
                         var pos1 = GenericHelper.ToVector3Int(currentGoal.transform);
                         var pos2 = GenericHelper.ToVector3Int(goals[j].transform);
 
-                        paths.Add(new Path(pos1, pos2));
+                        paths.Add(pathfinder.GeneratePath(pos1, pos2));
                     }
                 }
             }
         }
 
-        MapDisplay display = FindObjectOfType<MapDisplay>();
-        Pathfinding pathfinder = FindObjectOfType<Pathfinding>();
-
         foreach(var path in paths)
         {
-            display.DrawDetail(path.GeneratePath(pathfinder));
-        }
-    }
-
-
-
-    struct Path
-    {
-        public Vector3Int start, end;
-        public Path(Vector3Int start, Vector3Int end)
-        {
-            this.start = start;
-            this.end = end;
-        }
-
-        public TilemapData GeneratePath(Pathfinding pathfinder)
-        {
-            return pathfinder.GeneratePath(start, end);
+            display.DrawDetail(path);
         }
     }
 }

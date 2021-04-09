@@ -575,15 +575,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2d608d4e9671004ba28485a55113bca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldSize: 1000
+  worldSize: 1500
   useCustomSize: 0
   customSize: 350
-  seed: 57896
+  seed: -80048518
   randomSeed: 1
   useTilemap: 1
-  displayVillages: 0
-  displayBuildings: 1
-  useDetail: 0
+  useVillages: 1
+  useBuildings: 1
+  useDetail: 1
+  playerPrefab: {fileID: 6037208738106281777, guid: 21c1eddf657965a4da17c9511fd927a1,
+    type: 3}
+  cameraController: {fileID: 519420030}
   terrainData: {fileID: 11400000, guid: 973c01bd4da37644c82afee0343452bb, type: 2}
   temperatureData: {fileID: 11400000, guid: 423c927156eaf304299b3b29e7ca08aa, type: 2}
   moistureData: {fileID: 11400000, guid: aaec569f1285a2a47853474cd9f926c9, type: 2}
@@ -592,15 +595,13 @@ MonoBehaviour:
   minVillageHeight: 0.5
   maxVillageHeight: 0.7
   minimumVillageDistance: 250
-  maxNumberOfVillages: 3
+  maxNumberOfVillages: 5
   buildingPrefab: {fileID: 6538551206622744171, guid: b3d9016a452d443438a525575e3c5d08,
     type: 3}
   minBuildingHeight: 0.4
   maxBuildingHeight: 0.75
   minimumBuildingDistance: 150
-  maxNumberOfBuildings: 12
-  iField: {fileID: 1624213000}
-  dropdown: {fileID: 1210368237}
+  maxNumberOfBuildings: 5
   tilemapPrefabs:
   - {fileID: 11400000, guid: 628df1bf206809b479908d533bfc002e, type: 2}
   - {fileID: 11400000, guid: fb6fe292b631f9047ab013682b72ebf1, type: 2}
@@ -808,8 +809,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34c16fd783f40f9468291f4fa28a00fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  zoomSpeed: 50
+  target: {fileID: 0}
+  smoothTime: 1
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -1200,7 +1201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0da87e9445aa92d4b9c49d8b25d1aa6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPathsPerGoal: 2
+  maxPathsPerGoal: 1
   minPathLength: 100
   maxPathLength: 1000
 --- !u!1 &806236772

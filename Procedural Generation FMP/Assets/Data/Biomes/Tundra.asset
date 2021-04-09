@@ -15,6 +15,6 @@ MonoBehaviour:
   name: Tundra
   colour: {r: 0.5849056, g: 0.3315904, b: 0.20140618, a: 0}
   tile: {fileID: 11400000, guid: a9692a1b9e94fca468dc0f31d87fa695, type: 2}
-  pathfindingWeight: 2
+  pathfindingWeight: 5
   biomeDecorations: []
   chanceOfNoDecorativeTile: 0

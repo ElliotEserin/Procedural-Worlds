@@ -83,6 +83,9 @@ public class Pathfinding : MonoBehaviour
             foreach (Node node in path)
             {
                 positions.Add(new Vector3Int((int)node.worldPosition.x, (int)node.worldPosition.y, 0));
+
+                var replacement = new Node(true, node.worldPosition, node.gridX, node.gridY, 0);
+                grid.ChangeGridValue(node.gridX, node.gridY, replacement);
                 tiles.Add(roadTile);
             }
         }

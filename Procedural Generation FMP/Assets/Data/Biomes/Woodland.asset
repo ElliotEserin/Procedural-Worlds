@@ -13,12 +13,10 @@ MonoBehaviour:
   m_Name: Woodland
   m_EditorClassIdentifier: 
   name: Grass
-  colour: {r: 0.20486718, g: 0.3584906, b: 0.19784622, a: 0}
+  colour: {r: 0.22405659, g: 0.5, b: 0.20990565, a: 0}
   tile: {fileID: 11400000, guid: f8ae3e67c9820c14ba013d37e8bef0b7, type: 2}
-  pathfindingWeight: 1
+  pathfindingWeight: 4
   biomeDecorations:
-  - tile: {fileID: 11400000, guid: 8bf02116a40fab049b60c09eb47051a4, type: 2}
-    chance: 10
-  - tile: {fileID: 11400000, guid: 5e0bc38b236433b44aaa09a7baf44de8, type: 2}
+  - tile: {fileID: 11400000, guid: e2057b9120677904ebb243d7ab3d4dcc, type: 2}
     chance: 10
   chanceOfNoDecorativeTile: 0.5

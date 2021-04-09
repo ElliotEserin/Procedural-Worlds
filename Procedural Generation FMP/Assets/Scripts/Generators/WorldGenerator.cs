@@ -23,16 +23,20 @@ public class WorldGenerator : MonoBehaviour
     public bool randomSeed;
 
     public bool useTilemap;
-    public bool displayVillages;
-    public bool displayBuildings;
+    public bool useVillages;
+    public bool useBuildings;
 
     public bool useDetail;
+
+    public GameObject playerPrefab;
+    public CameraController cameraController;
 
     //Data for the different noise maps
     [Header("Noise")]
     public NoiseData terrainData;
     public NoiseData temperatureData;
     public NoiseData moistureData;
+
     [Header("Villages")]
     public GameObject villagePrefab;
     public float minVillageHeight;
@@ -54,9 +58,6 @@ public class WorldGenerator : MonoBehaviour
     public int maxNumberOfBuildings;
 
     public WorldData worldData;
-    [Header("UI")]
-    public UnityEngine.UI.InputField iField;
-    public UnityEngine.UI.Dropdown dropdown;
 
     public TilemapPrefab[] tilemapPrefabs;
 
@@ -84,20 +85,21 @@ public class WorldGenerator : MonoBehaviour
             mapDisplay.DrawWorldMap(worldData);
             Debug.Log("Loaded tilemap");
         }
-
-        GenerateVillages();
-        Debug.Log("Made villages");
-
+     
         //Villages
-        if (displayVillages && useTilemap)
+        if (useVillages && useTilemap)
         {
+            GenerateVillages();
+
             foreach (var village in villages)
             {
                 mapDisplay.DrawVillage(village.villageData);
             }
+            Debug.Log("Made villages");
         }
+
         //Buildings
-        if (displayBuildings)
+        if (useBuildings)
         {
             GenerateBuildings();
             Debug.Log("Made buildings");
@@ -149,7 +151,7 @@ public class WorldGenerator : MonoBehaviour
 
             try
             {
-                if (worldData.heightMap[(int)worldSize - position.x, (int)worldSize - position.y] < minVillageHeight || worldData.heightMap[(int)worldSize - position.x, (int)worldSize - position.y] > maxVillageHeight)
+                if (worldData.heightMap[position.x, position.y] < minVillageHeight || worldData.heightMap[position.x, position.y] > maxVillageHeight)
                 {
                     canBuild = false;
                 }
@@ -204,7 +206,7 @@ public class WorldGenerator : MonoBehaviour
 
             Vector2Int position = new Vector2Int(rand.Next(1, (int)worldSize), rand.Next(1, (int)worldSize));
 
-            var height = worldData.heightMap[(int)worldSize - position.x, (int)worldSize - position.y];
+            var height = worldData.heightMap[position.x, position.y];
 
             if (height < minBuildingHeight || height > maxBuildingHeight)
             {
@@ -257,26 +259,26 @@ public class WorldGenerator : MonoBehaviour
 
     public void ChangeWorldSize()
     {
-        switch (dropdown.value)
-        {
-            case 0:
-                worldSize = WorldSize.Large;
-                break;
-            case 1:
-                worldSize = WorldSize.Medium;
-                break;
-            case 2:
-                worldSize = WorldSize.Small;
-                break;
-            case 3:
-                worldSize = WorldSize.Island;
-                break;
-        }
+        //switch (dropdown.value)
+        //{
+        //    case 0:
+        //        worldSize = WorldSize.Large;
+        //        break;
+        //    case 1:
+        //        worldSize = WorldSize.Medium;
+        //        break;
+        //    case 2:
+        //        worldSize = WorldSize.Small;
+        //        break;
+        //    case 3:
+        //        worldSize = WorldSize.Island;
+        //        break;
+        //}
     }
 
     public void ChangeSeed()
     {
-        seed = iField.text.GetHashCode();
+        //seed = iField.text.GetHashCode();
     }
 
     //Editing the generation in the editor
@@ -291,7 +293,7 @@ public class WorldGenerator : MonoBehaviour
     public string RandomString(int length)
     {
         var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        var stringChars = new char[8];
+        var stringChars = new char[length];
         var random = new System.Random();
 
         for (int i = 0; i < stringChars.Length; i++)
@@ -329,5 +331,5 @@ public class WorldData : TilemapData
     public Texture2D worldMap;
     public float[,] heightMap;
 
-    public TileType[] tileTypeMap;
+    public TileType[,] tileTypeMap;
 }
