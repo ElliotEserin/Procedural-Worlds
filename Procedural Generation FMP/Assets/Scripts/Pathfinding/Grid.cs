@@ -51,8 +51,10 @@ public class Grid : MonoBehaviour
 
                 int movementPenalty;
 
-                if (tile1 == road)
+                if (tile1 == road || tile2 == road)
+                {
                     movementPenalty = 0;
+                }
                 else
                     movementPenalty = wd.worldData.tileTypeMap[x, y].pathfindingWeight;
 

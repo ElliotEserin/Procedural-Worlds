@@ -4,56 +4,67 @@ using UnityEngine.Tilemaps;
 
 public class TilemapBuilder : MonoBehaviour
 {
-    public TilemapPrefab tileData;
+    public TilemapPrefab tilemapPrefabData;
     public Tilemap tilemap;
+
+    public int cellSize = 14;
 
     public OverrideTile[] overrides;
 
     public void Generate()
     {
-        if (tileData.locked)
+        if (tilemapPrefabData != null)
         {
-            Debug.Log("This data is locked! Unlock to override it...");
-            return;
+            if (tilemapPrefabData.locked)
+            {
+                Debug.Log("This data is locked! Unlock to override it...");
+                return;
+            }
         }
 
-        int size = Mathf.Max(tilemap.size.x, tilemap.size.y);
+        var start = tilemap.cellBounds.min;
+        var end = tilemap.cellBounds.max;
 
         List<Vector3Int> positions = new List<Vector3Int>();
-        List<UnityEngine.Tilemaps.TileBase> tiles = new List<UnityEngine.Tilemaps.TileBase>();
+        List<TileBase> tiles = new List<TileBase>();
 
-        tileData.isSet = true;
+        tilemapPrefabData.isSet = true;
 
-        for (int y = 0; y < size; y++)
+        for (int y = start.y; y < end.y; y++)
         {
-            for (int x = 0; x < size; x++)
+            for (int x = start.x; x < end.x; x++)
             {
-                var tile = tilemap.GetTile(new Vector3Int(x, y, 0));
+                var pos = new Vector3Int(x, y, 0);
+                Debug.Log(pos);
+                var tile = tilemap.GetTile(pos);
                 if(tile != null)
                 {
-                    tiles.Add(tilemap.GetTile(new Vector3Int(x, y, 0)));
-                    positions.Add(new Vector3Int(x, y, 0));
+                    tiles.Add(tile);
+                    positions.Add(pos);
                 }
             }
         }
 
-        tileData.tiles = tiles.ToArray();
-        tileData.tilePositions = positions.ToArray();
+        if (tilemapPrefabData != null)
+        {
+            tilemapPrefabData.tiles = tiles.ToArray();
+            tilemapPrefabData.tilePositions = positions.ToArray();
 
-        Debug.Log($"Generated {tileData.name}: {size * size} tiles.");
+            Debug.Log($"Generated {tilemapPrefabData.name}: {tilemapPrefabData.tilePositions.Length} tiles.");
+        }
     }
 
     public void Override()
     {
         foreach (var _override in overrides)
         {
-            for(int i = 0; i < tileData.tiles.Length; i++)
+            for(int i = 0; i < tilemapPrefabData.tiles.Length; i++)
             {
-                if(tileData.tiles[i] == _override.oldTile)
+                if(tilemapPrefabData.tiles[i] == _override.oldTile)
                 {
                     if (_override.newTile != null && _override.oldTile != null)
                     {
-                        tileData.tiles[i] = _override.newTile;
+                        tilemapPrefabData.tiles[i] = _override.newTile;
                     }
                 }
             }
@@ -65,5 +76,13 @@ public class TilemapBuilder : MonoBehaviour
     {
         public TileBase newTile;
         public TileBase oldTile;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(transform.position, Vector3.one * cellSize);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position, Vector3.one * cellSize * 2);
     }
 }

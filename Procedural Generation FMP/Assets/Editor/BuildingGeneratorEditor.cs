@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(IndividualBuildingGenerator))]
+[CustomEditor(typeof(BuildingGenerator))]
 public class BuildingGeneratorEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
 
-        IndividualBuildingGenerator tilePrefab = (IndividualBuildingGenerator)target;
+        BuildingGenerator tilePrefab = (BuildingGenerator)target;
 
         if (GUILayout.Button("Generate"))
         {

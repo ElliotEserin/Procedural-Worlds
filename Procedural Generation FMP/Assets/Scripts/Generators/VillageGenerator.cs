@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using GenerationHelpers;
 
+[Obsolete]
 public class VillageGenerator : Generator
 {
     public enum VillageSize //Dimensions of the village
@@ -70,10 +71,10 @@ public class VillageGenerator : Generator
     public bool drawVillage;
 
     public bool useBuildingPrefabs;
-    public IndividualBuildingGenerator controller;
+    public BuildingGenerator controller;
     public TilemapPrefab[] largeBuildings;
 
-    List<IndividualBuildingGenerator> largeBuildingsToGenerate;
+    List<BuildingGenerator> largeBuildingsToGenerate;
 
     System.Random rand;
 
@@ -90,7 +91,7 @@ public class VillageGenerator : Generator
 
     protected override void Generate()
     {
-        largeBuildingsToGenerate = new List<IndividualBuildingGenerator>();
+        largeBuildingsToGenerate = new List<BuildingGenerator>();
 
         if(rand == null)
             rand = new System.Random(seed + (int)transform.position.x + (int)transform.position.y);
@@ -170,20 +171,20 @@ public class VillageGenerator : Generator
                         //Place a path point
                         if(y == 0 || x == 0 || y == edge || x == edge)
                         {
-                            var offset = (int)villageSize / 2;
-                            var pos = new Vector3Int((int)transform.position.x + x - offset, (int)transform.position.y + y - offset, 0);
-                            var GO = Instantiate(ObjectStore.instance.pathGoal, pos, Quaternion.identity);
-                            var goal = GO.GetComponent<PathGoal>();
+                            //var offset = (int)villageSize / 2;
+                            //var pos = new Vector3Int((int)transform.position.x + x - offset, (int)transform.position.y + y - offset, 0);
+                            //var GO = Instantiate(ObjectStore.instance.pathGoal, pos, Quaternion.identity);
+                            //var goal = GO.GetComponent<PathGoal>();
 
-                            if(x == 0)
-                                    goal.facingDirection = PathGoal.Direction.North;
-                            else if(x == edge)
-                                    goal.facingDirection = PathGoal.Direction.South;
+                            //if(x == 0)
+                            //        goal.facingDirection = PathGoal.Direction.North;
+                            //else if(x == edge)
+                            //        goal.facingDirection = PathGoal.Direction.South;
 
-                            else if(y == 0)
-                                    goal.facingDirection = PathGoal.Direction.East;
-                            else if(y == edge)
-                                    goal.facingDirection = PathGoal.Direction.West;
+                            //else if(y == 0)
+                            //        goal.facingDirection = PathGoal.Direction.East;
+                            //else if(y == edge)
+                            //        goal.facingDirection = PathGoal.Direction.West;
                         }
                     }
                 }
@@ -347,8 +348,8 @@ public class VillageGenerator : Generator
                     {
                         maxBuildSize = minCellSize - 3;
 
-                        doorPosition = BuildingGenerator.GenerateDoorPosition(maxBuildSize, rand);
-                        BuildingGenerator.GenerateBuilding(ref buildingMap, maxBuildSize, doorPosition, new Vector2Int(Position(x), Position(y)));
+                        doorPosition = GenerationHelpers.BuildingGenerator.GenerateDoorPosition(maxBuildSize, rand);
+                        GenerationHelpers.BuildingGenerator.GenerateBuilding(ref buildingMap, maxBuildSize, doorPosition, new Vector2Int(Position(x), Position(y)));
                     }
 
                     else if (originPoints[Position(x), Position(y)] == 5) //Large buildings
@@ -365,8 +366,8 @@ public class VillageGenerator : Generator
                             int sizeVar = 5 + (rand.Next(0, 3) * 2);
                             maxBuildSize = minCellSize * 2 - sizeVar;
 
-                            doorPosition = BuildingGenerator.GenerateDoorPosition(maxBuildSize, rand);
-                            BuildingGenerator.GenerateBuilding(ref buildingMap, maxBuildSize, doorPosition, new Vector2Int(Position(x), Position(y)));
+                            doorPosition = GenerationHelpers.BuildingGenerator.GenerateDoorPosition(maxBuildSize, rand);
+                            GenerationHelpers.BuildingGenerator.GenerateBuilding(ref buildingMap, maxBuildSize, doorPosition, new Vector2Int(Position(x), Position(y)));
 
                         }
                     }

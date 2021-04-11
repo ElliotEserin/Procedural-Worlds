@@ -6,27 +6,48 @@ using UnityEngine.Tilemaps;
 public class VillageGeneratorMK2 : Generator
 {
     public int debugSeed;
+    public bool usePaths;
     public VillageRadius villageRadius;
     public TileBase roadTile;
     public int cellSize = 14;
     public int maxIterations = 20;
     public bool useThickRoads = true;
+    public int roadThickness = 3;
     [Range(1,3)]
-    public int maxNumberOfRoadsPerPoint = 1;
+    public int maxDivisions = 1;
     [Header("Major Roads")]
-    [Range(0, 0.9f)]
+    [Range(0, 1f)]
     public float majorRoadChance = 0.25f;
-    [Range(0, 0.9f)]
+    [Range(0, 1f)]
     public float majorRoadPersistence = 0.25f;
     [Range(0, 4)]
     public int initialMainRoadCount = 2;
     [Header("Minor Roads")]
-    [Range(0, 0.9f)]
+    [Range(0, 1f)]
     public float minorRoadChance = 0.25f;
-    [Range(0f, 0.9f)]
+    [Range(0f, 1f)]
     public float minorRoadPersistence = 0.1f;
+    [Header("Buildings")]
+    [Range(0, 1)]
+    public float buildingChance = 0.5f;
+    [Range(0, 1)]
+    public float buildingPersistence = 0.5f;
+    public int maxNumberOfBuildings = 10;
+    public int maxNumberOfMajorBuildings = 3;
+
+    [Space(5)]
+    public TilemapPrefab[] minorBuildings;
+    public TilemapPrefab[] majorBuildings;
+
+    public BuildingGenerator BuildingGenerator;
+    public PathGoal pathTarget;
 
     System.Random rand;
+
+    readonly Vector3Int upLeft = new Vector3Int(-1, 1, 0);
+    readonly Vector3Int upRight = new Vector3Int(1, 1, 0);
+    readonly Vector3Int downLeft = new Vector3Int(-1, -1, 0);
+    readonly Vector3Int downRight = new Vector3Int(1, -1, 0);
 
     public enum VillageRadius
     {
@@ -44,31 +65,38 @@ public class VillageGeneratorMK2 : Generator
 
     protected override void Generate()
     {
-        TilemapData roadData = GenerateRoadGrid();
-        TilemapData buildingData = new TilemapData();
+        TilemapData roadData = GenerateRoadGrid(out List<BuildingPoint> points);
+        GenerateBuildings(points);
 
         //Display
-        MapDisplay display = FindObjectOfType<MapDisplay>();
-        display.DrawVillage(roadData);
-        display.DrawVillage(buildingData);
+        ObjectStore.instance.mapDisplay.DrawVillage(roadData);
     }
 
-    private TilemapData GenerateRoadGrid()
+    private TilemapData GenerateRoadGrid(out List<BuildingPoint> buildings)
     {
         //Initialise Lists
         List<Vector3Int> positions = new List<Vector3Int>();
         List<TileBase> tiles = new List<TileBase>();
 
+        var potentialBuildings = new List<BuildingPoint>();
+
+        var occupiedSpots = new List<Vector3Int>();
+
         Queue<RoadPoint> roadPoints = new Queue<RoadPoint>();
 
         float currentMajorChance = majorRoadChance;
         float currentMinorChance = minorRoadChance;
+        int buildingsLeft = maxNumberOfBuildings;
+        int majorBuildingsLeft = maxNumberOfMajorBuildings;
+        float currentBuildingChance = buildingChance;
         
         //Define origin
-        RoadPoint origin = new RoadPoint(Vector3Int.RoundToInt(transform.position), RoadType.Major, Direction.None);
+        RoadPoint origin = new RoadPoint(Vector3Int.RoundToInt(transform.position), Type.Major, Direction.None);
         roadPoints.Enqueue(origin);
 
-        PlacePoint(origin.position, roadTile);
+        DrawSquareRoad(origin.position, 5);
+
+        occupiedSpots.Add(origin.position);
 
         int currentIteration = 0;
         //Main loop
@@ -82,6 +110,8 @@ public class VillageGeneratorMK2 : Generator
             currentIteration++;
         }
 
+        buildings = potentialBuildings;
+
         return new TilemapData
         {
             tilePositions = positions.ToArray(),
@@ -92,7 +122,7 @@ public class VillageGeneratorMK2 : Generator
         //Places new road points
         void Evaluate(RoadPoint current)
         {
-            int roadsLeft = maxNumberOfRoadsPerPoint;
+            int roadsLeft = maxDivisions;
 
             List<Direction> directionsToTry = GetAllowedDirections(current.cameFrom);
 
@@ -116,7 +146,7 @@ public class VillageGeneratorMK2 : Generator
             }
 
             //Try and place a new major road
-            else if (current.roadType == RoadType.Major)
+            else if (current.roadType == Type.Major)
             {
                 float chance = rand.Next(0, 100) / 100f;
 
@@ -140,7 +170,7 @@ public class VillageGeneratorMK2 : Generator
 
                 CalculateNewRoad(chance, currentMinorChance, dir, false);
 
-                //currentMinorChance *= minorRoadPersistence;
+                currentMinorChance *= minorRoadPersistence;
 
                 directionsToTry.Remove(dir);
             }
@@ -154,17 +184,29 @@ public class VillageGeneratorMK2 : Generator
                     {
                         position = GetNewPointPosition(current, dir, out Direction direction, isMajor),
                         cameFrom = direction,
-                        roadType = isMajor ? RoadType.Major : RoadType.Minor,
+                        roadType = isMajor ? Type.Major : Type.Minor,
                     };
 
                     if (Vector3.Distance(newPoint.position, transform.position) > (int)villageRadius)
+                        return;
+
+                    if (CheckForOccupiedSpot(newPoint.position))
                         return;
 
                     roadPoints.Enqueue(newPoint);
 
                     PlaceRoad(current, newPoint, isMajor);
 
+                    occupiedSpots.Add(newPoint.position);
+
                     roadsLeft--;
+                }
+
+                else if(isMajor && usePaths)
+                {
+                    var position = current.position;
+                    var target = Instantiate(pathTarget, position, Quaternion.identity);
+                    target.facingDirection = (PathGoal.Direction)(int)dir;
                 }
             }
         }
@@ -181,15 +223,110 @@ public class VillageGeneratorMK2 : Generator
             while (currentPoint != newPoint.position)
             {
                 currentPoint += trueDir;
-                positions.Add(currentPoint);
-                tiles.Add(roadTile);               
-            }      
+                if (!major || !useThickRoads)
+                {
+                    positions.Add(currentPoint);
+                    tiles.Add(roadTile);
+                }
+                else
+                {
+                    DrawSquareRoad(currentPoint, roadThickness);
+                }
+            }
+
+            CheckForBuildingSpots(newPoint);
         }
 
-        void PlacePoint(Vector3Int position, TileBase tile)
+        void DrawSquareRoad(Vector3Int currentPoint, int length)
         {
-            positions.Add(position);
-            tiles.Add(tile);
+            int half = (length - 1) / 2;
+
+            for (int y = -half; y <= half; y++)
+            {
+                for (int x = -half; x <= half; x++)
+                {
+                    positions.Add(currentPoint + new Vector3Int(x, y, 0));
+                    tiles.Add(roadTile);
+                }
+            }
+        }
+
+        void CheckForBuildingSpots(RoadPoint currentPoint)
+        {
+            if (buildingsLeft <= 0)
+                return;
+
+            int half = (currentPoint.roadType == Type.Major) ? cellSize : cellSize / 2;
+            Type buildingType = currentPoint.roadType;
+
+            if (majorBuildingsLeft <= 0 && buildingType == Type.Major)
+            {
+                buildingType = Type.Minor;
+                half = cellSize / 2;
+            }
+
+            //TODO validate spots
+            switch (currentPoint.cameFrom)
+            {
+                case Direction.Up:
+                    ValidateSpot(upLeft * half, buildingType, Direction.Right);
+                    ValidateSpot(upRight * half, buildingType, Direction.Left);
+                    break;
+                case Direction.Down:
+                    ValidateSpot(downLeft * half, buildingType, Direction.Right);
+                    ValidateSpot(downRight * half, buildingType, Direction.Left);
+                    break;
+                case Direction.Left:
+                    ValidateSpot(upLeft * half, buildingType, Direction.Down);
+                    ValidateSpot(downLeft * half, buildingType, Direction.Up);
+                    break;
+                case Direction.Right:
+                    ValidateSpot(upRight * half, buildingType, Direction.Down);
+                    ValidateSpot(downRight * half, buildingType, Direction.Up);
+                    break;
+                case Direction.None:
+                    ValidateSpot(upLeft * half, buildingType, Direction.Right);
+                    ValidateSpot(upRight * half, buildingType, Direction.Down);
+                    ValidateSpot(downLeft * half, buildingType, Direction.Up);
+                    ValidateSpot(downRight * half, buildingType, Direction.Left);
+                    break;
+            }
+
+            void ValidateSpot(Vector3Int offset, Type type, Direction facing)
+            {
+                var position = currentPoint.position + offset;
+
+                if (CheckForOccupiedSpot(position))
+                    return;
+
+                var chance = rand.Next(0, 100) / 100f;
+
+                if (chance <= buildingChance)
+                {
+                    var build = new BuildingPoint(position, type, facing);
+
+                    potentialBuildings.Add(build);
+                    if (type == Type.Major) majorBuildingsLeft--;
+                    buildingsLeft--;
+                    currentBuildingChance *= buildingPersistence;
+                    occupiedSpots.Add(position);
+
+                    if (type == Type.Major)
+                    {
+                        var halfMajor = cellSize / 2;
+                        occupiedSpots.Add(position + upLeft * halfMajor);
+                        occupiedSpots.Add(position + upRight * halfMajor);
+                        occupiedSpots.Add(position + downLeft * halfMajor);
+                        occupiedSpots.Add(position + downRight * halfMajor);
+                    }
+                }
+            }
+        }
+
+        bool CheckForOccupiedSpot(Vector3Int position)
+        {
+            if (occupiedSpots.Contains(position)) return true;
+            return false;
         }
 
         //Calculates the new road point
@@ -197,13 +334,9 @@ public class VillageGeneratorMK2 : Generator
         {
             int cell = cellSize;
 
-            Vector3Int offset = Vector3Int.zero;
-
-            cameFrom = Direction.None;
-
             if (major)
                 cell *= 2;
-
+            Vector3Int offset;
             switch (goingTo)
             {
                 default:
@@ -226,6 +359,23 @@ public class VillageGeneratorMK2 : Generator
             }
 
             return current.position + (offset * cell);
+        }
+    }
+
+    private void GenerateBuildings(List<BuildingPoint> buildingPoints)
+    {
+        foreach(var building in buildingPoints)
+        {
+            var gen = Instantiate(BuildingGenerator, building.originPoint, Quaternion.identity);
+            gen.Initialise(seed, 
+                building.buildingType == Type.Major ? majorBuildings : minorBuildings, 
+                building.facing);
+
+            if (!Application.isPlaying)
+                DestroyImmediate(gen.gameObject);
+
+            else
+                Destroy(gen.gameObject, 1);
         }
     }
 
@@ -291,12 +441,7 @@ public class VillageGeneratorMK2 : Generator
         }
     }
 
-    private void GenerateBuildings()
-    {
-
-    }
-
-    public enum RoadType
+    public enum Type
     {
         Major,
         Minor
@@ -314,14 +459,28 @@ public class VillageGeneratorMK2 : Generator
     struct RoadPoint
     {
         public Vector3Int position;
-        public RoadType roadType;
+        public Type roadType;
         public Direction cameFrom;
 
-        public RoadPoint(Vector3Int position, RoadType roadType, Direction cameFrom)
+        public RoadPoint(Vector3Int position, Type roadType, Direction cameFrom)
         {
             this.position = position;
             this.roadType = roadType;
             this.cameFrom = cameFrom;
+        }
+    }
+
+    struct BuildingPoint
+    {
+        public Vector3Int originPoint;
+        public Type buildingType;
+        public Direction facing;
+
+        public BuildingPoint(Vector3Int originPoint, Type buildingType, Direction facing)
+        {
+            this.originPoint = originPoint;
+            this.buildingType = buildingType;
+            this.facing = facing;
         }
     }
 }

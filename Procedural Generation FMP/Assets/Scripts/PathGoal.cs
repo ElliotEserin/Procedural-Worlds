@@ -6,10 +6,10 @@ public class PathGoal : MonoBehaviour
 {
     public enum Direction
     {
-        North = 1,
-        East = 3,
-        South = 2,
-        West = 4
+        North,
+        East,
+        South,
+        West
     }
 
     public Direction facingDirection;

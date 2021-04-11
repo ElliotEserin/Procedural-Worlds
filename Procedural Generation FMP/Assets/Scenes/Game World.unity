@@ -205,8 +205,9 @@ GameObject:
   m_Component:
   - component: {fileID: 279953722}
   - component: {fileID: 279953721}
+  - component: {fileID: 279953723}
   m_Layer: 0
-  m_Name: Sun Light
+  m_Name: 'Sun '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -267,6 +268,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &279953723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279953720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c11db104d98a547a6ff6c617e49516, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sun: {fileID: 279953721}
+  times:
+  - name: Day
+    length: 5
+    lightColor: {r: 1, g: 0.9982144, b: 0.9386792, a: 0}
+    intensity: 1
+  - name: night
+    length: 5
+    lightColor: {r: 0.64146495, g: 0.73571473, b: 0.8773585, a: 0}
+    intensity: 0.2
+  fadeTime: 10
+  timeScale: 1
 --- !u!1 &292381582
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,7 +383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2d608d4e9671004ba28485a55113bca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldSize: 1000
+  worldSize: 500
   useCustomSize: 0
   customSize: 350
   seed: -80048518
@@ -373,12 +398,12 @@ MonoBehaviour:
   terrainData: {fileID: 11400000, guid: 973c01bd4da37644c82afee0343452bb, type: 2}
   temperatureData: {fileID: 11400000, guid: 423c927156eaf304299b3b29e7ca08aa, type: 2}
   moistureData: {fileID: 11400000, guid: aaec569f1285a2a47853474cd9f926c9, type: 2}
-  villagePrefab: {fileID: 6787769521269870516, guid: 1ab16413ef891344b8ff2ee1c0478b8b,
+  villagePrefab: {fileID: 4416148347921050942, guid: 84471ad5e0197c849b57c2f63e8660e0,
     type: 3}
   minVillageHeight: 0.5
   maxVillageHeight: 0.7
-  minimumVillageDistance: 200
-  maxNumberOfVillages: 5
+  minimumVillageDistance: 25
+  maxNumberOfVillages: 3
   buildingPrefab: {fileID: 6538551206622744171, guid: b3d9016a452d443438a525575e3c5d08,
     type: 3}
   minBuildingHeight: 0.4
@@ -424,8 +449,7 @@ MonoBehaviour:
   villageMap: {fileID: 1129897769}
   detailMap: {fileID: 1129897769}
   detailMap2: {fileID: 1977909149}
-  pathGoal: {fileID: 5741669146930538227, guid: 5ef2d74bec2be4d4bbbd02746b06ed46,
-    type: 3}
+  mapDisplay: {fileID: 1814434568}
 --- !u!1 &388493499
 GameObject:
   m_ObjectHideFlags: 0
@@ -986,7 +1010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0da87e9445aa92d4b9c49d8b25d1aa6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPathsPerGoal: 1
+  maxPathsPerGoal: 2
   minPathLength: 100
   maxPathLength: 300
 --- !u!1 &806236772
@@ -1529,7 +1553,7 @@ GameObject:
   - component: {fileID: 1129897766}
   - component: {fileID: 1129897765}
   m_Layer: 8
-  m_Name: DetailMap
+  m_Name: DetailMapBelow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2742,7 +2766,7 @@ GameObject:
   - component: {fileID: 1977909146}
   - component: {fileID: 1977909145}
   m_Layer: 8
-  m_Name: DetailMap2
+  m_Name: DetailMapAbove
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

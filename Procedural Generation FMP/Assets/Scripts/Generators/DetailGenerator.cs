@@ -19,7 +19,7 @@ public class DetailGenerator : MonoBehaviour
         Grid
     }
 
-    public TilemapData Generate(int seed, int worldDimension)
+    public void Generate(int seed, int worldDimension)
     {
         TilemapData data = new TilemapData();
 
@@ -35,7 +35,7 @@ public class DetailGenerator : MonoBehaviour
                 break;
         }
 
-        return data;
+        ObjectStore.instance.mapDisplay.DrawCollidableDetail(data);
 
         void RandomPlacement()
         {

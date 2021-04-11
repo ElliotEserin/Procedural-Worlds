@@ -49,4 +49,5 @@ MonoBehaviour:
   floor: {fileID: 0}
   usePrefabBuilding: 1
   prefab: {fileID: 11400000, guid: 1723fcee8d9dd7f43932c66596049bc6, type: 2}
-  useRandomPrefabBuilding: 0
+  direction: 0
+  useRandomPrefabBuilding: 1

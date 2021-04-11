@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4416148347921050942
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4416148347921050937}
+  - component: {fileID: 4416148347921050936}
+  m_Layer: 0
+  m_Name: Village Controller MK2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4416148347921050937
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416148347921050942}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 776.8, y: 386.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4416148347921050936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416148347921050942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8d20f1402f30804c877015d50b0dcdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugSeed: -124
+  usePaths: 1
+  villageRadius: 42
+  roadTile: {fileID: 11400000, guid: 3dfe8cd26e2660847b697369522c5b70, type: 2}
+  cellSize: 14
+  maxIterations: 50
+  useThickRoads: 1
+  roadThickness: 3
+  maxDivisions: 3
+  majorRoadChance: 0.9
+  majorRoadPersistence: 0.75
+  initialMainRoadCount: 3
+  minorRoadChance: 0.6
+  minorRoadPersistence: 1
+  buildingChance: 0.75
+  buildingPersistence: 0.8
+  maxNumberOfBuildings: 20
+  maxNumberOfMajorBuildings: 3
+  minorBuildings:
+  - {fileID: 11400000, guid: 3f9b4779702549243a3894566b88f370, type: 2}
+  majorBuildings:
+  - {fileID: 11400000, guid: 01be5494f88bf7548afd68b26e43fae0, type: 2}
+  BuildingGenerator: {fileID: 6538551206622744170, guid: acfc848b891b3eb498e8191072a4fc08,
+    type: 3}
+  pathTarget: {fileID: 5741669146930538225, guid: 5ef2d74bec2be4d4bbbd02746b06ed46,
+    type: 3}

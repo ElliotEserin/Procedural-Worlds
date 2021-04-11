@@ -42,7 +42,7 @@ public class WorldGenerator : MonoBehaviour
     public float minVillageHeight;
     public float maxVillageHeight;
 
-    List<VillageGenerator> villages;
+    List<VillageGeneratorMK2> villages;
 
     public int minimumVillageDistance;
     public int maxNumberOfVillages;
@@ -52,7 +52,7 @@ public class WorldGenerator : MonoBehaviour
     public float minBuildingHeight;
     public float maxBuildingHeight;
 
-    List<IndividualBuildingGenerator> buildings;
+    List<BuildingGenerator> buildings;
 
     public int minimumBuildingDistance;
     public int maxNumberOfBuildings;
@@ -65,84 +65,59 @@ public class WorldGenerator : MonoBehaviour
     {
         MapGenerator mapGen = FindObjectOfType<MapGenerator>();
         DetailGenerator detailGen = FindObjectOfType<DetailGenerator>();
-        MapDisplay mapDisplay = FindObjectOfType<MapDisplay>();
 
         if (randomSeed)
             seed = RandomString(8).GetHashCode();
 
-        Generation(mapGen, detailGen, mapDisplay);
+        Generation(mapGen, detailGen);
     }
 
-    void Generation(MapGenerator mapGen, DetailGenerator detailGen, MapDisplay mapDisplay)
+    void Generation(MapGenerator mapGen, DetailGenerator detailGen)
     {
         //Generates the world data
         worldData = mapGen.GenerateMap(useCustomSize ? customSize : (int)worldSize, seed, terrainData, temperatureData, moistureData);
-        Debug.Log("Made world");
 
         //Draws the tilemap
         if (useTilemap)
         {
-            mapDisplay.DrawWorldMap(worldData);
-            Debug.Log("Loaded tilemap");
+            ObjectStore.instance.mapDisplay.DrawWorldMap(worldData);
         }
      
         //Villages
         if (useVillages && useTilemap)
         {
             GenerateVillages();
-
-            foreach (var village in villages)
-            {
-                mapDisplay.DrawVillage(village.villageData);
-            }
-            Debug.Log("Made villages");
         }
 
         //Buildings
         if (useBuildings)
         {
             GenerateBuildings();
-            Debug.Log("Made buildings");
-
-            foreach (var building in buildings)
-            {
-                building.Initialise(seed);
-            }
         }
 
         //Detail
         if (useDetail)
         {
-            var data = detailGen.Generate(seed, (int)worldSize);
-            mapDisplay.DrawCollidableDetail(data);
+            detailGen.Generate(seed, (int)worldSize);
         }
 
         //Pathfinding
         FindObjectOfType<Grid>().Initialise();
 
         FindObjectOfType<PathGenerator>().Initialise(seed);
+
+        //Player
         var middle = (int)worldSize / 2;
         var target = Instantiate(playerPrefab, new Vector3(middle, middle, 0), Quaternion.identity);
+
         cameraController.target = target.transform;
-    }
-
-    public void GenerateWorld()
-    {
-        MapGenerator mapGen = FindObjectOfType<MapGenerator>();
-        //Generates the world data
-        worldData = mapGen.GenerateMap(useCustomSize ? customSize : (int)worldSize, seed, terrainData, temperatureData, moistureData);
-
-        //Draws the tilemap
-        //FindObjectOfType<MapDisplay>().DrawMap(worldData);
     }
 
     public void GenerateVillages()
     {
-
-        Debug.Log("Generating villages...");
         System.Random rand = new System.Random(seed);
 
-        villages = new List<VillageGenerator>();
+        villages = new List<VillageGeneratorMK2>();
 
         int n = 0;
 
@@ -162,7 +137,7 @@ public class WorldGenerator : MonoBehaviour
             catch { continue; }
 
             if(villages.Count > 0)
-                foreach (VillageGenerator village in villages)
+                foreach (VillageGeneratorMK2 village in villages)
                 {
                     Vector2Int otherPos = new Vector2Int((int)village.transform.position.x, (int)village.transform.position.y);
                     if (Vector2Int.Distance(position, otherPos) < minimumVillageDistance)
@@ -180,11 +155,9 @@ public class WorldGenerator : MonoBehaviour
             }
             else
             {
-                Debug.Log("Placing village!");
-
                 var go = Instantiate(villagePrefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
 
-                var v = go.GetComponent<VillageGenerator>();
+                var v = go.GetComponent<VillageGeneratorMK2>();
                 v.Initialise(seed);
                 villages.Add(v);
                 i++;
@@ -195,11 +168,9 @@ public class WorldGenerator : MonoBehaviour
 
     public void GenerateBuildings()
     {
-
-        Debug.Log("Generating buildings...");
         System.Random rand = new System.Random(seed);
 
-        buildings = new List<IndividualBuildingGenerator>();
+        buildings = new List<BuildingGenerator>();
 
         int n = 0;
 
@@ -217,7 +188,7 @@ public class WorldGenerator : MonoBehaviour
             }
 
             if (buildings.Count > 0)
-                foreach (IndividualBuildingGenerator building in buildings)
+                foreach (BuildingGenerator building in buildings)
                 {
                     Vector2Int otherPos = new Vector2Int((int)building.transform.position.x, (int)building.transform.position.y);
                     if (Vector2Int.Distance(position, otherPos) < minimumBuildingDistance)
@@ -230,7 +201,7 @@ public class WorldGenerator : MonoBehaviour
                 }
 
             if (villages.Count > 0)
-                foreach (VillageGenerator village in villages)
+                foreach (VillageGeneratorMK2 village in villages)
                 {
                     Vector2Int otherPos = new Vector2Int((int)village.transform.position.x, (int)village.transform.position.y);
                     if (Vector2Int.Distance(position, otherPos) < minimumBuildingDistance)
@@ -248,11 +219,10 @@ public class WorldGenerator : MonoBehaviour
             }
             else
             {
-                Debug.Log("Placing building!");
-
                 var go = Instantiate(buildingPrefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
 
-                var v = go.GetComponent<IndividualBuildingGenerator>();
+                var v = go.GetComponent<BuildingGenerator>();
+                v.direction = VillageGeneratorMK2.Direction.Up;
                 buildings.Add(v);
                 i++;
                 n = 0;
