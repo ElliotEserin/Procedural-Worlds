@@ -25,6 +25,7 @@ public class WorldGenerator : MonoBehaviour
     public bool useTilemap;
     public bool useVillages;
     public bool useBuildings;
+    public bool useRivers;
 
     public bool useDetail;
 
@@ -81,6 +82,11 @@ public class WorldGenerator : MonoBehaviour
         if (useTilemap)
         {
             ObjectStore.instance.mapDisplay.DrawWorldMap(worldData);
+        }
+
+        if (useRivers)
+        {
+            FindObjectOfType<RiverGenerator>().Initialise(seed);
         }
      
         //Villages

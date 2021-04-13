@@ -39,14 +39,12 @@ public class MapDisplay : MonoBehaviour
     public void DrawWorldMap(WorldData worldData)
     {
         ObjectStore.instance.terrainMap.SetTiles(worldData.tilePositions, worldData.tiles);
-
-        //var rand = new System.Random();
-
-        //for (int x = 0; x < worldData.tilePositions.Length; x++)
-        //{
-        //    terrainMap.SetColor(worldData.tilePositions[x], Color.Lerp(Color.white, maxTintVariation, rand.Next(0, 100)));
-        //}
     }   
+
+    public void DrawTerrain(TilemapData terrain)
+    {
+        ObjectStore.instance.terrainMap.SetTiles(terrain.tilePositions, terrain.tiles);
+    }
     
     //Draws the tiles to a tilemap
     public void DrawVillage(TilemapData villageData)
@@ -54,7 +52,7 @@ public class MapDisplay : MonoBehaviour
         ObjectStore.instance.villageMap.SetTiles(villageData.tilePositions, villageData.tiles);
     }
 
-    public void DrawVillage(TilemapPrefab villageData)
+    public void DrawBuilding(TilemapPrefab villageData)
     {
         ObjectStore.instance.villageMap.SetTiles(villageData.tilePositions, villageData.tiles);
     }

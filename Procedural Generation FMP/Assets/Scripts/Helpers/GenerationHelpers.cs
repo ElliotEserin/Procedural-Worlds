@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace GenerationHelpers
 {
@@ -279,7 +280,17 @@ namespace GenerationHelpers
 public class TilemapData
 {
     public Vector3Int[] tilePositions;
-    public UnityEngine.Tilemaps.TileBase[] tiles;
+    public TileBase[] tiles;
+
+    public TilemapData()
+    {
+    }
+
+    public TilemapData(Vector3Int[] tilePositions, TileBase[] tiles)
+    {
+        this.tilePositions = tilePositions;
+        this.tiles = tiles;
+    }
 }
 
 public enum Axis
