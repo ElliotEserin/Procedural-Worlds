@@ -12,6 +12,8 @@ public class River : MonoBehaviour
     public int maxIterations = 1000;
     public float directionSensitivity = 0.001f;
 
+    public int forceChangeDirection = 50;
+
     public void Generate()
     {
         List<Vector3Int> positions = new List<Vector3Int>();
@@ -27,7 +29,7 @@ public class River : MonoBehaviour
         int currentIteration = 0;
 
         Vector3 currentDirection = Vector3.zero;
-        while (currentHeight > oceanBiome.height && currentIteration <= maxIterations)
+        while (currentHeight > oceanBiome.height - 0.05f && currentIteration <= maxIterations)
         {
             AdjacentTile[] adjacent = new AdjacentTile[4]
             {
@@ -41,10 +43,16 @@ public class River : MonoBehaviour
 
             for (int i = 1; i < adjacent.Length; i++)
             {
-                if (currentPosition - adjacent[i].pos == currentDirection)
-                    adjacent[i].height -= directionSensitivity; 
+                //if (currentPosition - adjacent[i].pos == currentDirection)
+                //    adjacent[i].height -= directionSensitivity; 
 
-                if(Vector3.Distance(adjacent[i].pos, transform.position) < Vector3.Distance(currentPosition, transform.position))
+                if(currentIteration%forceChangeDirection == 0)
+                {
+                    if (currentPosition - adjacent[i].pos == currentDirection)
+                        adjacent[i].height += directionSensitivity * 2;
+                }
+
+                if (Vector3.Distance(adjacent[i].pos, transform.position) > Vector3.Distance(currentPosition, transform.position))
                     adjacent[i].height -= directionSensitivity;
 
                 if (adjacent[i].height < adjacent[lowestIndex].height && !positions.Contains(adjacent[i].pos))
@@ -58,6 +66,9 @@ public class River : MonoBehaviour
             AddTile(currentPosition);
 
             currentIteration++;
+
+            if (currentIteration >= maxIterations)
+                return;
         }
 
         ObjectStore.instance.mapDisplay.DrawTerrain(new TilemapData(positions.ToArray(), tiles.ToArray()));

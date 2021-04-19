@@ -117,6 +117,12 @@ public class WorldGenerator : MonoBehaviour
         var target = Instantiate(playerPrefab, new Vector3(middle, middle, 0), Quaternion.identity);
 
         cameraController.target = target.transform;
+
+        var weather = FindObjectOfType<DayNightCycle>();
+
+        weather.transform.parent = target.transform;
+        weather.transform.localPosition = Vector3.zero;
+        weather.spotLights.Add(target.GetComponentInChildren<UnityEngine.Experimental.Rendering.Universal.Light2D>());
     }
 
     public void GenerateVillages()

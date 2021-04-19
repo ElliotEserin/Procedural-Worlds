@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public Rigidbody2D rigidBody;
+    public Animator animator;
 
     Vector2 move;
 
@@ -14,6 +16,19 @@ public class PlayerMovement : MonoBehaviour
     {
         move.x = Input.GetAxisRaw("Horizontal");
         move.y = Input.GetAxisRaw("Vertical");
+
+        if(move.sqrMagnitude > 0)
+        {
+            animator.SetBool("Moving", true);
+
+            animator.SetFloat("Horizontal", move.x);
+            animator.SetFloat("Vertical", move.y);
+        }
+
+        else
+        {
+            animator.SetBool("Moving", false);
+        }
     }
 
     private void FixedUpdate()

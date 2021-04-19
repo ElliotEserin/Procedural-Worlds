@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class VillageGeneratorMK2 : Generator
 {
+    public string villageName;
+
     public int debugSeed;
     public bool usePaths;
     public VillageRadius villageRadius;
@@ -51,20 +53,45 @@ public class VillageGeneratorMK2 : Generator
 
     public enum VillageRadius
     {
-        Small = 42,
-        Medium = 56,
-        Large = 70
+        Small = 28,
+        Medium = 42,
+        Large = 56
     }
 
     public override void Initialise(int seed)
     {
-        this.seed = seed;
+        this.seed = seed + (int)transform.position.y + (int)transform.position.x;
         rand = new System.Random(seed);
+
+        Array values = Enum.GetValues(typeof(VillageRadius));
+        villageRadius = (VillageRadius)values.GetValue(rand.Next(values.Length));
+
+        switch (villageRadius)
+        {
+            case VillageRadius.Large:
+                initialMainRoadCount = 3;
+                maxNumberOfMajorBuildings = 3;
+                maxNumberOfBuildings = 20;
+                break;
+            case VillageRadius.Medium:
+                initialMainRoadCount = 2;
+                maxNumberOfMajorBuildings = 2;
+                maxNumberOfBuildings = 15;
+                break;
+            case VillageRadius.Small:
+                initialMainRoadCount = 1;
+                maxNumberOfMajorBuildings = 1;
+                maxNumberOfBuildings = 10;
+                break;
+        }
+
         Generate();
     }
 
     protected override void Generate()
     {
+        villageName = NameGenerator.GenerateVillageName(seed, villageRadius);
+
         TilemapData roadData = GenerateRoadGrid(out List<BuildingPoint> points);
         GenerateBuildings(points);
 
