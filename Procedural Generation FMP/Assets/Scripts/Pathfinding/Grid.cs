@@ -12,11 +12,11 @@ public class Grid : MonoBehaviour
 
     int gridSizeX, gridSizeY;
 
-    WorldGenerator wd;
+    WorldManager wd;
 
     public void Initialise()
     {
-        wd = FindObjectOfType<WorldGenerator>();
+        wd = FindObjectOfType<WorldManager>();
         gridWorldSize = (int)wd.worldSize;
         gridSizeX = Mathf.RoundToInt(gridWorldSize);
         gridSizeY = Mathf.RoundToInt(gridWorldSize);

@@ -29,4 +29,5 @@ public class ObjectStore : MonoBehaviour
     public Tilemap detailMap2;
 
     public MapDisplay mapDisplay;
+    public WorldManager worldManager;
 }

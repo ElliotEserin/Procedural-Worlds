@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class VillageGeneratorMK2 : Generator
+public class Village : Generator
 {
     public string villageName;
 
@@ -41,7 +41,7 @@ public class VillageGeneratorMK2 : Generator
     public TilemapPrefab[] minorBuildings;
     public TilemapPrefab[] majorBuildings;
 
-    public BuildingGenerator BuildingGenerator;
+    public Building BuildingGenerator;
     public PathGoal pathTarget;
 
     System.Random rand;
@@ -58,9 +58,9 @@ public class VillageGeneratorMK2 : Generator
         Large = 56
     }
 
-    public override void Initialise(int seed)
+    public override void Initialise(WorldManager worldManager)
     {
-        this.seed = seed + (int)transform.position.y + (int)transform.position.x;
+        seed = worldSeed + (int)transform.position.y + (int)transform.position.x;
         rand = new System.Random(seed);
 
         Array values = Enum.GetValues(typeof(VillageRadius));
@@ -85,10 +85,10 @@ public class VillageGeneratorMK2 : Generator
                 break;
         }
 
-        Generate();
+        Generate(worldManager);
     }
 
-    protected override void Generate()
+    protected override void Generate(WorldManager worldManager)
     {
         villageName = NameGenerator.GenerateVillageName(seed, villageRadius);
 
@@ -215,10 +215,16 @@ public class VillageGeneratorMK2 : Generator
                     };
 
                     if (Vector3.Distance(newPoint.position, transform.position) > (int)villageRadius)
+                    {
+                        if (isMajor)
+                            PlacePathPoint();
                         return;
+                    }
 
                     if (CheckForOccupiedSpot(newPoint.position))
+                    {
                         return;
+                    }
 
                     roadPoints.Enqueue(newPoint);
 
@@ -230,6 +236,11 @@ public class VillageGeneratorMK2 : Generator
                 }
 
                 else if(isMajor && usePaths)
+                {
+                    PlacePathPoint();
+                }
+
+                void PlacePathPoint()
                 {
                     var position = current.position;
                     var target = Instantiate(pathTarget, position, Quaternion.identity);

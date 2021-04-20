@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using GenerationHelpers;
 
-public class MapGenerator : MonoBehaviour
+public class MapGenerator : Generator
 {
     //Type of texture to generate
     public enum DrawMode
@@ -25,13 +25,25 @@ public class MapGenerator : MonoBehaviour
 
     public bool autoUpdate;
 
+    public NoiseData terrainData;
+    public NoiseData temperatureData;
+    public NoiseData moistureData;
+
     //Representation of different map regions
     public List<TerrainType> regions;
     public List<Biomes> temperature;
 
-    //Generates the terrain - returns world data
-    public WorldData GenerateMap(int size, int seed, NoiseData terrainData, NoiseData temperatureData, NoiseData moistureData)
+    public override void Initialise(WorldManager worldManager)
     {
+        seed = worldSeed;
+
+        Generate(worldManager);
+    }
+
+    protected override void Generate(WorldManager worldManager)
+    {
+        var size = (int)worldManager.worldSize;
+
         WorldData wd = new WorldData
         {
             tilePositions = new Vector3Int[size * size],
@@ -53,7 +65,7 @@ public class MapGenerator : MonoBehaviour
         {
             for (int x = 0; x < size; x++)
             {
-                if(useFalloff)
+                if (useFalloff)
                 {
                     //Subtracts falloff from height map
                     terrainMap[x, y] = Mathf.Clamp(terrainMap[x, y] - falloffMap[x, y], 0, 1);
@@ -70,9 +82,9 @@ public class MapGenerator : MonoBehaviour
                 //Assign color and tile based on values
                 for (int i = 0; i < regions.Count; i++)
                 {
-                    if(currentHeight <= regions[i].height)
+                    if (currentHeight <= regions[i].height)
                     {
-                        if(regions[i].allowBiomes)
+                        if (regions[i].allowBiomes)
                         {
                             var biome = temperature[(int)Mathf.Round(currentTemp * (temperature.Count - 1))].moisture[(int)Mathf.Round(currentMoisture * (temperature.Count - 1))];
 
@@ -94,7 +106,7 @@ public class MapGenerator : MonoBehaviour
         }
 
         //Handles generating and displaying a type of texture
-        switch(drawMode)
+        switch (drawMode)
         {
             default:
             case DrawMode.ColourMap:
@@ -115,21 +127,25 @@ public class MapGenerator : MonoBehaviour
                 DisplayMap(moistureMap);
                 break;
         }
-        
+
         //Sets the world map texture
         wd.worldMap = TextureGenerator.TextureFromColourMap(colourMap, size, size);
 
         //sets the height map for later use
         wd.heightMap = terrainMap;
 
-        return wd; //returns generated world data
+        worldManager.worldData = wd; //returns generated world data
+
+        ObjectStore.instance.mapDisplay.DrawWorldMap(wd);
+
+        FinishGenerating(worldManager);
     }
 
     //Overloaded methods for different types of textures
     public void DisplayMap(float[,] map)
     {
         MapDisplay display = FindObjectOfType<MapDisplay>();
-        
+
         display.DrawTexture(TextureGenerator.TextureFromHeightMap(map));
     }
     public void DisplayMap(Color[] colourMap, int size)
@@ -143,6 +159,35 @@ public class MapGenerator : MonoBehaviour
         MapDisplay display = FindObjectOfType<MapDisplay>();
 
         display.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(size, size)));
+    }
+
+    //Subscribing to the OnValuesUpdated event
+    private void OnValidate()
+    {
+        if (terrainData != null)
+        {
+            terrainData.OnValuesUpdated -= OnValuesUpdated;
+            terrainData.OnValuesUpdated += OnValuesUpdated;
+        }
+        if (temperatureData != null)
+        {
+            temperatureData.OnValuesUpdated -= OnValuesUpdated;
+            temperatureData.OnValuesUpdated += OnValuesUpdated;
+        }
+        if (moistureData != null)
+        {
+            moistureData.OnValuesUpdated -= OnValuesUpdated;
+            moistureData.OnValuesUpdated += OnValuesUpdated;
+        }
+    }
+
+    //Editing the generation in the editor
+    void OnValuesUpdated()
+    {
+        if (!Application.isPlaying)
+        {
+            Initialise(ObjectStore.instance.worldManager);
+        }
     }
 }
 

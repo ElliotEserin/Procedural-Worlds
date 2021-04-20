@@ -31,9 +31,10 @@ public static class NameGenerator
             "Rock",
             "Farm",
             "Mine",
+            "song"
 };
 
-    public static string GenerateVillageName(int seed, VillageGeneratorMK2.VillageRadius radius)
+    public static string GenerateVillageName(int seed, Village.VillageRadius radius)
     {
         System.Random rand = new System.Random(seed);
 
@@ -43,19 +44,19 @@ public static class NameGenerator
 
         switch (radius)
         {
-            case VillageGeneratorMK2.VillageRadius.Large:
+            case Village.VillageRadius.Large:
                 villageType = "City";
                 break;
-            case VillageGeneratorMK2.VillageRadius.Medium:
+            case Village.VillageRadius.Medium:
                 villageType = "Town";
                 break;
             default:
-            case VillageGeneratorMK2.VillageRadius.Small:
+            case Village.VillageRadius.Small:
                 villageType = "Village";
                 break;
         }
 
-        int layout = rand.Next(0, 1);
+        int layout = rand.Next(0, 2);
 
         if(layout == 0)
             return villageAdjective1 + " " + villageType;

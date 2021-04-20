@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class DetailGenerator : MonoBehaviour
+public class DetailGenerator : Generator
 {
     public int maxNumberOfDecorations;
 
@@ -19,11 +19,18 @@ public class DetailGenerator : MonoBehaviour
         Grid
     }
 
-    public void Generate(int seed, int worldDimension)
+    public override void Initialise(WorldManager worldManager)
+    {
+        Generate(worldManager);
+    }
+
+    protected override void Generate(WorldManager worldManager)
     {
         TilemapData data = new TilemapData();
 
         System.Random rand = new System.Random(seed);
+
+        var worldDimension = (int)worldManager.worldSize;
 
         switch (generationMethod)
         {
@@ -36,6 +43,10 @@ public class DetailGenerator : MonoBehaviour
         }
 
         ObjectStore.instance.mapDisplay.DrawCollidableDetail(data);
+
+        FindObjectOfType<Grid>().Initialise();
+
+        FinishGenerating(worldManager);
 
         void RandomPlacement()
         {

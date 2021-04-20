@@ -121,6 +121,56 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &50273722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 50273723}
+  - component: {fileID: 50273724}
+  m_Layer: 0
+  m_Name: Building Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &50273723
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50273722}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 294910744}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &50273724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50273722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2faad993554dfa342b3a3ce9a7a9a33f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextGeneration: {fileID: 0}
+  buildingPrefab: {fileID: 6538551206622744171, guid: b3d9016a452d443438a525575e3c5d08,
+    type: 3}
+  minBuildingHeight: 0.4
+  maxBuildingHeight: 0.8
+  minimumBuildingDistance: 150
+  maxNumberOfBuildings: 10
 --- !u!1 &58317263
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,40 +454,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2d608d4e9671004ba28485a55113bca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldSize: 1000
+  worldSize: 1500
   useCustomSize: 0
   customSize: 350
   seed: -80048518
   randomSeed: 1
-  useTilemap: 1
-  useVillages: 1
-  useBuildings: 1
-  useRivers: 1
-  useDetail: 1
+  pathfindingGrid: {fileID: 292381585}
+  mapGen: {fileID: 1814434566}
+  riverGen: {fileID: 1428121601}
+  villageGen: {fileID: 855963350}
+  buildingGen: {fileID: 50273724}
+  detailGen: {fileID: 404683252}
+  pathGen: {fileID: 573931096}
   playerPrefab: {fileID: 6037208738106281777, guid: 21c1eddf657965a4da17c9511fd927a1,
     type: 3}
   cameraController: {fileID: 519420030}
-  terrainData: {fileID: 11400000, guid: 973c01bd4da37644c82afee0343452bb, type: 2}
-  temperatureData: {fileID: 11400000, guid: 423c927156eaf304299b3b29e7ca08aa, type: 2}
-  moistureData: {fileID: 11400000, guid: aaec569f1285a2a47853474cd9f926c9, type: 2}
-  villagePrefab: {fileID: 4416148347921050942, guid: 84471ad5e0197c849b57c2f63e8660e0,
-    type: 3}
-  minVillageHeight: 0.5
-  maxVillageHeight: 0.7
-  minimumVillageDistance: 250
-  maxNumberOfVillages: 3
-  buildingPrefab: {fileID: 6538551206622744171, guid: b3d9016a452d443438a525575e3c5d08,
-    type: 3}
-  minBuildingHeight: 0.4
-  maxBuildingHeight: 0.75
-  minimumBuildingDistance: 100
-  maxNumberOfBuildings: 5
-  tilemapPrefabs:
-  - {fileID: 11400000, guid: 628df1bf206809b479908d533bfc002e, type: 2}
-  - {fileID: 11400000, guid: fb6fe292b631f9047ab013682b72ebf1, type: 2}
-  - {fileID: 11400000, guid: bdcdec6fc14e6f24ea5f12212b532965, type: 2}
-  - {fileID: 11400000, guid: 3a979a678f4cc914083a9eec0c878798, type: 2}
-  - {fileID: 11400000, guid: f3a72feb2bf0f5042bea9145ddbe66f7, type: 2}
+  buildingPrefabs:
+  - {fileID: 11400000, guid: 3f9b4779702549243a3894566b88f370, type: 2}
 --- !u!4 &294910744
 Transform:
   m_ObjectHideFlags: 0
@@ -450,9 +483,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1814434567}
+  - {fileID: 1428121600}
+  - {fileID: 855963349}
+  - {fileID: 50273723}
   - {fileID: 404683251}
   - {fileID: 573931095}
-  - {fileID: 1428121600}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -473,6 +508,7 @@ MonoBehaviour:
   detailMap: {fileID: 1129897769}
   detailMap2: {fileID: 1977909149}
   mapDisplay: {fileID: 1814434568}
+  worldManager: {fileID: 294910743}
 --- !u!1 &388493499
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,7 +616,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 294910744}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &404683252
 MonoBehaviour:
@@ -594,6 +630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 370190cf05d53984ca69d7b57aaceac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextGeneration: {fileID: 0}
   maxNumberOfDecorations: 500
   allowedBiomes:
   - {fileID: 11400000, guid: e6595be35f66b754bb5740ecc2d4b1c3, type: 2}
@@ -1019,7 +1056,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 294910744}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &573931096
 MonoBehaviour:
@@ -1033,9 +1070,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0da87e9445aa92d4b9c49d8b25d1aa6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextGeneration: {fileID: 0}
   maxPathsPerGoal: 2
   minPathLength: 100
-  maxPathLength: 300
+  maxPathLength: 600
 --- !u!1 &806236772
 GameObject:
   m_ObjectHideFlags: 0
@@ -1232,6 +1270,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 819126590}
   m_CullTransparentMesh: 0
+--- !u!1 &855963348
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 855963349}
+  - component: {fileID: 855963350}
+  m_Layer: 0
+  m_Name: Village Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &855963349
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 855963348}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 294910744}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &855963350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 855963348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 197b405849438d946a7eff95ac5d8bfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextGeneration: {fileID: 0}
+  villagePrefab: {fileID: 4416148347921050942, guid: 84471ad5e0197c849b57c2f63e8660e0,
+    type: 3}
+  minVillageHeight: 0.4
+  maxVillageHeight: 0.7
+  minimumVillageDistance: 300
+  maxNumberOfVillages: 5
 --- !u!1 &859387416
 GameObject:
   m_ObjectHideFlags: 0
@@ -2169,7 +2257,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 294910744}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1428121601
 MonoBehaviour:
@@ -2183,6 +2271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cda1d6dfc41c6254aa6fd3d30fe5f694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextGeneration: {fileID: 0}
   riverObject: {fileID: 2985642719128651780, guid: dd35be7d73c9b4941b2615c2a2338d3c,
     type: 3}
   minRiverHeight: 0.75
@@ -2732,9 +2821,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767887b1804a8fa439652692ee538863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawMode: 1
+  nextGeneration: {fileID: 0}
+  drawMode: 2
   useFalloff: 1
   autoUpdate: 0
+  terrainData: {fileID: 11400000, guid: 973c01bd4da37644c82afee0343452bb, type: 2}
+  temperatureData: {fileID: 11400000, guid: 423c927156eaf304299b3b29e7ca08aa, type: 2}
+  moistureData: {fileID: 11400000, guid: aaec569f1285a2a47853474cd9f926c9, type: 2}
   regions:
   - {fileID: 11400000, guid: e8dfb7053205b9547bc980c5034e00cd, type: 2}
   - {fileID: 11400000, guid: b5d1679df3bc54b4fb960638d169670b, type: 2}
@@ -2819,6 +2912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0da87e9445aa92d4b9c49d8b25d1aa6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextGeneration: {fileID: 0}
   maxPathsPerGoal: 2
   minPathLength: 100
   maxPathLength: 200
@@ -7869,7 +7963,7 @@ Transform:
   m_GameObject: {fileID: 2065771168}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 150, y: 1, z: 150}
+  m_LocalScale: {x: 250, y: 1, z: 250}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3

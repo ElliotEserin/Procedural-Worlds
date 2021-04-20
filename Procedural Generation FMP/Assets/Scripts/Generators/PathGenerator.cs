@@ -11,13 +11,13 @@ public class PathGenerator : Generator
 
     List<TilemapData> paths;
 
-    public override void Initialise(int seed)
+    public override void Initialise(WorldManager worldManager)
     {
         goals = FindObjectsOfType<PathGoal>();
-        Generate();
+        Generate(worldManager);
     }
 
-    protected override void Generate()
+    protected override void Generate(WorldManager worldManager)
     {
         paths = new List<TilemapData>();
 
@@ -25,12 +25,16 @@ public class PathGenerator : Generator
         Pathfinding pathfinder = FindObjectOfType<Pathfinding>();
 
         PathGoal currentGoal;
+
+        Debug.Log(goals.Length);
+
         for (int i = 0; i < goals.Length; i++)
         {
             currentGoal = goals[i];
             for (int j = i+1; j < goals.Length; j++)
             {
                 var dist = Vector3.Distance(currentGoal.transform.position, goals[j].transform.position);
+                Debug.Log(dist);
                 if (dist <= maxPathLength && dist >= minPathLength)
                 {
                     if (currentGoal.ValidPath(goals[j]) && currentGoal.goalCount < maxPathsPerGoal)
@@ -41,7 +45,13 @@ public class PathGenerator : Generator
                         var pos2 = GenericHelper.ToVector3Int(goals[j].transform);
 
                         paths.Add(pathfinder.GeneratePath(pos1, pos2));
+
+                        Debug.Log("Made new path");
                     }
+                }
+                else
+                {
+                    Debug.Log("Invalid distance");
                 }
             }
         }
@@ -50,5 +60,7 @@ public class PathGenerator : Generator
         {
             display.DrawNonCollidableDetail(path);
         }
+
+        FinishGenerating(worldManager);
     }
 }

@@ -12,24 +12,22 @@ public class RiverGenerator : Generator
 
     public int maxNumberOfRivers = 3;
 
-    public override void Initialise(int seed)
+    public override void Initialise(WorldManager worldManager)
     {
-        this.seed = seed;
+        seed = worldSeed;
         rand = new System.Random(seed);
 
-        Generate();
+        Generate(worldManager);
     }
 
-    protected override void Generate()
+    protected override void Generate(WorldManager worldManager)
     {
-        WorldGenerator wg = FindObjectOfType<WorldGenerator>();
-
         for (int i = 0, n = 0; i < maxNumberOfRivers && n < 500; n++)
         {
-            int x = rand.Next(0, (int)wg.worldSize);
-            int y = rand.Next(0, (int)wg.worldSize);
+            int x = rand.Next(0, (int)worldManager.worldSize);
+            int y = rand.Next(0, (int)worldManager.worldSize);
 
-            float height = wg.worldData.heightMap[x, y];
+            float height = worldManager.worldData.heightMap[x, y];
 
             if (height < maxRiverHeight && height > minRiverHeight)
             {
@@ -38,10 +36,11 @@ public class RiverGenerator : Generator
                 var river = Instantiate(riverObject, startPos, Quaternion.identity);
 
                 river.Generate();
-                Debug.Log("Generated river");
                 i++;
                 n = 0;
             }
         }
+
+        FinishGenerating(worldManager);
     }
 } 

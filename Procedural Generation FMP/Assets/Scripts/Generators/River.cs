@@ -19,7 +19,7 @@ public class River : MonoBehaviour
         List<Vector3Int> positions = new List<Vector3Int>();
         List<TileBase> tiles = new List<TileBase>();
 
-        WorldGenerator wg = FindObjectOfType<WorldGenerator>();
+        WorldManager wg = FindObjectOfType<WorldManager>();
 
         Vector3Int currentPosition = Vector3Int.RoundToInt(transform.position);
         float currentHeight = wg.worldData.heightMap[currentPosition.x, currentPosition.y];

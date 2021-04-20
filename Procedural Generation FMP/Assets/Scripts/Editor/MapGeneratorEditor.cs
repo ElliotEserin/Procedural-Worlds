@@ -9,17 +9,17 @@ public class MapGeneratorEditor : Editor
     public override void OnInspectorGUI()
     {
         MapGenerator mapGen = (MapGenerator)target;
-        WorldGenerator worldGen = FindObjectOfType<WorldGenerator>();
+        WorldManager worldGen = FindObjectOfType<WorldManager>();
 
         if (DrawDefaultInspector())
         {
             if (mapGen.autoUpdate)
-                mapGen.GenerateMap(worldGen.useCustomSize ? worldGen.customSize : (int)worldGen.worldSize, worldGen.seed, worldGen.terrainData, worldGen.temperatureData, worldGen.moistureData);
+                mapGen.Initialise(worldGen);
         }
 
         if (GUILayout.Button("Generate"))
         {
-            mapGen.GenerateMap(worldGen.useCustomSize ? worldGen.customSize : (int)worldGen.worldSize, worldGen.seed, worldGen.terrainData, worldGen.temperatureData, worldGen.moistureData);
+            mapGen.Initialise(worldGen);
         }
 
     }
