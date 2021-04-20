@@ -80,9 +80,17 @@ public class TilemapBuilder : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        var offset = (cellSize % 2 == 0) ? Vector3.zero : Vector3.one / 2;
+        var origin = transform.position;
+        offset += origin;
+
+        Gizmos.color = Color.white;
+        Gizmos.DrawLine(origin - Vector3.right * cellSize, origin + Vector3.right * cellSize);
+        Gizmos.DrawLine(origin - Vector3.up * cellSize, origin + Vector3.up * cellSize);
+
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(transform.position, Vector3.one * cellSize);
+        Gizmos.DrawWireCube(offset, Vector3.one * cellSize);
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position, Vector3.one * cellSize * 2);
+        Gizmos.DrawWireCube(origin, Vector3.one * cellSize * 2);
     }
 }

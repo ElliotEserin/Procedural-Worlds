@@ -31,16 +31,23 @@ public class BuildingGenerator : Generator
 
     public override void Initialise(int seed)
     {
-        this.seed = seed + (int)transform.position.x + (int)transform.position.y;
+        if (!usePrefabBuilding)
+        {
+            this.seed = seed + (int)transform.position.x + (int)transform.position.y;
 
-        Array type = Enum.GetValues(typeof(BuildingType));
-        Array size = Enum.GetValues(typeof(BuildingSize));
-        System.Random random = new System.Random(this.seed);
+            Array type = Enum.GetValues(typeof(BuildingType));
+            Array size = Enum.GetValues(typeof(BuildingSize));
+            System.Random random = new System.Random(this.seed);
 
-        buildingType = (BuildingType)type.GetValue(random.Next(type.Length));
-        buildingSize = (BuildingSize)type.GetValue(random.Next(size.Length));
+            buildingType = (BuildingType)type.GetValue(random.Next(type.Length));
+            buildingSize = (BuildingSize)type.GetValue(random.Next(size.Length));
 
-        Generate();
+            Generate();
+        }
+        else
+        {
+            Generate(prefab);
+        }
     }
 
     public void Initialise(int seed, TilemapPrefab[] potentialBuildings, VillageGeneratorMK2.Direction direction)

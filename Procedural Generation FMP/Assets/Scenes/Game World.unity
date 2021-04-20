@@ -404,7 +404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2d608d4e9671004ba28485a55113bca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldSize: 2500
+  worldSize: 1000
   useCustomSize: 0
   customSize: 350
   seed: -80048518
