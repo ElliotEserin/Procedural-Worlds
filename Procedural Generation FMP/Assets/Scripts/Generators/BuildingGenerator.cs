@@ -81,6 +81,7 @@ public class BuildingGenerator : Generator
                 var v = go.GetComponent<Building>();
                 v.direction = Village.Direction.Up;
                 buildings.Add(v);
+                v.Initialise(worldManager);
                 i++;
                 n = 0;
             }

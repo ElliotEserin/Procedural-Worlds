@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Mountain
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 0}
-  m_Color: {r: 0.21698111, g: 0.17041205, b: 0.12384299, a: 1}
+  m_Color: {r: 0.2735849, g: 0.2298203, b: 0.18970275, a: 1}
   m_Transform:
     e00: 1
     e01: 0
@@ -35,13 +35,11 @@ MonoBehaviour:
   m_Flags: 1
   m_ColliderType: 0
   m_Sprites:
-  - {fileID: 21300000, guid: 3950d49feb6d9844b9cadd7fc2e08591, type: 3}
-  - {fileID: 21300000, guid: 23d7ed68719f3974688e08b3e69493d0, type: 3}
-  - {fileID: 21300000, guid: bc2dbdce3fa7577479ce856c16654525, type: 3}
-  - {fileID: 21300000, guid: a632a6e21dc0c414bb9573fe3953c107, type: 3}
-  - {fileID: 21300000, guid: 4f34d38678e56254998272a1e5f21462, type: 3}
-  - {fileID: 21300000, guid: b916353ce5e6a2c4d917b32af18488a1, type: 3}
-  - {fileID: 21300000, guid: 742592f36564eb04fa7e7154978a2e30, type: 3}
-  - {fileID: 21300000, guid: 8da42e3bbab39034dbc76b46c7f2f57b, type: 3}
-  - {fileID: 21300000, guid: a8e8465d73e31054d9eea3fec724e70e, type: 3}
-  - {fileID: 21300000, guid: 964a530b8029fb94ba6179e5879157dd, type: 3}
+  - {fileID: 21300000, guid: 830420429e095b14fb93af3f2a774c4f, type: 3}
+  - {fileID: 21300000, guid: f22a4dd86eb514844805eac6063a9a14, type: 3}
+  - {fileID: 21300000, guid: 812bf5b365ef12642ba534bc1d8d8f51, type: 3}
+  - {fileID: 21300000, guid: 67aa640b07726d84aa8fd33c105960a6, type: 3}
+  - {fileID: 21300000, guid: 91ec07f99b3396342b87c660842efbf1, type: 3}
+  - {fileID: 21300000, guid: 7cf4fcb9470b6f24792af06aeac2c63c, type: 3}
+  - {fileID: 21300000, guid: d068f192e07dffa4e8470e9ef7686d7a, type: 3}
+  - {fileID: 21300000, guid: 9a210ca656c037d4aaf3cd7f96af44e2, type: 3}
