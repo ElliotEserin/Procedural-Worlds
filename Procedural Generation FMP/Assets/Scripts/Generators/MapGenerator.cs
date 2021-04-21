@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using GenerationHelpers;
@@ -18,6 +19,7 @@ public class MapGenerator : Generator
     }
 
     public DrawMode drawMode;
+    public int mapRatio = 4;
 
     //adds ocean around the island
     public bool useFalloff;
@@ -36,11 +38,11 @@ public class MapGenerator : Generator
     public override void Initialise(WorldManager worldManager)
     {
         seed = worldSeed;
-
-        Generate(worldManager);
+        UIManager.UpdateLoadScreenText("Generating map...");
+        base.Initialise(worldManager);
     }
 
-    protected override void Generate(WorldManager worldManager)
+    protected override IEnumerator Generate(WorldManager worldManager)
     {
         var size = (int)worldManager.worldSize;
 
@@ -53,13 +55,25 @@ public class MapGenerator : Generator
 
         falloffMap = FalloffGenerator.GenerateFalloffMap(size, size);
 
+        yield return null;
+
+        UIManager.UpdateLoadScreenText("Generating terrain.");
         //Perlin noise arrays
         var terrainMap = Noise.GenerateNoiseMap(size, seed, terrainData.noiseScale, terrainData.octaves, terrainData.persistance, terrainData.lacunarity, terrainData.offset);
+        yield return null;
+        UIManager.UpdateLoadScreenText("Generating deserts and tundras.");
         var temperatureMap = Noise.GenerateNoiseMap(size, seed, temperatureData.noiseScale, temperatureData.octaves, temperatureData.persistance, temperatureData.lacunarity, temperatureData.offset);
+        yield return null;
+        UIManager.UpdateLoadScreenText("Generating woodlands and savanas.");
         var moistureMap = Noise.GenerateNoiseMap(size, seed, moistureData.noiseScale, moistureData.octaves, moistureData.persistance, moistureData.lacunarity, moistureData.offset);
+        yield return null;
+
+        int mapDimension = (size - (size % mapRatio)) / mapRatio;
 
         //color array to convert to texture2D
-        Color[] colourMap = new Color[size * size];
+        Color[] colourMap = new Color[mapDimension * mapDimension];
+
+        UIManager.UpdateLoadScreenText("Coloring in the blank spots.");
 
         for (int y = 0; y < size; y++)
         {
@@ -88,13 +102,17 @@ public class MapGenerator : Generator
                         {
                             var biome = temperature[(int)Mathf.Round(currentTemp * (temperature.Count - 1))].moisture[(int)Mathf.Round(currentMoisture * (temperature.Count - 1))];
 
-                            colourMap[y * size + x] = biome.colour;
+                            if(y % mapRatio == 0 && x % mapRatio == 0)
+                                colourMap[(y/mapRatio) * mapDimension + (x/mapRatio)] = biome.colour;
+
                             wd.tiles[y * size + x] = biome.tile;
                             wd.tileTypeMap[x, y] = biome;
                         }
                         else
                         {
-                            colourMap[y * size + x] = regions[i].colour;
+                            if (y % mapRatio == 0 && x % mapRatio == 0)
+                                colourMap[(y / mapRatio) * mapDimension + (x / mapRatio)] = regions[i].colour;
+
                             wd.tiles[y * size + x] = regions[i].tile;
                             wd.tileTypeMap[x, y] = regions[i];
                         }
@@ -110,7 +128,7 @@ public class MapGenerator : Generator
         {
             default:
             case DrawMode.ColourMap:
-                DisplayMap(colourMap, size);
+                DisplayMap(colourMap, mapDimension);
                 break;
             case DrawMode.FalloffMap:
                 DisplayMap(size);
@@ -127,9 +145,15 @@ public class MapGenerator : Generator
                 DisplayMap(moistureMap);
                 break;
         }
+        yield return null;
+
+        UIManager.UpdateLoadScreenText("Drawing up maps.");
 
         //Sets the world map texture
-        wd.worldMap = TextureGenerator.TextureFromColourMap(colourMap, size, size);
+        wd.worldMap = TextureGenerator.TextureFromColourMap(colourMap, mapDimension, mapDimension);
+        yield return null;
+
+        UIManager.UpdateLoadScreenText("Tidying up.");
 
         //sets the height map for later use
         wd.heightMap = terrainMap;

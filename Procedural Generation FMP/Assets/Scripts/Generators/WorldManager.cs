@@ -34,7 +34,13 @@ public class WorldManager : MonoBehaviour
 
     private void Start()
     {
-        if (randomSeed)
+        if (WorldInfo.useWorldInfo)
+        {
+            seed = WorldInfo.worldSeed;
+            worldSize = WorldInfo.worldSize;
+        }
+
+        if (seed == 0)
             seed = RandomString(8).GetHashCode();
 
         Generator.worldSeed = seed;
@@ -44,85 +50,37 @@ public class WorldManager : MonoBehaviour
 
     void Generation()
     {
+        UIManager.UpdateLoadScreenText("Initialising...");
+
         //Setting up generating chain
         mapGen.nextGeneration = riverGen;
         riverGen.nextGeneration = villageGen;
         villageGen.nextGeneration = buildingGen;
         buildingGen.nextGeneration = detailGen;
         detailGen.nextGeneration = pathGen;
+        pathGen.OnFinishedGenerating += InitialisePlayer;
 
         //Generates the world
         mapGen.Initialise(this);
+    }
 
-        ////Draws the tilemap
-        //if (useTilemap)
-        //{
-        //    ObjectStore.instance.mapDisplay.DrawWorldMap(worldData);
-        //}
+    public void InitialisePlayer()
+    {
+        UIManager.UpdateLoadScreenText("Moulding a player...");
 
-        //if (useRivers)
-        //{
-        //    FindObjectOfType<RiverGenerator>().Initialise(seed);
-        //}
-     
-        ////Villages
-        //if (useVillages && useTilemap)
-        //{
-        //    //GenerateVillages();
-        //}
-
-        ////Buildings
-        //if (useBuildings)
-        //{
-        //    //GenerateBuildings();
-        //}
-
-        ////Detail
-        //if (useDetail)
-        //{
-        //    detailGen.Generate(seed, (int)worldSize);
-        //}
-
-        ////Pathfinding
-        //FindObjectOfType<Grid>().Initialise();
-
-        //FindObjectOfType<PathGenerator>().Initialise(seed);
-
-        //Player
         var middle = (int)worldSize / 2;
         var target = Instantiate(playerPrefab, new Vector3(middle, middle, 0), Quaternion.identity);
 
         cameraController.target = target.transform;
+        cameraController.transform.position = target.transform.position;
+
+        UIManager.UpdateLoadScreenText("Starting weather.");
 
         var weather = FindObjectOfType<DayNightCycle>();
 
         weather.transform.parent = target.transform;
         weather.transform.localPosition = Vector3.zero;
         weather.spotLights.Add(target.GetComponentInChildren<UnityEngine.Experimental.Rendering.Universal.Light2D>());
-    }
-
-    public void ChangeWorldSize()
-    {
-        //switch (dropdown.value)
-        //{
-        //    case 0:
-        //        worldSize = WorldSize.Large;
-        //        break;
-        //    case 1:
-        //        worldSize = WorldSize.Medium;
-        //        break;
-        //    case 2:
-        //        worldSize = WorldSize.Small;
-        //        break;
-        //    case 3:
-        //        worldSize = WorldSize.Island;
-        //        break;
-        //}
-    }
-
-    public void ChangeSeed()
-    {
-        //seed = iField.text.GetHashCode();
     }
 
     public string RandomString(int length)

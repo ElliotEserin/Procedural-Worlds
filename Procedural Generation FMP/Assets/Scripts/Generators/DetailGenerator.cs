@@ -21,11 +21,14 @@ public class DetailGenerator : Generator
 
     public override void Initialise(WorldManager worldManager)
     {
-        Generate(worldManager);
+        UIManager.UpdateLoadScreenText("Generating detail...");
+        base.Initialise(worldManager);
     }
 
-    protected override void Generate(WorldManager worldManager)
+    protected override IEnumerator Generate(WorldManager worldManager)
     {
+        UIManager.UpdateLoadScreenText("Placing trees and rocks.");
+
         TilemapData data = new TilemapData();
 
         System.Random rand = new System.Random(seed);
@@ -42,9 +45,9 @@ public class DetailGenerator : Generator
                 break;
         }
 
-        ObjectStore.instance.mapDisplay.DrawCollidableDetail(data);
+        yield return null;
 
-        FindObjectOfType<Grid>().Initialise();
+        ObjectStore.instance.mapDisplay.DrawCollidableDetail(data);
 
         FinishGenerating(worldManager);
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using GenerationHelpers;
@@ -89,7 +90,7 @@ public class VillageSpawn : Generator
         Generate(worldManager);
     }
 
-    protected override void Generate(WorldManager worldManager)
+    protected override IEnumerator Generate(WorldManager worldManager)
     {
         largeBuildingsToGenerate = new List<Building>();
 
@@ -144,6 +145,8 @@ public class VillageSpawn : Generator
                 DestroyImmediate(building.gameObject);
             }
         }
+
+        yield return null;
     }
    
     int[,] GenerateRoads()

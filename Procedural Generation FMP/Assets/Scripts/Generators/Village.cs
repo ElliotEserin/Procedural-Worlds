@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -85,10 +86,10 @@ public class Village : Generator
                 break;
         }
 
-        Generate(worldManager);
+        base.Initialise(worldManager);
     }
 
-    protected override void Generate(WorldManager worldManager)
+    protected override IEnumerator Generate(WorldManager worldManager)
     {
         villageName = NameGenerator.GenerateVillageName(seed, villageRadius);
 
@@ -97,6 +98,8 @@ public class Village : Generator
 
         //Display
         ObjectStore.instance.mapDisplay.DrawVillage(roadData);
+
+        yield return null;
     }
 
     private TilemapData GenerateRoadGrid(out List<BuildingPoint> buildings)

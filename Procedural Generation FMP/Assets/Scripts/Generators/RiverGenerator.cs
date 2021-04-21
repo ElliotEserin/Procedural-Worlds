@@ -16,14 +16,16 @@ public class RiverGenerator : Generator
     {
         seed = worldSeed;
         rand = new System.Random(seed);
-
-        Generate(worldManager);
+        UIManager.UpdateLoadScreenText("Generating rivers...");
+        base.Initialise(worldManager);
     }
 
-    protected override void Generate(WorldManager worldManager)
+    protected override IEnumerator Generate(WorldManager worldManager)
     {
         for (int i = 0, n = 0; i < maxNumberOfRivers && n < 500; n++)
         {
+            UIManager.UpdateLoadScreenText($"Forming river {i}.");
+
             int x = rand.Next(0, (int)worldManager.worldSize);
             int y = rand.Next(0, (int)worldManager.worldSize);
 
@@ -39,6 +41,8 @@ public class RiverGenerator : Generator
                 i++;
                 n = 0;
             }
+
+            yield return null;
         }
 
         FinishGenerating(worldManager);

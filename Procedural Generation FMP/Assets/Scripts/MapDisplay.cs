@@ -19,12 +19,10 @@ public class MapDisplay : MonoBehaviour
         if(ObjectStore.instance.terrainMap != null)
         {
             ObjectStore.instance.terrainMap.ClearAllTiles();
-            ObjectStore.instance.terrainMap.ClearAllEditorPreviewTiles();
         }
         if(ObjectStore.instance.villageMap != null)
         {
             ObjectStore.instance.villageMap.ClearAllTiles();
-            ObjectStore.instance.villageMap.ClearAllEditorPreviewTiles();
         }
     }
 

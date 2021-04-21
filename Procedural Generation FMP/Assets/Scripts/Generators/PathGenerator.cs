@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using GenerationHelpers;
 
 public class PathGenerator : Generator
@@ -14,12 +15,15 @@ public class PathGenerator : Generator
     public override void Initialise(WorldManager worldManager)
     {
         goals = FindObjectsOfType<PathGoal>();
-        Generate(worldManager);
+        UIManager.UpdateLoadScreenText("Generating paths...");
+        base.Initialise(worldManager);
     }
 
-    protected override void Generate(WorldManager worldManager)
+    protected override IEnumerator Generate(WorldManager worldManager)
     {
         paths = new List<TilemapData>();
+
+        FindObjectOfType<Grid>().Initialise();
 
         MapDisplay display = FindObjectOfType<MapDisplay>();
         Pathfinding pathfinder = FindObjectOfType<Pathfinding>();
@@ -31,6 +35,7 @@ public class PathGenerator : Generator
         for (int i = 0; i < goals.Length; i++)
         {
             currentGoal = goals[i];
+            UIManager.UpdateLoadScreenText($"Making path {i}.");
             for (int j = i+1; j < goals.Length; j++)
             {
                 var dist = Vector3.Distance(currentGoal.transform.position, goals[j].transform.position);
@@ -47,6 +52,8 @@ public class PathGenerator : Generator
                         paths.Add(pathfinder.GeneratePath(pos1, pos2));
 
                         Debug.Log("Made new path");
+
+                        yield return null;
                     }
                 }
                 else
@@ -56,9 +63,12 @@ public class PathGenerator : Generator
             }
         }
 
-        foreach(var path in paths)
+        UIManager.UpdateLoadScreenText("Drawing paths.");
+
+        foreach (var path in paths)
         {
             display.DrawNonCollidableDetail(path);
+            yield return null;
         }
 
         FinishGenerating(worldManager);

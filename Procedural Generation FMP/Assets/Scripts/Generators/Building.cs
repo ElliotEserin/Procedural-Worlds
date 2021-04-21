@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using GenerationHelpers;
 using System;
+using System.Collections;
 
 public class Building : Generator
 {
@@ -42,7 +43,7 @@ public class Building : Generator
             buildingType = (BuildingType)type.GetValue(random.Next(type.Length));
             buildingSize = (BuildingSize)type.GetValue(random.Next(size.Length));
 
-            Generate(worldManager);
+            base.Initialise(worldManager);
         }
         else
         {
@@ -60,7 +61,7 @@ public class Building : Generator
         Generate(prefab);
     }
 
-    protected override void Generate(WorldManager worldManager)
+    protected override IEnumerator Generate(WorldManager worldManager)
     {
         switch (buildingType)
         {
@@ -72,6 +73,8 @@ public class Building : Generator
             case BuildingType.Ruin:
                 break;
         }
+
+        yield return null;
     }
 
     public void Generate(TilemapPrefab prefab)
