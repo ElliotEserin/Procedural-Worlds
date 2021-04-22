@@ -33,6 +33,12 @@ public class MapDisplay : MonoBehaviour
         textureRenderer.transform.localScale = new Vector3(texture.width * scale, 1, texture.height * scale);
     }  
 
+    public void DrawMap(Texture2D texture)
+    {
+        //textureRenderer.sharedMaterial.mainTexture = texture;
+        //textureRenderer.transform.localScale = new Vector3(texture.width * scale, 1, texture.height * scale);
+    }
+
     //Draws the tiles to a tilemap
     public void DrawWorldMap(WorldData worldData)
     {

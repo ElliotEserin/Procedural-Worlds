@@ -153,36 +153,58 @@ public class MapGenerator : Generator
         wd.worldMap = TextureGenerator.TextureFromColourMap(colourMap, mapDimension, mapDimension);
         yield return null;
 
-        UIManager.UpdateLoadScreenText("Tidying up.");
-
         //sets the height map for later use
         wd.heightMap = terrainMap;
 
         worldManager.worldData = wd; //returns generated world data
 
+        //Draw whole map
         ObjectStore.instance.mapDisplay.DrawWorldMap(wd);
 
+        //const int chunkSize = 1024;
+
+        ////Draw map in chunks
+        //for (int c = 0; c < wd.tilePositions.Length; c+=chunkSize)
+        //{
+        //    UIManager.UpdateLoadScreenText($"Sculpting chunk {c/chunkSize}.");
+        //    TilemapData chunk = GetChunk(c);
+        //    ObjectStore.instance.mapDisplay.DrawTerrain(chunk);
+        //    yield return null;
+        //}
+
         FinishGenerating(worldManager);
+
+        // FUNCIONS
+        //TilemapData GetChunk(int startPoint)
+        //{
+        //    List<Vector3Int> positions = new List<Vector3Int>();
+        //    List<TileBase> tiles = new List<TileBase>();
+
+        //    for (int i = 0; i < startPoint + chunkSize; i++)
+        //    {
+        //        if (i < wd.tilePositions.Length)
+        //        {
+        //            positions.Add(wd.tilePositions[i]);
+        //            tiles.Add(wd.tiles[i]);
+        //        }
+        //    }
+
+        //    return new TilemapData(positions.ToArray(), tiles.ToArray());
+        //}
     }
 
     //Overloaded methods for different types of textures
     public void DisplayMap(float[,] map)
     {
-        MapDisplay display = FindObjectOfType<MapDisplay>();
-
-        display.DrawTexture(TextureGenerator.TextureFromHeightMap(map));
+        ObjectStore.instance.mapDisplay.DrawTexture(TextureGenerator.TextureFromHeightMap(map));
     }
     public void DisplayMap(Color[] colourMap, int size)
     {
-        MapDisplay display = FindObjectOfType<MapDisplay>();
-
-        display.DrawTexture(TextureGenerator.TextureFromColourMap(colourMap, size, size));
+         ObjectStore.instance.mapDisplay.DrawTexture(TextureGenerator.TextureFromColourMap(colourMap, size, size));
     }
     public void DisplayMap(int size)
     {
-        MapDisplay display = FindObjectOfType<MapDisplay>();
-
-        display.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(size, size)));
+        ObjectStore.instance.mapDisplay.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(size, size)));
     }
 
     //Subscribing to the OnValuesUpdated event

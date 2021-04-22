@@ -20,7 +20,6 @@ public class WorldManager : MonoBehaviour
 
     //Seed for the world
     public int seed;
-    public bool randomSeed;
 
     public Grid pathfindingGrid;
     public Generator mapGen, riverGen, villageGen, buildingGen, detailGen, pathGen;
