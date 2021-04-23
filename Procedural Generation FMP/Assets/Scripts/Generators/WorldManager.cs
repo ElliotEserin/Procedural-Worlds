@@ -18,6 +18,8 @@ public class WorldManager : MonoBehaviour
     public bool useCustomSize;
     public int customSize;
 
+    public Texture2D worldMap;
+
     //Seed for the world
     public int seed;
 
@@ -58,6 +60,7 @@ public class WorldManager : MonoBehaviour
         buildingGen.nextGeneration = detailGen;
         detailGen.nextGeneration = pathGen;
         pathGen.OnFinishedGenerating += InitialisePlayer;
+        pathGen.OnFinishedGenerating += InitialiseWorldMap;
 
         //Generates the world
         mapGen.Initialise(this);
@@ -82,6 +85,11 @@ public class WorldManager : MonoBehaviour
         weather.spotLights.Add(target.GetComponentInChildren<UnityEngine.Experimental.Rendering.Universal.Light2D>());
     }
 
+    public void InitialiseWorldMap()
+    {
+        TextureGenerator.TextureFromColourMap(worldData.worldMap, MapGenerator.mapDimension, MapGenerator.mapDimension, worldMap);
+    }
+
     public string RandomString(int length)
     {
         var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -100,8 +108,35 @@ public class WorldManager : MonoBehaviour
 //Stores the world data
 public class WorldData : TilemapData
 {
-    public Texture2D worldMap;
+    public Color[] worldMap;
     public float[,] heightMap;
 
     public TileType[,] tileTypeMap;
+
+    public void SetWorldMapPoint(int x, int y, Color colour)
+    {
+        worldMap[y * MapGenerator.mapDimension + x] = colour;
+    }
+
+    public void SetWorldMapIcon(int x, int y, Texture2D icon)
+    {
+        if (icon == null)
+            return;
+
+        x /= MapGenerator.mapRatio;
+        y /= MapGenerator.mapRatio;
+
+        Color[] iconColours = icon.GetPixels();
+
+        int sideLength = (int)Mathf.Sqrt(iconColours.Length);
+
+        for (int yy = 0; yy < sideLength; yy++)
+        {
+            for (int xx = 0; xx < sideLength; xx++)
+            {
+                Debug.Log(iconColours[yy * sideLength + xx]);
+                SetWorldMapPoint(x + xx, y + yy, iconColours[yy * sideLength + xx]);
+            }
+        }
+    }
 }

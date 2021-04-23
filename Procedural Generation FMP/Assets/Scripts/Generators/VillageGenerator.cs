@@ -82,6 +82,8 @@ public class VillageGenerator : Generator
                     villages.Add(v);
                     i++;
                     n = 0;
+
+                    worldManager.worldData.SetWorldMapIcon(position.x, position.y, mapIcon);
                 }
 
                 yield return null;

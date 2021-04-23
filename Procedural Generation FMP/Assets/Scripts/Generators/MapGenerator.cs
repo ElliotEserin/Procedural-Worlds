@@ -19,11 +19,13 @@ public class MapGenerator : Generator
     }
 
     public DrawMode drawMode;
-    public int mapRatio = 4;
 
     //adds ocean around the island
     public bool useFalloff;
     float[,] falloffMap;
+
+    public static int mapRatio = 4;
+    [HideInInspector] public static int mapDimension;
 
     public bool autoUpdate;
 
@@ -68,7 +70,7 @@ public class MapGenerator : Generator
         var moistureMap = Noise.GenerateNoiseMap(size, seed, moistureData.noiseScale, moistureData.octaves, moistureData.persistance, moistureData.lacunarity, moistureData.offset);
         yield return null;
 
-        int mapDimension = (size - (size % mapRatio)) / mapRatio;
+        mapDimension = (size - (size % mapRatio)) / mapRatio;
 
         //color array to convert to texture2D
         Color[] colourMap = new Color[mapDimension * mapDimension];
@@ -147,10 +149,10 @@ public class MapGenerator : Generator
         }
         yield return null;
 
-        UIManager.UpdateLoadScreenText("Drawing up maps.");
+        UIManager.UpdateLoadScreenText("Growing a tree.");
 
         //Sets the world map texture
-        wd.worldMap = TextureGenerator.TextureFromColourMap(colourMap, mapDimension, mapDimension);
+        wd.worldMap = colourMap;
         yield return null;
 
         //sets the height map for later use

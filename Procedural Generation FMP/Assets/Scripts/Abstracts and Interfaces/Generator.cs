@@ -7,6 +7,8 @@ public abstract class Generator : MonoBehaviour
     public static int worldSeed;
     protected int seed;
 
+    [SerializeField] protected Texture2D mapIcon;
+
     [HideInInspector] public Generator nextGeneration;
 
     public delegate void GeneratingHandler();

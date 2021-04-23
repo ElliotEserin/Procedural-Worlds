@@ -95,6 +95,8 @@ public class BuildingGenerator : Generator
                     v.Initialise(worldManager);
                     i++;
                     n = 0;
+
+                    worldManager.worldData.SetWorldMapIcon(position.x, position.y, mapIcon);
                 }
 
                 yield return null;

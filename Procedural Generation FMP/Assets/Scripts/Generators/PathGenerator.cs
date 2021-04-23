@@ -30,8 +30,6 @@ public class PathGenerator : Generator
 
         PathGoal currentGoal;
 
-        Debug.Log(goals.Length);
-
         for (int i = 0; i < goals.Length; i++)
         {
             currentGoal = goals[i];
@@ -51,14 +49,8 @@ public class PathGenerator : Generator
 
                         paths.Add(pathfinder.GeneratePath(pos1, pos2));
 
-                        Debug.Log("Made new path");
-
                         yield return null;
                     }
-                }
-                else
-                {
-                    Debug.Log("Invalid distance");
                 }
             }
         }

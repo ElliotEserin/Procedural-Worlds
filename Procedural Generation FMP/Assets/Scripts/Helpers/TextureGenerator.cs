@@ -5,9 +5,13 @@ using UnityEngine;
 public static class TextureGenerator 
 {
     //Generates a Texture2D from a colour map - world map
-    public static Texture2D TextureFromColourMap(Color[] colourMap, int width, int height)
+    public static Texture2D TextureFromColourMap(Color[] colourMap, int width, int height, Texture2D texture = null)
     {
-        Texture2D texture = new Texture2D(width, height);
+        if (texture == null)
+            texture = new Texture2D(width, height);
+        else
+            texture.Resize(width, height);
+
         texture.filterMode = FilterMode.Point;
         texture.wrapMode = TextureWrapMode.Clamp;
         texture.SetPixels(colourMap);
