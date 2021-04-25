@@ -16,5 +16,11 @@ MonoBehaviour:
   colour: {r: 0.5849056, g: 0.3315904, b: 0.20140618, a: 0}
   tile: {fileID: 11400000, guid: a9692a1b9e94fca468dc0f31d87fa695, type: 2}
   pathfindingWeight: 5
-  biomeDecorations: []
-  chanceOfNoDecorativeTile: 0
+  biomeDecorations:
+  - tile: {fileID: 11400000, guid: 15a4ef601048f154885b4d9723ffd602, type: 2}
+    chance: 1
+  - tile: {fileID: 11400000, guid: 7d7d07d9dc4715b43878c9fc7e499eb6, type: 2}
+    chance: 1
+  - tile: {fileID: 11400000, guid: 8b12c5971e050a74590fa3b103317f97, type: 2}
+    chance: 6
+  chanceOfNoDecorativeTile: 0.8

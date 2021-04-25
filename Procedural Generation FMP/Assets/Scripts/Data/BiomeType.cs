@@ -9,7 +9,7 @@ public class BiomeType : TileType
 
     float max;
 
-    public UnityEngine.Tilemaps.TileBase GetDecorTile(System.Random rand, bool canBeNone)
+    public UnityEngine.Tilemaps.TileBase GetDecorTile(System.Random rand, bool canBeNone, float distance)
     {
         if(max == 0)
             max = GetMaxChanceValue();
@@ -19,7 +19,20 @@ public class BiomeType : TileType
 
         if (canBeNone)
         {
-            if(rand.Next(0, 100) / 100f < chanceOfNoDecorativeTile)
+            const float minAllowedDistance = 15;
+            const float falloff = 3;
+
+            if (distance == 0)
+                distance = 0.0001f;
+
+            float chance = rand.Next(0, 100) / 100f + (minAllowedDistance / distance) * falloff;
+
+            if(distance < minAllowedDistance)
+            {
+                return null;
+            }
+
+            if (chance < chanceOfNoDecorativeTile)
             {
                 return null;
             }

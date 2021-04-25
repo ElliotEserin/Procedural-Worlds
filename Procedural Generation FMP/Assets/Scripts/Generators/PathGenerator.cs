@@ -37,7 +37,7 @@ public class PathGenerator : Generator
             for (int j = i+1; j < goals.Length; j++)
             {
                 var dist = Vector3.Distance(currentGoal.transform.position, goals[j].transform.position);
-                Debug.Log(dist);
+
                 if (dist <= maxPathLength && dist >= minPathLength)
                 {
                     if (currentGoal.ValidPath(goals[j]) && currentGoal.goalCount < maxPathsPerGoal)

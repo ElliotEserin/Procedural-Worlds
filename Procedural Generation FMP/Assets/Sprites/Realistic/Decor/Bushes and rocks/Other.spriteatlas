@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Other
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 0c4ff2c881c3bec4d9823f635de33ac5, type: 3}
+    - {fileID: 2800000, guid: c9bc21fcc3a1ef84f8f60a636a9d691e, type: 3}
+    - {fileID: 2800000, guid: 67a02e592c227b34a92e4d85b4dfd1e7, type: 3}
+    - {fileID: 2800000, guid: 2bc704feda4586e4fa24ef6af9cef488, type: 3}
+    - {fileID: 2800000, guid: eb52679ce84a7754ea019982c8509730, type: 3}
+    - {fileID: 2800000, guid: 697c5171ddac53d49b832fd477a9b5ae, type: 3}
+    - {fileID: 2800000, guid: e5bd3308329164d4f99e967314371353, type: 3}
+    - {fileID: 2800000, guid: 6c1712cebf941b34aaab1999ad4301f7, type: 3}
+    - {fileID: 2800000, guid: f1e465792cadffa47b6b9cc3cb7ab29e, type: 3}
+    - {fileID: 2800000, guid: 033df108229f49840b221950a15ca5c9, type: 3}
+    - {fileID: 2800000, guid: 5294e4eb157a6ad41980e828df45a2e2, type: 3}
+    - {fileID: 2800000, guid: f883c9d37a9aeb348a4c0763254750f3, type: 3}
+    - {fileID: 2800000, guid: 326dbf18b5203bf46b3732441e70a7c6, type: 3}
+    - {fileID: 2800000, guid: 165506acafde67e42a2ea557bea12a01, type: 3}
+    totalSpriteSurfaceArea: 425984
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 697c5171ddac53d49b832fd477a9b5ae, type: 3}
+  - {fileID: 21300000, guid: f883c9d37a9aeb348a4c0763254750f3, type: 3}
+  - {fileID: 21300000, guid: 033df108229f49840b221950a15ca5c9, type: 3}
+  - {fileID: 21300000, guid: e5bd3308329164d4f99e967314371353, type: 3}
+  - {fileID: 21300000, guid: 326dbf18b5203bf46b3732441e70a7c6, type: 3}
+  - {fileID: 21300000, guid: 0c4ff2c881c3bec4d9823f635de33ac5, type: 3}
+  - {fileID: 21300000, guid: 67a02e592c227b34a92e4d85b4dfd1e7, type: 3}
+  - {fileID: 21300000, guid: f1e465792cadffa47b6b9cc3cb7ab29e, type: 3}
+  - {fileID: 21300000, guid: 5294e4eb157a6ad41980e828df45a2e2, type: 3}
+  - {fileID: 21300000, guid: eb52679ce84a7754ea019982c8509730, type: 3}
+  - {fileID: 21300000, guid: 165506acafde67e42a2ea557bea12a01, type: 3}
+  - {fileID: 21300000, guid: c9bc21fcc3a1ef84f8f60a636a9d691e, type: 3}
+  - {fileID: 21300000, guid: 6c1712cebf941b34aaab1999ad4301f7, type: 3}
+  - {fileID: 21300000, guid: 2bc704feda4586e4fa24ef6af9cef488, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - bush 2
+  - hedge 3
+  - bush 4
+  - bush 1
+  - hedge 4
+  - rock 1
+  - rock 3
+  - hedge 1
+  - hedge 2
+  - hedge x
+  - hedge t
+  - rock 2
+  - bush 3
+  - rock 4
+  m_Tag: Other
+  m_IsVariant: 0

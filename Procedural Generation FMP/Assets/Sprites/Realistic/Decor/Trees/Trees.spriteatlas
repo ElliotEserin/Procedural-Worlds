@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Trees
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: dfcaa26d8ccfcf04ba3227d6f7d95995, type: 3}
+    - {fileID: 2800000, guid: a9d37f85dfe8063499e5442b7720ff4d, type: 3}
+    - {fileID: 2800000, guid: b1e29c35cdb908b46b91d4e974b843b4, type: 3}
+    - {fileID: 2800000, guid: ee814b8d2b01ec2488a96fc73a092de5, type: 3}
+    - {fileID: 2800000, guid: af2d0fd2ce62faa4fa11a92a9eb4e48d, type: 3}
+    - {fileID: 2800000, guid: b18ca245f7966944d9f91888222e48ab, type: 3}
+    - {fileID: 2800000, guid: a9536b737e4a3d4408490702f99ee538, type: 3}
+    - {fileID: 2800000, guid: 6f79618e11c58d841a382051fc7561db, type: 3}
+    - {fileID: 2800000, guid: 854924a321adacc48b2e7ffd4b148c9a, type: 3}
+    - {fileID: 2800000, guid: 46e852f10a235c847b540fe8d5bbd2d1, type: 3}
+    - {fileID: 2800000, guid: 755d864c76bf380408801c96c91249f5, type: 3}
+    - {fileID: 2800000, guid: cacca860f9c93774d9b076fff61c4657, type: 3}
+    - {fileID: 2800000, guid: 8226f4e00167cbd498c9581037ab55c7, type: 3}
+    - {fileID: 2800000, guid: e30e7f439c3d9824683b665f40bacf28, type: 3}
+    - {fileID: 2800000, guid: 14dce3fe2a0c4c44a9dc374b12569014, type: 3}
+    - {fileID: 2800000, guid: f05613d6b6d2362409f5f3c8d2596e93, type: 3}
+    - {fileID: 2800000, guid: ae7d9b1d659bc224a9007f446bbc0d8c, type: 3}
+    - {fileID: 2800000, guid: da5112b8fceb7b54a84a443dc900890f, type: 3}
+    - {fileID: 2800000, guid: c0c01808f15f6354b927f7cadc6b11c0, type: 3}
+    - {fileID: 2800000, guid: 776a63c1665ebff4ea0542b9382c0b54, type: 3}
+    - {fileID: 2800000, guid: 4a7f1f19d02607c43ba6da0597e2865f, type: 3}
+    - {fileID: 2800000, guid: 4a1a65cead7635d4c8742c5dea75639a, type: 3}
+    - {fileID: 2800000, guid: 44ba15d2d41d6e444aa4c2bb511f658d, type: 3}
+    totalSpriteSurfaceArea: 6029312
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: cacca860f9c93774d9b076fff61c4657, type: 3}
+  - {fileID: 21300000, guid: 8226f4e00167cbd498c9581037ab55c7, type: 3}
+  - {fileID: 21300000, guid: 776a63c1665ebff4ea0542b9382c0b54, type: 3}
+  - {fileID: 21300000, guid: 46e852f10a235c847b540fe8d5bbd2d1, type: 3}
+  - {fileID: 21300000, guid: 44ba15d2d41d6e444aa4c2bb511f658d, type: 3}
+  - {fileID: 21300000, guid: af2d0fd2ce62faa4fa11a92a9eb4e48d, type: 3}
+  - {fileID: 21300000, guid: e30e7f439c3d9824683b665f40bacf28, type: 3}
+  - {fileID: 21300000, guid: a9536b737e4a3d4408490702f99ee538, type: 3}
+  - {fileID: 21300000, guid: 854924a321adacc48b2e7ffd4b148c9a, type: 3}
+  - {fileID: 21300000, guid: b1e29c35cdb908b46b91d4e974b843b4, type: 3}
+  - {fileID: 21300000, guid: b18ca245f7966944d9f91888222e48ab, type: 3}
+  - {fileID: 21300000, guid: a9d37f85dfe8063499e5442b7720ff4d, type: 3}
+  - {fileID: 21300000, guid: f05613d6b6d2362409f5f3c8d2596e93, type: 3}
+  - {fileID: 21300000, guid: c0c01808f15f6354b927f7cadc6b11c0, type: 3}
+  - {fileID: 21300000, guid: da5112b8fceb7b54a84a443dc900890f, type: 3}
+  - {fileID: 21300000, guid: 4a7f1f19d02607c43ba6da0597e2865f, type: 3}
+  - {fileID: 21300000, guid: 755d864c76bf380408801c96c91249f5, type: 3}
+  - {fileID: 21300000, guid: ae7d9b1d659bc224a9007f446bbc0d8c, type: 3}
+  - {fileID: 21300000, guid: dfcaa26d8ccfcf04ba3227d6f7d95995, type: 3}
+  - {fileID: 21300000, guid: ee814b8d2b01ec2488a96fc73a092de5, type: 3}
+  - {fileID: 21300000, guid: 6f79618e11c58d841a382051fc7561db, type: 3}
+  - {fileID: 21300000, guid: 4a1a65cead7635d4c8742c5dea75639a, type: 3}
+  - {fileID: 21300000, guid: 14dce3fe2a0c4c44a9dc374b12569014, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - tree pine 2
+  - tree pine 3
+  - tree snowey pine 1
+  - tree green 7
+  - tree snowey pine 34
+  - tree green 2
+  - tree pine 4
+  - tree green 4
+  - tree green 6
+  - tree cherry 3
+  - tree green 3
+  - tree cherry 2
+  - tree red 2
+  - tree red 5
+  - tree red 4
+  - tree snowey pine 2
+  - tree pine 1
+  - tree red 3
+  - tree cherry 1
+  - tree green 1
+  - tree green 5
+  - tree snowey pine 3
+  - tree red 1
+  m_Tag: Trees
+  m_IsVariant: 0

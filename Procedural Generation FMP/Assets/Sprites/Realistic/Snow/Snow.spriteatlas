@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Snow
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 3950d49feb6d9844b9cadd7fc2e08591, type: 3}
+    - {fileID: 2800000, guid: 23d7ed68719f3974688e08b3e69493d0, type: 3}
+    - {fileID: 2800000, guid: bc2dbdce3fa7577479ce856c16654525, type: 3}
+    - {fileID: 2800000, guid: a632a6e21dc0c414bb9573fe3953c107, type: 3}
+    - {fileID: 2800000, guid: 4f34d38678e56254998272a1e5f21462, type: 3}
+    - {fileID: 2800000, guid: b916353ce5e6a2c4d917b32af18488a1, type: 3}
+    - {fileID: 2800000, guid: 742592f36564eb04fa7e7154978a2e30, type: 3}
+    - {fileID: 2800000, guid: 8da42e3bbab39034dbc76b46c7f2f57b, type: 3}
+    - {fileID: 2800000, guid: a8e8465d73e31054d9eea3fec724e70e, type: 3}
+    - {fileID: 2800000, guid: 964a530b8029fb94ba6179e5879157dd, type: 3}
+    totalSpriteSurfaceArea: 40960
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: a632a6e21dc0c414bb9573fe3953c107, type: 3}
+  - {fileID: 21300000, guid: 742592f36564eb04fa7e7154978a2e30, type: 3}
+  - {fileID: 21300000, guid: 4f34d38678e56254998272a1e5f21462, type: 3}
+  - {fileID: 21300000, guid: 23d7ed68719f3974688e08b3e69493d0, type: 3}
+  - {fileID: 21300000, guid: 964a530b8029fb94ba6179e5879157dd, type: 3}
+  - {fileID: 21300000, guid: 8da42e3bbab39034dbc76b46c7f2f57b, type: 3}
+  - {fileID: 21300000, guid: b916353ce5e6a2c4d917b32af18488a1, type: 3}
+  - {fileID: 21300000, guid: a8e8465d73e31054d9eea3fec724e70e, type: 3}
+  - {fileID: 21300000, guid: bc2dbdce3fa7577479ce856c16654525, type: 3}
+  - {fileID: 21300000, guid: 3950d49feb6d9844b9cadd7fc2e08591, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - snow 4
+  - snow 7
+  - snow 5
+  - snow 2
+  - snow 10
+  - snow 8
+  - snow 6
+  - snow 9
+  - snow 3
+  - snow 1
+  m_Tag: Snow
+  m_IsVariant: 0

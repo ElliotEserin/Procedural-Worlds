@@ -17,8 +17,10 @@ MonoBehaviour:
   tile: {fileID: 11400000, guid: 3632522c50c07744cb407d570ab72652, type: 2}
   pathfindingWeight: 3
   biomeDecorations:
-  - tile: {fileID: 11400000, guid: e2057b9120677904ebb243d7ab3d4dcc, type: 2}
-    chance: 20
-  - tile: {fileID: 11400000, guid: fa6b2c7ad1c8ef646bbf88d40f5b9005, type: 2}
+  - tile: {fileID: 11400000, guid: be201ade2e24c794080cb4d203f86505, type: 2}
     chance: 10
+  - tile: {fileID: 11400000, guid: e6cfbe4838664ff4d93a38b1cd945fd9, type: 2}
+    chance: 3
+  - tile: {fileID: 11400000, guid: 771af901f76f13d4ebc687bb63e46bd1, type: 2}
+    chance: 1
   chanceOfNoDecorativeTile: 0.85

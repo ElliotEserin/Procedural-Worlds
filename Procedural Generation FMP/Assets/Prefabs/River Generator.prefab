@@ -43,7 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b11c2c072aa5e04408ee89ab890cb43a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterTile: {fileID: 11400000, guid: 7f559fd7584e36043bf87cf15e39db0b, type: 2}
+  waterTile: {fileID: 11400000, guid: 770c94f5f2478ec418df9435da63785b, type: 2}
   oceanBiome: {fileID: 11400000, guid: b5d1679df3bc54b4fb960638d169670b, type: 2}
   maxIterations: 1000
   directionSensitivity: 0.0025
+  forceChangeDirection: 50

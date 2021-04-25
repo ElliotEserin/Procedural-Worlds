@@ -29,16 +29,20 @@ public class Building : Generator
     public TilemapPrefab prefab;
     public Village.Direction direction;
     public bool useRandomPrefabBuilding;
+    public bool randomiseDirection = true;
 
     public override void Initialise(WorldManager worldManager)
     {
+        seed = worldSeed + (int)transform.position.x + (int)transform.position.y;
+        System.Random random = new System.Random(seed);
+
+        if (randomiseDirection)
+            direction = (Village.Direction)random.Next(0, 4);
+
         if (!usePrefabBuilding)
         {
-            this.seed = seed + (int)transform.position.x + (int)transform.position.y;
-
             Array type = Enum.GetValues(typeof(BuildingType));
-            Array size = Enum.GetValues(typeof(BuildingSize));
-            System.Random random = new System.Random(this.seed);
+            Array size = Enum.GetValues(typeof(BuildingSize));         
 
             buildingType = (BuildingType)type.GetValue(random.Next(type.Length));
             buildingSize = (BuildingSize)type.GetValue(random.Next(size.Length));
@@ -47,6 +51,9 @@ public class Building : Generator
         }
         else
         {
+            if(useRandomPrefabBuilding)
+                prefab = worldManager.buildingPrefabs[random.Next(0, worldManager.buildingPrefabs.Length)];
+
             Generate(prefab);
         }
     }
