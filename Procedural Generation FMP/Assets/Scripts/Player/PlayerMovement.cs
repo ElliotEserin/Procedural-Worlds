@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
         move.x = Input.GetAxisRaw("Horizontal");
         move.y = Input.GetAxisRaw("Vertical");
 
+        bool openedMap = Input.GetKeyDown(KeyCode.M);
+
         if(move.sqrMagnitude > 0)
         {
             animator.SetBool("Moving", true);
@@ -28,6 +30,11 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             animator.SetBool("Moving", false);
+        }
+
+        if (openedMap)
+        {
+            ObjectStore.instance.worldManager.worldImage.SetActive(!ObjectStore.instance.worldManager.worldImage.activeInHierarchy);
         }
     }
 

@@ -19,6 +19,7 @@ public class WorldManager : MonoBehaviour
     public int customSize;
 
     public Texture2D worldMap;
+    public GameObject worldImage;
 
     //Seed for the world
     public int seed;
@@ -134,8 +135,12 @@ public class WorldData : TilemapData
         {
             for (int xx = 0; xx < sideLength; xx++)
             {
-                Debug.Log(iconColours[yy * sideLength + xx]);
-                SetWorldMapPoint(x + xx, y + yy, iconColours[yy * sideLength + xx]);
+                var col = iconColours[yy * sideLength + xx];
+
+                if (col == Color.black)
+                    continue;
+
+                SetWorldMapPoint(x + xx, y + yy, col);
             }
         }
     }
