@@ -149,7 +149,7 @@ public class MapGenerator : Generator
         }
         yield return null;
 
-        UIManager.UpdateLoadScreenText("Growing a tree.");
+        UIManager.UpdateLoadScreenText("Spawning drago - oh... thats a lot of dragons...");
 
         //Sets the world map texture
         wd.worldMap = colourMap;

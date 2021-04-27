@@ -1,16 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Experimental.Rendering.Universal;
+﻿using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Character
 {
-    public float moveSpeed = 5f;
-    public Rigidbody2D rigidBody;
-    public Animator animator;
-
-    Vector2 move;
-
     // Update is called once per frame
     void Update()
     {
@@ -19,18 +10,7 @@ public class PlayerMovement : MonoBehaviour
 
         bool openedMap = Input.GetKeyDown(KeyCode.M);
 
-        if(move.sqrMagnitude > 0)
-        {
-            animator.SetBool("Moving", true);
-
-            animator.SetFloat("Horizontal", move.x);
-            animator.SetFloat("Vertical", move.y);
-        }
-
-        else
-        {
-            animator.SetBool("Moving", false);
-        }
+        UpdateAnimator();
 
         if (openedMap)
         {
@@ -40,10 +20,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (move.x != 0 || move.y != 0)
-        {
-            rigidBody.MovePosition(rigidBody.position + move.normalized * moveSpeed * Time.fixedDeltaTime);
-        }
+        MoveTowardsTarget();
 
         //rigidBody.velocity = move.normalized * moveSpeed;
     }

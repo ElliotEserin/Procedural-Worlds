@@ -1,0 +1,136 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NPC : Character
+{
+    Vector3 targetPos;
+    Transform target;
+    public int idleMoveArea = 5;
+    public int minIdleTime, maxIdleTime;
+
+    public float safeDistance;
+
+    Vector3 safeOrigin;
+
+    System.Random rand;
+
+    float pauseTimer;
+
+    public enum State
+    {
+        Idle,
+        Approaching,
+        Fleeing
+    }
+
+    public enum Behaviour
+    {
+        Passive,
+        Preditor,
+        Prey
+    }
+
+    public State npcState;
+    public Behaviour npcBehaviour;
+    public bool active = false;
+
+    private void Start()
+    {
+        safeOrigin = transform.position;
+        rand = new System.Random();
+
+        pauseTimer = (minIdleTime + maxIdleTime) / 2f;
+    }
+
+    private void OnBecameVisible()
+    {
+        active = true;
+    }
+    private void OnBecameInvisible()
+    {
+        active = false;
+    }
+
+    private void Update()
+    {
+        if (!active)
+            return;
+
+        CheckForTarget();
+        SetTargetPosition();
+
+        switch (npcState)
+        {
+            case State.Idle:
+                move = Vector3.zero;
+                speed = moveSpeed;
+                if (pauseTimer <= 0)
+                {             
+                    var offset = new Vector3(rand.Next(-idleMoveArea, idleMoveArea), rand.Next(-idleMoveArea, idleMoveArea), 0);
+                    targetPos = safeOrigin + offset;
+                    npcState = State.Approaching;
+                }
+                pauseTimer -= Time.deltaTime;
+                break;
+            case State.Approaching:
+                move = targetPos - transform.position;
+                var dist = Vector3.Distance(transform.position, targetPos);
+                if (dist < 0.1f)
+                {
+                    npcState = State.Idle;
+                    pauseTimer = rand.Next(minIdleTime, maxIdleTime);
+                }
+                break;
+            case State.Fleeing:
+                move = transform.position - targetPos;
+                speed = sprintSpeed;
+                if (Vector3.Distance(transform.position, targetPos) > safeDistance)
+                {
+                    npcState = State.Idle;
+                    target = null;
+                }
+                break;
+        }
+
+        UpdateAnimator();
+    }
+
+    void CheckForTarget()
+    {
+        var collider = Physics2D.OverlapCircle(transform.position, safeDistance);
+
+        if (collider != null && collider.tag != tag)
+        {
+            switch (npcBehaviour)
+            {
+                case Behaviour.Passive:
+                    break;
+                case Behaviour.Preditor:
+                    targetPos = collider.transform.position;
+                    npcState = State.Approaching;
+                    break;
+                case Behaviour.Prey:
+                    targetPos = collider.transform.position;
+                    npcState = State.Fleeing;
+                    break;
+            }
+
+            target = collider.transform;
+        }
+    }
+
+    void SetTargetPosition()
+    {
+        if (target != null)
+            targetPos = target.position;
+    }
+
+    private void FixedUpdate()
+    {
+        if (!active)
+            return;
+
+        MoveTowardsTarget();
+    }
+}
