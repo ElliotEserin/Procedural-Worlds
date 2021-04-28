@@ -547,19 +547,19 @@ MonoBehaviour:
   spotLights: []
   times:
   - name: Day
-    length: 1
+    length: 5
     lightColor: {r: 1, g: 0.9982144, b: 0.9386792, a: 0}
     intensity: 1
   - name: Dusk
-    length: 1
+    length: 3
     lightColor: {r: 0.84104663, g: 0.8654156, b: 0.9433962, a: 0}
     intensity: 0.65
   - name: night
-    length: 1
+    length: 5
     lightColor: {r: 0.61387503, g: 0.7041741, b: 0.8396226, a: 0}
     intensity: 0.3
   - name: Dawn
-    length: 1
+    length: 3
     lightColor: {r: 0.9339623, g: 0.8371891, b: 0.621173, a: 0}
     intensity: 0.7
   weathers:
@@ -587,7 +587,7 @@ MonoBehaviour:
     lightColor: {r: 0.8207547, g: 0.8207547, b: 0.8207547, a: 0}
     intensity: 0.9
     particle: {fileID: 807424250}
-  fadeTime: 10
+  fadeTime: 20
   timeScale: 1
 --- !u!1 &292381582
 GameObject:
@@ -715,6 +715,8 @@ Transform:
   - {fileID: 50273723}
   - {fileID: 404683251}
   - {fileID: 573931095}
+  - {fileID: 1824053025}
+  - {fileID: 2128596518}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -986,7 +988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  smoothTime: 0.25
+  smoothSpeed: 0.125
   offset: {x: 0, y: 0, z: -10}
 --- !u!20 &519420031
 Camera:
@@ -6988,7 +6990,7 @@ TilemapRenderer:
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 2
-  m_Mode: 0
+  m_Mode: 1
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
 --- !u!1839735485 &1129897769
@@ -7834,7 +7836,7 @@ MonoBehaviour:
     type: 3}
   minRiverHeight: 0.75
   maxRiverHeight: 0.9
-  maxNumberOfRivers: 3
+  maxNumberOfRivers: 10
 --- !u!1 &1430529947
 GameObject:
   m_ObjectHideFlags: 0
@@ -8811,6 +8813,61 @@ MonoBehaviour:
   maxPathsPerGoal: 2
   minPathLength: 100
   maxPathLength: 200
+--- !u!1 &1824053024
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1824053025}
+  - component: {fileID: 1824053026}
+  m_Layer: 0
+  m_Name: NPC Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1824053025
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1824053024}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 294910744}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1824053026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1824053024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dbfe31c6cbaacb4ebd8774c049c2a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterTypes:
+  - poolTag: Chicken
+    allowedBiomes: []
+    spawnChance: 100
+  - poolTag: Cow
+    allowedBiomes: []
+    spawnChance: 20
+  spawnFrequency: 15
+  numberToSpawn: 2
+  variation: 2
+  outerSpawn: {x: 23, y: 15}
+  innerSpawn: {x: 15, y: 9}
 --- !u!1 &1930293891
 GameObject:
   m_ObjectHideFlags: 0
@@ -13792,7 +13849,7 @@ TilemapRenderer:
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 2
-  m_Mode: 0
+  m_Mode: 1
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
 --- !u!1839735485 &1977909149
@@ -14267,6 +14324,58 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
+--- !u!1 &2128596517
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2128596518}
+  - component: {fileID: 2128596519}
+  m_Layer: 0
+  m_Name: Object Pooler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2128596518
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128596517}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 294910744}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2128596519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128596517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccab70627250d0d479877f581cf55795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - tag: Chicken
+    prefab: {fileID: 1527940539619220605, guid: 2a870650d591127488050af0f73dd029,
+      type: 3}
+    size: 20
+  - tag: Cow
+    prefab: {fileID: 1527940539619220605, guid: da9bd8158a624c541925ae12d5744ff1,
+      type: 3}
+    size: 10
 --- !u!1 &2140346510
 GameObject:
   m_ObjectHideFlags: 0

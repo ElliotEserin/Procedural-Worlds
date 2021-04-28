@@ -13,7 +13,7 @@ public class Character : MonoBehaviour
 
     protected float speed;
 
-    protected void MoveTowardsTarget()
+    protected virtual void MoveTowardsTarget()
     {
         if (speed == 0) speed = moveSpeed;
 

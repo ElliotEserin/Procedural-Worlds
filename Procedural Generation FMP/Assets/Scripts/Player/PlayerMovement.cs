@@ -2,6 +2,13 @@
 
 public class PlayerMovement : Character
 {
+    NPCManager manager;
+
+    private void Start()
+    {
+        manager = FindObjectOfType<NPCManager>();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -21,6 +28,9 @@ public class PlayerMovement : Character
     private void FixedUpdate()
     {
         MoveTowardsTarget();
+
+        if (manager != null)
+            manager.SpawnNewCreatures(transform.position);
 
         //rigidBody.velocity = move.normalized * moveSpeed;
     }

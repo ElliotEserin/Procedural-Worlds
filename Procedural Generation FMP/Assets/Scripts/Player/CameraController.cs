@@ -1,18 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
     public Transform target;
-    public float smoothTime;
+    public float smoothSpeed;
     Vector3 velocity;
 
     public Vector3 offset = new Vector3(0, 0, -10);
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if(target != null)
-            transform.position = Vector3.SmoothDamp(transform.position, target.position + offset, ref velocity, smoothTime);
+        if (target != null)
+        {
+            Vector3 desiredPosition = target.position + offset;
+            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.smoothDeltaTime);
+            transform.position = smoothedPosition;
+        }
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 public class NPC : Character
 {
     Vector3 targetPos;
+    public LayerMask detectionMask;
+    public LayerMask unwalkableMask;
     Transform target;
     public int idleMoveArea = 5;
     public int minIdleTime, maxIdleTime;
@@ -21,6 +23,7 @@ public class NPC : Character
     {
         Idle,
         Approaching,
+        Hunting,
         Fleeing
     }
 
@@ -82,10 +85,20 @@ public class NPC : Character
                     pauseTimer = rand.Next(minIdleTime, maxIdleTime);
                 }
                 break;
+            case State.Hunting:
+                move = targetPos - transform.position;
+                speed = sprintSpeed;
+                var dist2 = Vector3.Distance(transform.position, targetPos);
+                if (dist2 > safeDistance)
+                {
+                    npcState = State.Idle;
+                    target = null;
+                }
+                break;
             case State.Fleeing:
                 move = transform.position - targetPos;
                 speed = sprintSpeed;
-                if (Vector3.Distance(transform.position, targetPos) > safeDistance)
+                if (Vector3.Distance(transform.position, targetPos) > safeDistance * 2)
                 {
                     npcState = State.Idle;
                     target = null;
@@ -98,25 +111,28 @@ public class NPC : Character
 
     void CheckForTarget()
     {
-        var collider = Physics2D.OverlapCircle(transform.position, safeDistance);
+        var colliders = Physics2D.OverlapCircleAll(transform.position, safeDistance, detectionMask);
 
-        if (collider != null && collider.tag != tag)
+        foreach (var collider in colliders)
         {
-            switch (npcBehaviour)
+            if (collider != null && collider.tag != tag)
             {
-                case Behaviour.Passive:
-                    break;
-                case Behaviour.Preditor:
-                    targetPos = collider.transform.position;
-                    npcState = State.Approaching;
-                    break;
-                case Behaviour.Prey:
-                    targetPos = collider.transform.position;
-                    npcState = State.Fleeing;
-                    break;
-            }
+                switch (npcBehaviour)
+                {
+                    case Behaviour.Passive:
+                        break;
+                    case Behaviour.Preditor:
+                        targetPos = collider.transform.position;
+                        npcState = State.Hunting;
+                        break;
+                    case Behaviour.Prey:
+                        targetPos = collider.transform.position;
+                        npcState = State.Fleeing;
+                        break;
+                }
 
-            target = collider.transform;
+                target = collider.transform;
+            }
         }
     }
 
@@ -132,5 +148,18 @@ public class NPC : Character
             return;
 
         MoveTowardsTarget();
+    }
+
+    protected override void MoveTowardsTarget()
+    {
+        base.MoveTowardsTarget();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, idleMoveArea);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, safeDistance);
     }
 }
