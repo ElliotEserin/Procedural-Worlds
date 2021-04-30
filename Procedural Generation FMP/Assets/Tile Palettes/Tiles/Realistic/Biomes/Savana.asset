@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Savana
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 0}
-  m_Color: {r: 0.9433962, g: 0.9016577, b: 0.493948, a: 1}
+  m_Color: {r: 1, g: 0.8397144, b: 0.5896226, a: 1}
   m_Transform:
     e00: 1
     e01: 0

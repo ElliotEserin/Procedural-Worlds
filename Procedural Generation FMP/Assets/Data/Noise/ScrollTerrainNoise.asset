@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42d50ba17f3a87840894fc92a25680ae, type: 3}
-  m_Name: Ground
+  m_Script: {fileID: 11500000, guid: 66f34a9f8fc43d948bbdf42d5de6e932, type: 3}
+  m_Name: ScrollTerrainNoise
   m_EditorClassIdentifier: 
-  name: 
-  colour: {r: 0.25465345, g: 0.6415094, b: 0.2208971, a: 0}
-  tile: {fileID: 11400000, guid: 3632522c50c07744cb407d570ab72652, type: 2}
-  pathfindingWeight: 0
-  height: 0.75
-  allowBiomes: 1
+  autoUpdate: 0
+  noiseScale: 100
+  octaves: 4
+  persistance: 0.45
+  lacunarity: 2
+  offset: {x: 0, y: 0}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tundra
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 0.2971698, b: 0.62886286, a: 1}
+  m_Color: {r: 1, g: 0.41037738, b: 0.90319645, a: 1}
   m_Transform:
     e00: 1
     e01: 0

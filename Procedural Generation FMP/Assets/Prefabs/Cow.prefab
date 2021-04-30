@@ -46,7 +46,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 100
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -82,7 +82,7 @@ MonoBehaviour:
   maxIdleTime: 10
   safeDistance: 5
   npcState: 0
-  npcBehaviour: 1
+  npcBehaviour: 0
   active: 1
 --- !u!58 &7367089903840175241
 CircleCollider2D:

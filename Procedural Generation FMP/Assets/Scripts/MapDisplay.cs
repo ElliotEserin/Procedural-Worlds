@@ -47,7 +47,14 @@ public class MapDisplay : MonoBehaviour
 
     public void DrawTerrain(TilemapData terrain)
     {
-        ObjectStore.instance.terrainMap.SetTiles(terrain.tilePositions, terrain.tiles);
+        ObjectStore store = ObjectStore.instance;
+
+        foreach (var pos in terrain.tilePositions)
+        {
+            store.terrainMap.SetTileFlags(pos, TileFlags.None);
+            store.terrainMap.SetColor(pos, Color.white);
+        }
+        store.terrainMap.SetTiles(terrain.tilePositions, terrain.tiles);
     }
     
     //Draws the tiles to a tilemap
