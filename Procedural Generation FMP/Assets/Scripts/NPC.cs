@@ -41,7 +41,7 @@ public class NPC : Character
     private void Start()
     {
         safeOrigin = transform.position;
-        rand = new System.Random();
+        rand = new System.Random((int)(transform.position.x + transform.position.y));
 
         pauseTimer = (minIdleTime + maxIdleTime) / 2f;
     }

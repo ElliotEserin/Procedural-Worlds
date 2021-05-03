@@ -32,9 +32,12 @@ public class ObjectPooler : MonoBehaviour
         {
             Queue<GameObject> objectPool = new Queue<GameObject>();
 
+            GameObject parent = new GameObject(pool.tag + "s");
+
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab);
+                obj.transform.parent = parent.transform;
                 obj.SetActive(false);
                 objectPool.Enqueue(obj);
             }
