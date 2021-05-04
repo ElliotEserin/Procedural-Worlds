@@ -43,7 +43,6 @@ public class DayNightCycle : MonoBehaviour
             for (int i = 0; i < weathers.Length; i++)
             {
                 tally += weathers[i].chance;
-                Debug.Log($"Chance: {chance} Tally: {tally}");
                 if (chance <= tally)
                 {
                     currentWeather = i;
@@ -60,8 +59,6 @@ public class DayNightCycle : MonoBehaviour
             intensityChangeVelocity = 0;
             lightChangeVelocity = Vector3.zero;
 
-            Debug.Log(times[currentTime].name + ": " + weathers[currentWeather].name);
-
             if (!weathers[currentWeather].overrideTimeSettings)
             {
                 StartCoroutine(FadeToNewTime(times[currentTime].lightColor, times[currentTime].intensity));
@@ -77,11 +74,9 @@ public class DayNightCycle : MonoBehaviour
 
                 if (weathers[currentWeather].particle != null)
                 {
-                    weathers[currentWeather].particle.Play();
-                    
+                    weathers[currentWeather].particle.Play();         
                 }
-
-                Debug.Log("Playing " + weathers[currentWeather].particle);
+                AudioManager.PlayAmbientNoise(weathers[currentWeather].soundEffect); 
             }
         }
     }
@@ -128,4 +123,5 @@ public struct Weather
     public Color lightColor;
     public float intensity;
     public ParticleSystem particle;
+    public AudioClip soundEffect;
 }

@@ -32,6 +32,9 @@ public class PlayerMovement : Character
         if (manager != null)
             manager.SpawnNewCreatures(transform.position);
 
+        if (move.sqrMagnitude > 0)
+            AudioManager.PlayFootstep();
+
         //rigidBody.velocity = move.normalized * moveSpeed;
     }
 }

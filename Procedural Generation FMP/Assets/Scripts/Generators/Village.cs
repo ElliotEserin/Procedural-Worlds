@@ -124,7 +124,7 @@ public class Village : Generator
         RoadPoint origin = new RoadPoint(Vector3Int.RoundToInt(transform.position), Type.Major, Direction.None);
         roadPoints.Enqueue(origin);
 
-        DrawSquareRoad(origin.position, 5);
+        DrawSquareRoad(origin.position, 3);
 
         occupiedSpots.Add(origin.position);
 

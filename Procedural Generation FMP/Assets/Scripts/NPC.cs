@@ -38,6 +38,10 @@ public class NPC : Character
     public Behaviour npcBehaviour;
     public bool active = false;
 
+    public AudioClip[] sounds;
+    public float soundFrequency = 7;
+    float soundTimer;
+
     private void Start()
     {
         safeOrigin = transform.position;
@@ -49,10 +53,12 @@ public class NPC : Character
     private void OnBecameVisible()
     {
         active = true;
+        Debug.Log("Visible");
     }
     private void OnBecameInvisible()
     {
         active = false;
+        Debug.Log("Invisible");
     }
 
     private void Update()
@@ -60,7 +66,8 @@ public class NPC : Character
         if (!active)
             return;
 
-        CheckForTarget();
+        if(npcBehaviour != Behaviour.Passive)
+            CheckForTarget();
         SetTargetPosition();
 
         switch (npcState)
@@ -107,6 +114,8 @@ public class NPC : Character
         }
 
         UpdateAnimator();
+
+        soundTimer -= Time.deltaTime;
     }
 
     void CheckForTarget()
@@ -132,6 +141,8 @@ public class NPC : Character
                 }
 
                 target = collider.transform;
+                PlaySFX();
+                return;
             }
         }
     }
@@ -153,6 +164,17 @@ public class NPC : Character
     protected override void MoveTowardsTarget()
     {
         base.MoveTowardsTarget();
+    }
+
+    void PlaySFX()
+    {
+        if (soundTimer <= 0)
+        {
+            if (sounds.Length > 0)
+                AudioManager.PlayRandomSound(sounds);
+
+            soundTimer = soundFrequency;
+        }
     }
 
     private void OnDrawGizmosSelected()
