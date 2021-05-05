@@ -45,6 +45,8 @@ public class Village : Generator
     public Building BuildingGenerator;
     public PathGoal pathTarget;
 
+    public TileType water;
+
     System.Random rand;
 
     readonly Vector3Int upLeft = new Vector3Int(-1, 1, 0);
@@ -216,6 +218,9 @@ public class Village : Generator
                         cameFrom = direction,
                         roadType = isMajor ? Type.Major : Type.Minor,
                     };
+
+                    if (ObjectStore.instance.worldManager.worldData.tileTypeMap[newPoint.position.x, newPoint.position.y].tile == water.tile)
+                        return;
 
                     if (Vector3.Distance(newPoint.position, transform.position) > (int)villageRadius)
                     {

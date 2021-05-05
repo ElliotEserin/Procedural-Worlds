@@ -10,7 +10,7 @@ public class WorldManager : MonoBehaviour
         Island = 500,
         Small = 1000,
         Medium = 1500,
-        Large = 2500,
+        Large = 2000,
     }
 
     public WorldSize worldSize;

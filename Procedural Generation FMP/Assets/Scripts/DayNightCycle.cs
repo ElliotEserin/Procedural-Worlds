@@ -20,9 +20,29 @@ public class DayNightCycle : MonoBehaviour
     Vector3 lightChangeVelocity;
     float intensityChangeVelocity;
 
+    public float birdSpawnRadius;
+    public ParticleSystem birds;
+    public float minBirdTime, maxBirdTime;
+    float birdTimer;
+
     private void Update()
     {
         timer += (Time.deltaTime / 60f) * timeScale;
+        birdTimer -= Time.deltaTime;
+
+        if(birdTimer <= 0)
+        {
+            birdTimer = Random.Range(minBirdTime, maxBirdTime);
+
+            var x = Random.Range(-1f, 1f); var y = Random.Range(-1f, 1f);
+
+            birds.transform.localPosition = new Vector3(x, y, 0).normalized * birdSpawnRadius;
+            birds.transform.LookAt(transform);
+            birds.transform.RotateAround(birds.transform.position, birds.transform.right, 90);
+            birds.transform.RotateAround(birds.transform.position, birds.transform.up, 90);
+
+            birds.Play();
+        }
 
         foreach(var light in spotLights)
         {
@@ -101,6 +121,11 @@ public class DayNightCycle : MonoBehaviour
         }
 
         return total;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(transform.position, birdSpawnRadius);
     }
 }
 

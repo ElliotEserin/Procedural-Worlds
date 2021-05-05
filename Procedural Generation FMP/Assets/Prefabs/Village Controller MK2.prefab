@@ -43,6 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d20f1402f30804c877015d50b0dcdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapIcon: {fileID: 0}
+  nextGeneration: {fileID: 0}
+  villageName: 
   debugSeed: -124
   usePaths: 1
   villageRadius: 42
@@ -62,10 +65,17 @@ MonoBehaviour:
   maxNumberOfBuildings: 20
   maxNumberOfMajorBuildings: 3
   minorBuildings:
-  - {fileID: 11400000, guid: 3f9b4779702549243a3894566b88f370, type: 2}
+  - {fileID: 11400000, guid: b9127ced0135df346be37de99a77c7d1, type: 2}
+  - {fileID: 11400000, guid: 260bc82116aac7048af3f497d7cbe626, type: 2}
+  - {fileID: 11400000, guid: 56906ec4399d9bd408131600bfb3a4c3, type: 2}
+  - {fileID: 11400000, guid: 03c3aebbeea2aae46adb18d5a8773e4e, type: 2}
+  - {fileID: 11400000, guid: 164568b66ec8c88498dde701f43c06d1, type: 2}
+  - {fileID: 11400000, guid: 907e3ec1d3bac1145802a570f9363aaa, type: 2}
   majorBuildings:
-  - {fileID: 11400000, guid: 01be5494f88bf7548afd68b26e43fae0, type: 2}
+  - {fileID: 11400000, guid: 773ce54fe1b18dc4282d627a9c1b408a, type: 2}
+  - {fileID: 11400000, guid: cca9954f34ca61843925d662d7c09281, type: 2}
   BuildingGenerator: {fileID: 6538551206622744170, guid: acfc848b891b3eb498e8191072a4fc08,
     type: 3}
   pathTarget: {fileID: 5741669146930538225, guid: 5ef2d74bec2be4d4bbbd02746b06ed46,
     type: 3}
+  water: {fileID: 11400000, guid: b5d1679df3bc54b4fb960638d169670b, type: 2}
