@@ -30,7 +30,7 @@ public class DayNightCycle : MonoBehaviour
         timer += (Time.deltaTime / 60f) * timeScale;
         birdTimer -= Time.deltaTime;
 
-        if(birdTimer <= 0)
+        if(birdTimer <= 0 && birds != null)
         {
             birdTimer = Random.Range(minBirdTime, maxBirdTime);
 

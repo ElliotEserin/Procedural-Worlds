@@ -105,4 +105,13 @@ public class BuildingGenerator : Generator
             FinishGenerating(worldManager);
         }
     }
+
+    public void PlaceBuilding(Vector3Int position, TilemapPrefab building)
+    {
+        var go = Instantiate(buildingPrefab, position, Quaternion.identity);
+
+        var v = go.GetComponent<Building>();
+
+        v.Initialise(worldSeed, building, Village.Direction.Up);
+    }
 }

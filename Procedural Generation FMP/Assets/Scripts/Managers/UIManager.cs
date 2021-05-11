@@ -20,6 +20,10 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI loadScreenText;
     public Animator animator;
 
+    [Header("Pausing")]
+    public GameObject gameUI;
+    public GameObject pauseUI;
+
     public static void UpdateLoadScreenText(string text)
     {
         instance.loadScreenText.SetText(text);
@@ -33,5 +37,23 @@ public class UIManager : MonoBehaviour
     public void SetUnactive()
     {
         instance.loadingScreen.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            gameUI.SetActive(!gameUI.activeInHierarchy);
+            pauseUI.SetActive(!pauseUI.activeInHierarchy);
+
+            Time.timeScale = (Time.timeScale == 1) ? 0 : 1;
+        }
+    }
+
+    public void Unpause()
+    {
+        gameUI.SetActive(true);
+        pauseUI.SetActive(false);
+        Time.timeScale = 1;
     }
 }

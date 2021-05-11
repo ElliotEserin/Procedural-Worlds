@@ -174,6 +174,10 @@ public class MapGenerator : Generator
         //    yield return null;
         //}
 
+        var middle = (int)worldManager.worldSize / 2;
+
+        worldManager.worldData.SetWorldMapIcon(middle, middle, mapIcon);
+
         FinishGenerating(worldManager);
 
         // FUNCIONS

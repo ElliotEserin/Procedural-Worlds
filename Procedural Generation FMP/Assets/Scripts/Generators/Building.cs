@@ -68,6 +68,16 @@ public class Building : Generator
         Generate(prefab);
     }
 
+    public void Initialise(int seed, TilemapPrefab building, Village.Direction direction)
+    {
+        this.seed = seed + (int)transform.position.x + (int)transform.position.y;
+
+        System.Random rand = new System.Random(this.seed);
+        prefab = building;
+        this.direction = direction;
+        Generate(prefab);
+    }
+
     protected override IEnumerator Generate(WorldManager worldManager)
     {
         switch (buildingType)

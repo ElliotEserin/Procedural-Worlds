@@ -12,11 +12,16 @@ public class RiverGenerator : Generator
 
     public int maxNumberOfRivers = 3;
 
+    public int minRiverDistance = 75;
+
+    List<River> rivers;
+
     public override void Initialise(WorldManager worldManager)
     {
         seed = worldSeed;
         rand = new System.Random(seed);
         UIManager.UpdateLoadScreenText("Generating rivers...");
+        rivers = new List<River>();
         base.Initialise(worldManager);
     }
 
@@ -35,16 +40,31 @@ public class RiverGenerator : Generator
             {
                 Vector3Int startPos = new Vector3Int(x, y, 0);
 
-                var river = Instantiate(riverObject, startPos, Quaternion.identity);
+                if (ValidateDistance(startPos))
+                {
+                    var river = Instantiate(riverObject, startPos, Quaternion.identity);
 
-                river.Generate();
-                i++;
-                n = 0;
+                    river.Generate();
+                    rivers.Add(river);
+                    i++;
+                    n = 0;
+                }
             }
 
             yield return null;
         }
 
         FinishGenerating(worldManager);
+    }
+
+    bool ValidateDistance(Vector3Int currentRiver)
+    {
+        foreach(var river in rivers)
+        {
+            if (Vector3.Distance(river.transform.position, currentRiver) < minRiverDistance)
+                return false;
+        }
+
+        return true;
     }
 } 

@@ -33,6 +33,7 @@ public class WorldManager : MonoBehaviour
     public WorldData worldData;
 
     public TilemapPrefab[] buildingPrefabs;
+    public TilemapPrefab spawnPrefab;
 
     private void Start()
     {
@@ -84,6 +85,8 @@ public class WorldManager : MonoBehaviour
         weather.transform.parent = target.transform;
         weather.transform.localPosition = Vector3.zero;
         weather.spotLights.Add(target.GetComponentInChildren<UnityEngine.Experimental.Rendering.Universal.Light2D>());
+
+        buildingGen.GetComponent<BuildingGenerator>().PlaceBuilding(new Vector3Int(middle, middle, 0), spawnPrefab);
     }
 
     public void InitialiseWorldMap()
