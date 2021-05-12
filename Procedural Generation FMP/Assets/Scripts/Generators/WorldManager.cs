@@ -119,9 +119,22 @@ public class WorldData : TilemapData
 
     public bool CheckBiome(Vector3Int position, BiomeType biome)
     {
-        if (tileTypeMap[position.x, position.y] == biome.tile)
+        if (tileTypeMap[position.x, position.y].tile == biome.tile)
             return true;
         return false;
+    }
+    public bool CheckBiomes(Vector3Int pos, BiomeType[] biomes)
+    {
+        foreach(BiomeType biome in biomes)
+        {
+            if (CheckBiome(pos, biome))
+                return true;
+        }
+        return false;
+    }
+    public TileType GetTile(Vector3Int pos)
+    {
+        return tileTypeMap[pos.x, pos.y];
     }
 
     public void SetWorldMapPoint(int x, int y, Color colour)

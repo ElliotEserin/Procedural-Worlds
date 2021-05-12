@@ -64,6 +64,11 @@ public class NPCManager : MonoBehaviour
 
             var pos = new Vector3(x, y, 0);
 
+            Debug.Log(ObjectStore.instance.worldManager.worldData.GetTile(Vector3Int.RoundToInt(pos + currentPosition)));
+
+            if (!ObjectStore.instance.worldManager.worldData.CheckBiomes(Vector3Int.RoundToInt(pos + currentPosition), charToSpawn.allowedBiomes))
+                continue;
+
             pos += currentPosition;
 
             ObjectPooler.instance.SpawnFromPool(charToSpawn.poolTag, pos, Quaternion.identity, true);

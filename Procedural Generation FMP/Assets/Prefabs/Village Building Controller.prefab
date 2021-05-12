@@ -43,6 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c222be0734029f43be37160d88ef77d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapIcon: {fileID: 0}
+  nextGeneration: {fileID: 0}
   buildingType: 1
   buildingSize: 20
   wall: {fileID: 0}
@@ -51,3 +53,6 @@ MonoBehaviour:
   prefab: {fileID: 11400000, guid: 1723fcee8d9dd7f43932c66596049bc6, type: 2}
   direction: 0
   useRandomPrefabBuilding: 1
+  randomiseDirection: 1
+  collectablePrefab: {fileID: 7340576973884001053, guid: 8c882629bdb30f84e85fd8983214b48d,
+    type: 3}

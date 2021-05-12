@@ -30,6 +30,7 @@ public class Building : Generator
     public Village.Direction direction;
     public bool useRandomPrefabBuilding;
     public bool randomiseDirection = true;
+    public GameObject collectablePrefab;
 
     public override void Initialise(WorldManager worldManager)
     {
@@ -56,6 +57,8 @@ public class Building : Generator
 
             Generate(prefab);
         }
+
+        Instantiate(collectablePrefab, transform.position, Quaternion.identity);
     }
 
     public void Initialise(int seed, TilemapPrefab[] potentialBuildings, Village.Direction direction)
@@ -66,6 +69,8 @@ public class Building : Generator
         prefab = potentialBuildings[rand.Next(0, potentialBuildings.Length)];
         this.direction = direction;
         Generate(prefab);
+
+        Instantiate(collectablePrefab, transform.position, Quaternion.identity);
     }
 
     public void Initialise(int seed, TilemapPrefab building, Village.Direction direction)
@@ -76,6 +81,8 @@ public class Building : Generator
         prefab = building;
         this.direction = direction;
         Generate(prefab);
+
+        Instantiate(collectablePrefab, transform.position, Quaternion.identity);
     }
 
     protected override IEnumerator Generate(WorldManager worldManager)

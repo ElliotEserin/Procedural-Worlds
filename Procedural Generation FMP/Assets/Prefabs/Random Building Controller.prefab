@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6538551206622744168}
   - component: {fileID: 6538551206622744170}
   m_Layer: 0
-  m_Name: Building Controller
+  m_Name: Random Building Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,11 +43,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c222be0734029f43be37160d88ef77d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapIcon: {fileID: 0}
+  nextGeneration: {fileID: 0}
   buildingType: 1
   buildingSize: 20
-  seed: 0
-  wall: {fileID: 11400000, guid: c0906161a2744f7469d4ed87c6b07e34, type: 2}
-  floor: {fileID: 11400000, guid: 0b1e68828c67f4546afa8bf69060ae31, type: 2}
+  wall: {fileID: 0}
+  floor: {fileID: 0}
   usePrefabBuilding: 1
   prefab: {fileID: 11400000, guid: 1723fcee8d9dd7f43932c66596049bc6, type: 2}
+  direction: 0
   useRandomPrefabBuilding: 1
+  randomiseDirection: 1
+  collectablePrefab: {fileID: 7340576973884001053, guid: 8c882629bdb30f84e85fd8983214b48d,
+    type: 3}

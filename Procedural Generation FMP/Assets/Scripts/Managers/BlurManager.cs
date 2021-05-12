@@ -9,9 +9,14 @@ public class BlurManager : MonoBehaviour
 
     void Start()
     {
+        ResetTexture();
+    }
+
+    public void ResetTexture()
+    {
         blurCamera = GetComponent<Camera>();
 
-        if(blurCamera.targetTexture != null)
+        if (blurCamera.targetTexture != null)
         {
             blurCamera.targetTexture.Release();
         }
