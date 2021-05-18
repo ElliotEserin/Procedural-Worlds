@@ -58,7 +58,7 @@ public class Building : Generator
             Generate(prefab);
         }
 
-        Instantiate(collectablePrefab, transform.position, Quaternion.identity);
+        StartCoroutine(SpawnCollectable());
     }
 
     public void Initialise(int seed, TilemapPrefab[] potentialBuildings, Village.Direction direction)
@@ -70,19 +70,42 @@ public class Building : Generator
         this.direction = direction;
         Generate(prefab);
 
-        Instantiate(collectablePrefab, transform.position, Quaternion.identity);
+        StartCoroutine(SpawnCollectable());
     }
 
     public void Initialise(int seed, TilemapPrefab building, Village.Direction direction)
     {
         this.seed = seed + (int)transform.position.x + (int)transform.position.y;
 
-        System.Random rand = new System.Random(this.seed);
+        //System.Random rand = new System.Random(this.seed);
         prefab = building;
         this.direction = direction;
         Generate(prefab);
 
-        Instantiate(collectablePrefab, transform.position, Quaternion.identity);
+        StartCoroutine(SpawnCollectable());
+    }
+
+    IEnumerator SpawnCollectable()
+    {
+        if (prefab.spawnCollectable)
+        {
+            yield return null;
+
+            Debug.Log("Physics check:");
+            for (int x = -1; x < 2; x++)
+            {
+                for (int y = -1; y < 2; y++)
+                {
+                    Collider2D col = Physics2D.OverlapCircle(transform.position + new Vector3(x, y, 0), 0.25f);
+
+                    if (col == null)
+                    {
+                        Instantiate(collectablePrefab, transform.position, Quaternion.identity);
+                        yield break;
+                    }
+                }
+            }
+        }
     }
 
     protected override IEnumerator Generate(WorldManager worldManager)
@@ -90,7 +113,7 @@ public class Building : Generator
         switch (buildingType)
         {
             case BuildingType.Dungeon:
-                GenerateDungeon();
+                //GenerateDungeon();
                 break;
             case BuildingType.House:
                 break;
@@ -146,6 +169,7 @@ public class Building : Generator
         else Debug.LogWarning("prefab is not suitable");
     }
 
+    [Obsolete]
     TilemapData GenerateDungeon()
     {
         TilemapData data = new TilemapData()

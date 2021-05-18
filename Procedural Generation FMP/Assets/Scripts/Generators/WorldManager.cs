@@ -9,8 +9,8 @@ public class WorldManager : MonoBehaviour
     {
         Island = 500,
         Small = 1000,
-        Medium = 1500,
-        Large = 2000,
+        Medium = 1200,
+        Large = 1500,
     }
 
     public WorldSize worldSize;

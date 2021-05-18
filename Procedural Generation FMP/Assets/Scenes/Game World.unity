@@ -790,19 +790,19 @@ MonoBehaviour:
   spotLights: []
   times:
   - name: Day
-    length: 5
+    length: 1
     lightColor: {r: 1, g: 0.9982144, b: 0.9386792, a: 0}
     intensity: 1
   - name: Dusk
-    length: 3
+    length: 1
     lightColor: {r: 0.84104663, g: 0.8654156, b: 0.9433962, a: 0}
     intensity: 0.65
   - name: night
-    length: 5
+    length: 1
     lightColor: {r: 0.61387503, g: 0.7041741, b: 0.8396226, a: 0}
     intensity: 0.3
   - name: Dawn
-    length: 3
+    length: 1
     lightColor: {r: 0.9339623, g: 0.8371891, b: 0.621173, a: 0}
     intensity: 0.7
   weathers:
@@ -8999,7 +8999,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 1
+  m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0

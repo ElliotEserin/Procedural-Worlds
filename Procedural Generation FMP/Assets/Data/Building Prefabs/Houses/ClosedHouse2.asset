@@ -156,3 +156,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7973c62209bfe7b40953cb8fff14ac3b, type: 2}
   isSet: 1
   locked: 1
+  spawnCollectable: 0

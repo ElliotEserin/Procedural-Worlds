@@ -7,4 +7,6 @@ public class TilemapPrefab : ScriptableObject
     public UnityEngine.Tilemaps.TileBase[] tiles;
     public bool isSet = false;
     public bool locked;
+
+    public bool spawnCollectable = true;
 }

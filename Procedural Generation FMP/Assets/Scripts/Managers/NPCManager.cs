@@ -48,6 +48,8 @@ public class NPCManager : MonoBehaviour
 
             var charToSpawn = GetCharacterFromChance(p);
 
+            Vector3 pos;
+
             float x = rand.Next(-outerSpawn.x, outerSpawn.x);
             float y = rand.Next(-outerSpawn.y, outerSpawn.y);
 
@@ -62,7 +64,11 @@ public class NPCManager : MonoBehaviour
                 else if (y > -innerSpawn.y) y = innerSpawn.y;
             }
 
-            var pos = new Vector3(x, y, 0);
+            pos = new Vector3(x, y, 0);
+
+            if (Physics2D.OverlapCircle(pos, 1))
+                continue;
+
 
             Debug.Log(ObjectStore.instance.worldManager.worldData.GetTile(Vector3Int.RoundToInt(pos + currentPosition)));
 
