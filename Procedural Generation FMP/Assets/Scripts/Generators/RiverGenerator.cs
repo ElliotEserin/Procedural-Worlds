@@ -27,6 +27,12 @@ public class RiverGenerator : Generator
 
     protected override IEnumerator Generate(WorldManager worldManager)
     {
+        if (!WorldInfo.generateRivers)
+        {
+            FinishGenerating(worldManager);
+            yield break;
+        }
+
         for (int i = 0, n = 0; i < maxNumberOfRivers && n < 500; n++)
         {
             UIManager.UpdateLoadScreenText($"Forming river {i}.");

@@ -22,10 +22,10 @@ public class BuildingGenerator : Generator
 
     protected override IEnumerator Generate(WorldManager worldManager)
     {
-        if (!WorldInfo.useVillages)
+        if (!WorldInfo.generateBuildings)
         {
             FinishGenerating(worldManager);
-            yield return null;
+            yield break;
         }
 
         else

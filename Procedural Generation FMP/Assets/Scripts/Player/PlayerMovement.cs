@@ -29,7 +29,7 @@ public class PlayerMovement : Character
     {
         MoveTowardsTarget();
 
-        if (manager != null)
+        if (manager != null && WorldInfo.spawnAnimals)
             manager.SpawnNewCreatures(transform.position);
 
         if (move.sqrMagnitude > 0)

@@ -6,15 +6,21 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    public TMP_InputField worldName;
     public TMP_InputField seed;
     public TMP_Dropdown size;
-    public Toggle useVillages;
+    public Toggle generateBuildings;
+    public Toggle generateRivers;
+    public Toggle spawnAnimals;
 
     public void Generate()
     {
+        WorldInfo.worldName = worldName.text;
         WorldInfo.worldSeed = seed.text.GetHashCode();
 
-        WorldInfo.useVillages = useVillages.isOn;
+        WorldInfo.generateBuildings = generateBuildings.isOn;
+        WorldInfo.generateRivers = generateRivers.isOn;
+        WorldInfo.spawnAnimals = spawnAnimals.isOn;
 
         WorldInfo.useWorldInfo = true;
 
@@ -42,7 +48,10 @@ public static class WorldInfo
 {
     public static bool useWorldInfo = false;
 
+    public static string worldName;
     public static int worldSeed;
     public static WorldManager.WorldSize worldSize;
-    public static bool useVillages;
+    public static bool generateBuildings;
+    public static bool generateRivers;
+    public static bool spawnAnimals;
 }
