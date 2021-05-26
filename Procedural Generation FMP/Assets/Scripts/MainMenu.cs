@@ -42,6 +42,12 @@ public class MainMenu : MonoBehaviour
 
         UnityEngine.SceneManagement.SceneManager.LoadScene(1);
     }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+            Application.Quit();
+    }
 }
 
 public static class WorldInfo
